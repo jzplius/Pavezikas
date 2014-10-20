@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Pavezikas</string>
+    <string name="hello_world">Hello worlda!</string>
+    <string name="hello_worlda">Hello worlda!</string>
+    <string name="action_settings">Settings</string>
+
+</resources>
