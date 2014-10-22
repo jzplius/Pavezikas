@@ -2,8 +2,176 @@
 <resources>
 
     <string name="app_name">Pavezikas</string>
-    <string name="hello_world">Hello worlda!</string>
-    <string name="hello_worlda">Hello worlda!</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Nustatymai</string>
+    <string name="add_post">Pridėti skelbimą</string>
+    <string name="all">Visi</string>
+    <string name="app_id">356729764461219</string>
+    <string name="check">Tikrinti</string>
+    <string name="choose_city">Pasrinkite miestą</string>
+    <string name="drivers">Vežėjai</string>
+    <string name="error_inserting_driver_post_date_time"> Nustatykite teisingą išvykimo datą ir laiką (turi būti ne praeityje). </string>
+    <string name="error_inserting_driver_post_price"> Nurodykite teisingą pavežimo kainą (iki 300). </string>
+    <string name="error_inserting_driver_post_route">Maršrutui parinkite bent 2 miestus. </string>
+    <string name="error_inserting_driver_post_seats_number"> Nurodykite teisingą laisvų vietų skaičių (iki 9). </string>
+    <string name="facebook_permissions_not_granted">Negalima atlikti šio veiksmo, nes neturite reikiamų Facebook leidimų.</string>
+    <string name="filter_all">Filtras: Visi</string>
+    <string name="finish">Baigti</string>
+    <string name="flexible">Derinamas? </string>
+    <string name="home">Grįžti</string>
+    <string name="login">Prisijungti</string>
+    <string name="facebook_failed_to_authenticate">Nepavyko prisijungti!</string>
+    <string name="logout">Atsijungti</string>
+    <string name="main_activity">Pagrindinis langas</string>
+    <string name="main_menu">Pagrindinis meniu</string>
+    <string name="month_1_ltu">Sausio</string>
+    <string name="month_2_ltu">Vasario</string>
+    <string name="month_3_ltu">Kovo</string>
+    <string name="month_4_ltu">Balandžio</string>
+    <string name="month_5_ltu">Gegužės</string>
+    <string name="month_6_ltu">Birželio</string>
+    <string name="month_7_ltu">Liepos</string>
+    <string name="month_8_ltu">Rugpjūčio</string>
+    <string name="month_9_ltu">Rugsėjo</string>
+    <string name="month_10_ltu">Spalio</string>
+    <string name="month_11_ltu">Lapkričio</string>
+    <string name="month_12_ltu">Gruodžio</string>
+    <string name="no_internet_connection">Patikrinkite interneto ryšį!</string>
+    <string name="ok">Gerai</string>
+    <string name="passengers">Keleiviai</string>
+    <string name="press_twice_to_exit_app">Norėdami išeiti paspauskite ATGAL dar kartą</string>
+    <string name="refresh">Atnaujinti</string>
+    <string name="revert_to_city">Atstatyti į miestą</string>
+    <string name="search">Ieškoti</string>
+    <string name="set_dropping_address">Įrašyti paleidimo adresą</string>
+    <string name="set_leaving_address">Įrašyti išvykimo adresą</string>
+    <string name="set_price">Nustatyti kainą litais</string>
+    <string name="set_seats_number">Nustatyti vietų skaičių</string>
+    <string name="successful_post_insert">Skelbimas sėkmingai įterptas!</string>
+    <string name="time_flexible_value">+- 30 min</string>
+    <string name="title_activity_details">DetailsActivity</string>
+    <string name="title_activity_facbook_login">FacbookLoginActivity</string>
+    <string name="unsuccessful_post_insert">Skelbimo nepavyko įterpti! Bandykite dar kartą.</string>
+    <string name="url_get_posts">http://pavezikas.bugs3.com/json_db_access/getPosts.php</string>
+    <string name="url_get_facebook_information">http://pavezikas.bugs3.com/json_db_access/getFacebookInformation.php</string>
+    <string name="url_insert_to_post">http://pavezikas.bugs3.com/json_db_access/insertToPost.php</string>
+    <string name="url_select_from_address">http://pavezikas.bugs3.com/json_db_access/selectFromAddress.php</string>
+    <string name="url_select_from_phone">http://pavezikas.bugs3.com/json_db_access/selectFromPhone.php</string>
+    <string name="url_select_from_route">http://pavezikas.bugs3.com/json_db_access/selectFromRoute.php</string>
+    <string name="url_select_my_posts">http://pavezikas.bugs3.com/json_db_access/selectMyPosts.php</string>
+    <string name="url_select_post_details">http://pavezikas.bugs3.com/json_db_access/selectPostDetails.php</string>
+    <string name="url_select_user_rating">http://pavezikas.bugs3.com/json_db_access/selectUserRating.php</string>
+    <string name="url_update_user">http://pavezikas.bugs3.com/json_db_access/UpdateUser.php</string>
+
+    <string-array name="cities_list">
+        <item>Vilnius</item>
+        <item>Kaunas</item>
+        <item>Klaipėda</item>
+        <item>Šiauliai</item>
+        <item>Panevėžys</item>
+        <item>Alytus</item>
+        <item>Akmenė</item>
+        <item>Anykščiai</item>
+        <item>Ariogala</item>
+        <item>Baltoji Vokė</item>
+        <item>Birštonas</item>
+        <item>Biržai</item>
+        <item>Daugai</item>
+        <item>Druskininkai</item>
+        <item>Dūkštas</item>
+        <item>Dusetos</item>
+        <item>Eišiškės</item>
+        <item>Elektrėnai</item>
+        <item>Ežerėlis</item>
+        <item>Gargždai</item>
+        <item>Garliava</item>
+        <item>Gelgaudiškis</item>
+        <item>Grigiškės</item>
+        <item>Ignalina</item>
+        <item>Jieznas</item>
+        <item>Jonava</item>
+        <item>Joniškėlis</item>
+        <item>Joniškis</item>
+        <item>Jurbarkas</item>
+        <item>Kaišiadorys</item>
+        <item>Kalvarija</item>
+        <item>Kavarskas</item>
+        <item>Kazlų Rūda</item>
+        <item>Kėdainiai</item>
+        <item>Kelmė</item>
+        <item>Kybartai</item>
+        <item>Kretinga</item>
+        <item>Kudirkos Naumiestis</item>
+        <item>Kupiškis</item>
+        <item>Kuršėnai</item>
+        <item>Lazdijai</item>
+        <item>Lentvaris</item>
+        <item>Linkuva</item>
+        <item>Marijampolė</item>
+        <item>Mažeikiai</item>
+        <item>Molėtai</item>
+        <item>Naujoji Akmenė</item>
+        <item>Nemenčinė</item>
+        <item>Neringa</item>
+        <item>Nida</item>
+        <item>Obeliai</item>
+        <item>Pabradė</item>
+        <item>Pagėgiai</item>
+        <item>Pakruojis</item>
+        <item>Palanga</item>
+        <item>Pandėlys</item>
+        <item>Panemunė</item>
+        <item>Pasvalys</item>
+        <item>Plungė</item>
+        <item>Priekulė</item>
+        <item>Prienai</item>
+        <item>Radviliškis</item>
+        <item>Ramygala</item>
+        <item>Raseiniai</item>
+        <item>Rietavas</item>
+        <item>Rokiškis</item>
+        <item>Rūdiškės</item>
+        <item>Salantai</item>
+        <item>Seda</item>
+        <item>Simnas</item>
+        <item>Skaudvilė</item>
+        <item>Skuodas</item>
+        <item>Smalininkai</item>
+        <item>Subačius</item>
+        <item>Šakiai</item>
+        <item>Šalčininkai</item>
+        <item>Šeduva</item>
+        <item>Šilalė</item>
+        <item>Šilutė</item>
+        <item>Širvintos</item>
+        <item>Švenčionėliai</item>
+        <item>Švenčionys</item>
+        <item>Tauragė</item>
+        <item>Telšiai</item>
+        <item>Tytuvėnai</item>
+        <item>Trakai</item>
+        <item>Troškūnai</item>
+        <item>Ukmergė</item>
+        <item>Utena</item>
+        <item>Užventis</item>
+        <item>Vabalninkas</item>
+        <item>Varėna</item>
+        <item>Varniai</item>
+        <item>Veisiejai</item>
+        <item>Venta</item>
+        <item>Viekšniai</item>
+        <item>Vievis</item>
+        <item>Vilkaviškis</item>
+        <item>Vilkija</item>
+        <item>Virbalis</item>
+        <item>Visaginas</item>
+        <item>Zarasai</item>
+        <item>Žagarė</item>
+        <item>Žiežmariai</item>
+    </string-array>
+
+    <string name="title_activity_my">MyActivity</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_post_list">Posts</string>
+    <string name="title_post_detail">Post Detail</string>
 
 </resources>

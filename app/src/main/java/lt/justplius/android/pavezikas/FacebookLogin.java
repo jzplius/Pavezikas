@@ -1,0 +1,253 @@
+package lt.justplius.android.pavezikas;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.util.Log;
+
+import com.facebook.FacebookAuthorizationException;
+import com.facebook.FacebookOperationCanceledException;
+import com.facebook.HttpMethod;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.UiLifecycleHelper;
+import com.facebook.model.GraphUser;
+import com.facebook.widget.FacebookDialog;
+import com.facebook.widget.LoginButton;
+
+public class FacebookLogin extends Activity {
+    private static final String TAG = "FacebookLogin";
+
+    public SharedPreferences mPreferences;
+    private UiLifecycleHelper mUiHelper;
+    private SelectUserRatingTask mSelectUserRatingTask = null;
+
+    private Session.StatusCallback callback = new Session.StatusCallback() {
+        @Override
+        public void call(Session session, SessionState state, Exception exception) {
+            onSessionStateChange(session, state, exception);
+        }
+    };
+    private FacebookDialog.Callback mDialogCallback = new FacebookDialog.Callback() {
+        @Override
+        public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
+            Log.d(TAG, String.format("Error in login: %s", error.toString())); // TODO rar
+        }
+
+        @Override
+        public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
+            Log.d(TAG, "Successful login!"); // TODO rar
+        }
+    };
+
+    @SuppressWarnings("unchecked")
+    private void onSessionStateChange(@SuppressWarnings("UnusedParameters") Session session,
+                                      SessionState state, Exception exception) {
+
+        if (exception instanceof FacebookOperationCanceledException ||
+                exception instanceof FacebookAuthorizationException) {
+            new AlertDialog.Builder(FacebookLogin.this)
+                    .setTitle(R.string.facebook_failed_to_authenticate)
+                    .setMessage(R.string.facebook_failed_to_authenticate)
+                    .setPositiveButton(R.string.ok, null)
+                    .show();
+        }
+        if (state.isOpened()) {
+            Log.i(TAG, "Logged in..."); // TODO rar
+            // Determine if task has been created
+            if (mSelectUserRatingTask == null) {
+                mSelectUserRatingTask = new SelectUserRatingTask();
+                ArrayList<NameValuePair> nvp = new ArrayList<> ();
+                nvp.add(new BasicNameValuePair("id", mPreferences.getString("FB_ID", "0")));
+                mSelectUserRatingTask.execute(nvp);
+            }
+        } else if (state.isClosed()) {
+            Log.i(TAG, "Logged out..."); // TODO rar
+            mSelectUserRatingTask = null;
+        }
+
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        setContentView(R.layout.facebook_login);
+
+        // Instantiate facebook lifecycle helper class
+        mUiHelper = new UiLifecycleHelper(this, callback);
+        mUiHelper.onCreate(savedInstanceState);
+
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+
+        LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton.setReadPermissions(Arrays.asList("read_stream", "email", "user_groups", "user_birthday"));
+        loginButton.setUserInfoChangedCallback(new LoginButton.UserInfoChangedCallback() {
+            @SuppressWarnings("unchecked")
+            @Override
+            public void onUserInfoFetched(GraphUser user) {
+                Session session = Session.getActiveSession();
+                // If authentication is successful update and retrieve
+                // user data from DB and save information to shared preferences
+                if (session != null && session.isOpened() && user != null) {
+                    String id = user.getId();
+                    String name_surname = user.getFirstName() + " " + user.getLastName();
+                    String email = user.getProperty("email").toString();
+
+                    mPreferences.edit().putString("FB_ID", id).apply();
+                    mPreferences.edit().putString("FB_NAME_SURNAME", name_surname).apply();
+
+                    ArrayList<NameValuePair> nvp = new ArrayList<>();
+                    nvp.add(new BasicNameValuePair("id", id));
+                    nvp.add(new BasicNameValuePair("name_surname", name_surname));
+                    nvp.add(new BasicNameValuePair("email", email));
+                    new UpdateUserInformationTask().execute(nvp);
+                }
+            }
+        });
+
+        // Make the API call to get user groups
+        new Request(
+                Session.getActiveSession(),
+                "/me/groups",
+                null,
+                HttpMethod.GET,
+                new Request.Callback() {
+                    @Override
+                    public void onCompleted(Response response) {
+                        // Retrieve Facebook user groups data from GraphObject
+                        try {
+                            JSONObject group;
+                            JSONArray groups = response.getGraphObject()
+                                    .getInnerJSONObject()
+                                    .getJSONArray("data");
+                            for (int i = 0; i < groups.length(); i++) {
+                                group = groups.getJSONObject(i);
+                                // Getting name and id of a group TODO rar
+                                Log.i("facebook group: ",
+                                        group.getString("name")
+                                                + "(id: " + group.getString("id") + ")\n");
+
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Log.e(TAG, " Error retrieving user groups: " + e.toString());
+                        }
+                    }
+
+                }
+        ).executeAsync();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        // For scenarios where the main activity is launched and user
+        // session is not null, the session state change notification
+        // may not be triggered. Trigger it if it's open/closed.
+        Session session = Session.getActiveSession();
+        if (session != null &&
+                (session.isOpened() || session.isClosed())) {
+            onSessionStateChange(session, session.getState(), null);
+        }
+
+        mUiHelper.onResume();
+    }
+
+    @SuppressWarnings("NullableProblems")
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        mUiHelper.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mUiHelper.onActivityResult(requestCode, resultCode, data, mDialogCallback);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mUiHelper.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        mUiHelper.onStop();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mUiHelper.onDestroy();
+    }    
+
+    // Update user information on DB
+    private class UpdateUserInformationTask extends AsyncTask<ArrayList<NameValuePair>, Void, Void> {
+        private String mUrl;
+
+    	protected void onPreExecute () {
+            mUrl = getString(R.string.url_update_user);
+    	}
+
+		@SafeVarargs
+        @Override
+		protected final Void doInBackground(ArrayList<NameValuePair>... nvp) {
+			new ServerDbQuerry(nvp[0], mUrl);
+			return null;
+		}
+    }
+    
+    // Retrieve latest user data from DB
+    private class SelectUserRatingTask extends AsyncTask<ArrayList<NameValuePair>, Void, String> {
+        private String mUrl;
+        
+    	protected void onPreExecute () {
+            mUrl = getString(R.string.url_select_user_rating);
+    	}
+    	
+		@SafeVarargs
+        @Override
+		protected final String doInBackground(ArrayList<NameValuePair>... nvp) {
+			return new ServerDbQuerry(nvp[0], mUrl).returnJSON();
+		}
+		
+		protected void onPostExecute(String result) {
+    	        try {
+                    JSONArray jsonArray = new JSONArray(result);
+                    JSONObject jsonObject = jsonArray.getJSONObject(0);
+
+                    mPreferences.edit().putFloat("FB_RATING",
+                            Float.parseFloat(jsonObject.getString("rating"))).apply();
+					
+					// Start main activity without possibility to return to this activity
+	                Intent intent = new Intent(FacebookLogin.this, PostsListActivity.class);
+	                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+	                startActivity(intent);
+	                finish();
+					
+				} catch (JSONException e) {
+					Log.e(TAG, "Error retrieving user rating: " + e.toString());
+				}
+	     }
+    }
+}
