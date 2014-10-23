@@ -1,0 +1,291 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:layout_margin="5dp"
+
+              android:background="@drawable/background_post"
+              android:orientation="vertical"
+    >
+
+    <TextView
+        android:id="@+id/add_post_step2_step_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:layout_marginBottom="2dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+
+        android:gravity="center_horizontal"
+        android:text="@string/post_windows_msg3"
+        android:textColor="@color/header_windows"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+    />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+
+        android:background="@drawable/background_post_2"
+    >
+
+        <LinearLayout
+            android:id="@+id/linearLayout1"
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:orientation="horizontal"
+            android:gravity="center_vertical|center_horizontal"
+         >
+
+            <ImageView
+                android:id="@+id/add_post_step3_icon_pin1"
+                android:contentDescription="@string/unnamed"
+
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:layout_weight="1"
+
+                android:src="@drawable/icon_other_pin"
+            />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginEnd="0dp"
+
+                android:layout_weight="2"
+
+                android:orientation="vertical"
+            >
+
+                <TextView
+                    android:id="@+id/add_post_step3_text_leaving"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+
+                    android:gravity="center_horizontal"
+
+                    android:text="@string/post_windows_msg4"
+                    android:textColor="@color/text_font_main"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                />
+
+                <TextView
+                    android:id="@+id/add_post_step3_text_address_leaving"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:gravity="center_horizontal"
+
+                    android:text=""
+                    android:textColor="@color/text_font_main"
+                    android:hint="@string/hint_city_address"
+                    android:textColorHint="@color/hint_text_dark"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                />
+            </LinearLayout>
+        </LinearLayout>
+
+
+        <ImageView style="@style/LineHorizontal"
+            android:id="@+id/add_post_step3_line_horizontal1"
+            android:contentDescription="@string/unnamed"
+        />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+        >
+
+            <Spinner
+                android:id="@+id/add_post_step3_spinner_city_leaving"
+
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight ="2"
+                android:prompt="@string/choose_city" />
+
+            <Button
+                android:id="@+id/add_post_step3_button_address_leaving"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight ="0"
+
+                android:gravity="center_vertical"
+                android:text="@string/details"
+                android:textColor="@color/button_font_main"
+            />
+
+        </LinearLayout>
+
+        <ImageView style="@style/LineHorizontal"
+            android:id="@+id/add_post_step3line_horizontal2"
+            android:contentDescription="@string/unnamed"
+        />
+
+
+
+        <LinearLayout
+            android:id="@+id/linearLayout5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:layout_marginBottom="4dp"
+            android:layout_marginTop="4dp"
+
+            android:gravity="center_vertical|center_horizontal"
+            >
+
+            <ImageView
+                android:id="@+id/add_post_step3_logo_pin_2"
+                android:contentDescription="@string/unnamed"
+
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+
+                android:layout_weight="1"
+
+                android:src="@drawable/icon_other_pin"
+            />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginStart="4dp"
+                android:layout_weight="2"
+                android:orientation="vertical"
+            >
+
+                <TextView
+                    android:id="@+id/add_post_step3_text_destination"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:gravity="center_horizontal"
+                    android:text="@string/post_windows_msg5"
+                    android:textColor="@color/text_font_main"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                />
+
+                <TextView
+                    android:id="@+id/add_post_step3_text_destination_address"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_horizontal"
+
+                    android:text=""
+                    android:textColor="@color/text_font_main"
+
+                    android:hint="@string/hint_city_address"
+                    android:textColorHint="@color/hint_text_dark"
+
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                />
+            </LinearLayout>
+        </LinearLayout>
+
+        <ImageView style="@style/LineHorizontal"
+            android:id="@+id/add_post_step3_line_horizontal3"
+            android:contentDescription="@string/unnamed"
+        />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+        >
+
+            <Spinner
+                android:id="@+id/add_post_step3_spinner_city_destination"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight ="2"
+                android:prompt="@string/choose_city"
+            />
+
+            <Button
+                android:id="@+id/add_post_step3_button_address_destination"
+
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_weight ="0"
+
+                android:gravity="center_vertical"
+                android:text="@string/details"
+                android:textColor="@color/button_font_main"
+            />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/add_post_step3_line_horizontal4"
+            android:contentDescription="@string/unnamed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+
+            android:scaleType="center"
+            android:src="@drawable/line_horizontal"
+            android:visibility="gone"
+        />
+
+        <Button
+            android:id="@+id/add_post_step3_button_secondary_destination"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@string/add_more"
+            android:textColor="@color/button_font_main"
+            android:visibility="gone"
+        />
+
+        <ImageView style="@style/LineHorizontal"
+            android:id="@+id/add_post_step3_line_horizontal5"
+            android:contentDescription="@string/unnamed"
+            />
+
+        <Button
+            android:id="@+id/add_post_step3_buttonCheckGroups"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:text="@string/check_fb_groups"
+            android:textColor="@color/button_font_main"
+        />
+
+        <ImageView style="@style/LineHorizontal"
+            android:id="@+id/add_post_step3_line_horizontal6"
+            android:contentDescription="@string/unnamed"
+        />
+
+            <Button
+                android:id="@+id/add_post_step3_button_post"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:text="@string/add_post"
+                android:textColor="@color/button_font_main"
+
+            />
+
+    </LinearLayout>
+</LinearLayout>

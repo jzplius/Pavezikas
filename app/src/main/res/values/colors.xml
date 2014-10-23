@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="pressed_vezikastheme">#CC76A8B2</color>
+    <color name="transparent">@android:color/transparent</color>
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="light_text">@android:color/primary_text_light</color>
+    <color name="hint_text_light">#CCCCCC</color>
+    <color name="hint_text_dark">#999999</color>
+    <color name="text_font_main">#111111</color>
+    <color name="button_font_main">#111111</color>
+    <color name="post_shadow">#717171</color>
+    <color name="post_top">#76a8b2</color>
+    <color name="post_background2">#bdcfc3</color>
+    <color name="line_color">#000000</color>
+    <color name="header_windows">#000000</color>
+
+</resources>

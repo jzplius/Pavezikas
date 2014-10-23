@@ -1,17 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="go_back">Grįžti</string>
     <string name="refresh">Atnaujinti</string>
     <string name="next">Toliau</string>
     <string name="main_menu">Pagrindinis meniu</string>
     <string name="title">Pavežikas</string>
     <string name="hint_number_picker">1</string>
-    <string name="hint_date_picker">Data: Pasirinkite datą</string>
+    <string name="hint_date_picker">Data: Pasirinkite data</string>
     <string name="hint_time_picker">Laikas: Pasirinkite laiką</string>
     <string name="hint_city_address">Adresas, Miestas</string>
-    <string name="seat_picker">Vietos:</string>
-    <string name="price_picker">Kaina:</string>
+    <string name="seat_picker">Vietos: Vietų skaičius</string>
+    <string name="price_picker">Kaina: Nustatyta kaina</string>
     <string name="driver">Vežėjas</string>
     <string name="passenger">Keleivis</string>
     <string name="post_windows_msg1">Informacijos pildymas</string>
@@ -35,25 +34,9 @@
     <string name="menu_item_5">Nustatymai</string>
     <string name="menu_item_6">Info</string>
 
-
-    <string name="app_name">Pavezikas</string>
-    <string name="action_settings">Nustatymai</string>
-    <string name="add_post">Pridėti skelbimą</string>
-    <string name="all">Visi</string>
-    <string name="app_id">356729764461219</string>
-    <string name="check">Tikrinti</string>
-    <string name="choose_city">Pasrinkite miestą</string>
-    <string name="drivers">Vežėjai</string>
-    <string name="error_inserting_driver_post_date_time"> Nustatykite teisingą išvykimo datą ir laiką (turi būti ne praeityje). </string>
-    <string name="error_inserting_driver_post_price"> Nurodykite teisingą pavežimo kainą (iki 300). </string>
-    <string name="error_inserting_driver_post_route">Maršrutui parinkite bent 2 miestus. </string>
-    <string name="error_inserting_driver_post_seats_number"> Nurodykite teisingą laisvų vietų skaičių (iki 9). </string>
-    <string name="facebook_permissions_not_granted">Negalima atlikti šio veiksmo, nes neturite reikiamų Facebook leidimų.</string>
-    <string name="filter_all">Filtras: Visi</string>
-    <string name="finish">Baigti</string>
     <string name="home">Grįžti</string>
     <string name="login">Prisijungti</string>
-    <string name="facebook_failed_to_authenticate">Nepavyko prisijungti!</string>
+    <string name="logged_out_from_facebook">Atsijungta nuo Facebook</string>
     <string name="logout">Atsijungti</string>
     <string name="main_activity">Pagrindinis langas</string>
     <string name="month_1_ltu">Sausio</string>
@@ -72,6 +55,7 @@
     <string name="ok">Gerai</string>
     <string name="passengers">Keleiviai</string>
     <string name="press_twice_to_exit_app">Norėdami išeiti paspauskite ATGAL dar kartą</string>
+
     <string name="revert_to_city">Atstatyti į miestą</string>
     <string name="search">Ieškoti</string>
     <string name="set_dropping_address">Įrašyti paleidimo adresą</string>
@@ -93,7 +77,6 @@
     <string name="url_select_post_details">http://pavezikas.bugs3.com/json_db_access/selectPostDetails.php</string>
     <string name="url_select_user_rating">http://pavezikas.bugs3.com/json_db_access/selectUserRating.php</string>
     <string name="url_update_user">http://pavezikas.bugs3.com/json_db_access/UpdateUser.php</string>
-
     <string-array name="cities_list">
         <item>Vilnius</item>
         <item>Kaunas</item>
@@ -200,10 +183,4 @@
         <item>Žagarė</item>
         <item>Žiežmariai</item>
     </string-array>
-
-    <string name="title_activity_my">MyActivity</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="title_post_list">Posts</string>
-    <string name="title_post_detail">Post Detail</string>
-
 </resources>

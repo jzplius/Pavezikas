@@ -121,7 +121,7 @@ public class FacebookLogin extends Activity {
             }
         });
 
-        // Make the API call to get user groups
+        /*// Make the API call to get user groups
         new Request(
                 Session.getActiveSession(),
                 "/me/groups",
@@ -151,7 +151,7 @@ public class FacebookLogin extends Activity {
                     }
 
                 }
-        ).executeAsync();
+        ).executeAsync();*/
     }
 
     @Override
