@@ -3,29 +3,52 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               xmlns:facebook="http://schemas.android.com/apk/res-auto"
               android:orientation="vertical"
+
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
+
               android:background="@drawable/background_login">
+
+    <ImageView
+        android:id="@+id/logo_name"
+        android:contentDescription="@string/app_name"
+
+        android:layout_width="300dp"
+        android:layout_height="90dp"
+        android:layout_alignTop="@+id/logo"
+        android:layout_centerHorizontal="true"
+
+        android:src="@drawable/logo_pavezikas_name"
+
+        />
+
+   <ImageView
+       android:id="@+id/logo"
+       android:contentDescription="@string/app_name"
+
+       android:layout_width="370dp"
+       android:layout_height="400dp"
+       android:layout_centerHorizontal="true"
+       android:layout_centerVertical="true"
+
+       android:paddingBottom="70dp"
+       android:paddingTop="70dp"
+
+       android:src="@drawable/logo_pavezikas_big"
+
+    />
 
     <com.facebook.widget.LoginButton
         android:id="@+id/login_button"
-        android:layout_width="wrap_content"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
-
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="false"
-
-        android:layout_marginBottom="120dp"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
 
         facebook:confirm_logout="false"
         facebook:fetch_user_info="true"
         facebook:login_text="@string/login"
-        facebook:logout_text="@string/logout" />
+        facebook:logout_text="@string/logout"
+        android:layout_alignBottom="@+id/logo"
+        android:layout_centerHorizontal="true"/>
 
 </RelativeLayout>
 

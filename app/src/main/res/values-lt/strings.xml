@@ -33,6 +33,23 @@
     <string name="menu_item_4">Istorija</string>
     <string name="menu_item_5">Nustatymai</string>
     <string name="menu_item_6">Info</string>
+    <string name="post_list_route">Miestas -> Miestas</string>
+    <string name="post_list_date">Menesis 00d</string>
+    <string name="post_list_time">00:00-00:00</string>
+    <string name="post_list_user">Name Surname</string>
+    <string name="post_list_capacity">0</string>
+    <string name="post_details_route">City 1 - City 2</string>
+    <string name="post_details_type">Tipas</string>
+    <string name="post_details_profile">Profilis</string>
+    <string name="post_details_date">Menesis 0d.</string>
+    <string name="post_details_time">00:00-00:00</string>
+    <string name="post_details_seats">Vietos 0/0</string>
+    <string name="post_details_price">Kaina: 0 lt</string>
+    <string name="post_details_comment">Komentaras komentaras komentaras komentaras komentaras</string>
+    <string name="post_details_destination">Atvyksime į</string>
+    <string name="post_details_destination_adress">Miestas, gatve</string>
+    <string name="post_details_start">Išvyksime iš</string>
+    <string name="post_details_start_adress">Miestas, gatve</string>
 
     <string name="home">Grįžti</string>
     <string name="login">Prisijungti</string>
