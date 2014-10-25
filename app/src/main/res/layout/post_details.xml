@@ -1,6 +1,9 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
     android:background="@drawable/background_post"
     android:orientation="vertical"
     android:layout_margin="5dp"
@@ -119,7 +122,7 @@
 
             android:paddingTop="5dp"
             android:scaleType="center"
-            android:src="@drawable/line_vertical"
+            android:src="@drawable/line_vertical2"
         />
 
         <LinearLayout
@@ -643,3 +646,4 @@
     </RelativeLayout>
 
 </LinearLayout>
+</ScrollView>

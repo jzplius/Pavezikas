@@ -15,7 +15,7 @@
     <string name="driver">Vežėjas</string>
     <string name="passenger">Keleivis</string>
     <string name="post_windows_msg1">Informacijos pildymas</string>
-    <string name="post_windows_msg2">Komentaras</string>
+    <string name="comment">Komentaras</string>
     <string name="post_windows_msg3">Maršruto pildymas</string>
     <string name="post_windows_msg4">Išvykstama iš</string>
     <string name="post_windows_msg5">Atvykstama į</string>
@@ -51,6 +51,9 @@
     <string name="post_details_destination_adress">Miestas, gatve</string>
     <string name="post_details_start">Išvyksime iš</string>
     <string name="post_details_start_adress">Miestas, gatve</string>
+    <string name="approve">Patvirtinti</string>
+    <string name="deny">Atmesti</string>
+
 
 
 
