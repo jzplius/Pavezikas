@@ -35,7 +35,7 @@ public class PostsListActivity extends SlidingActivity
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.add_post_step2); //jz comment
+        setContentView(R.layout.add_post_step2); //jz comment 2
         setBehindContentView(R.layout.menu_list);
         SlidingMenu sm = getSlidingMenu();
         sm.setMode(SlidingMenu.RIGHT);
