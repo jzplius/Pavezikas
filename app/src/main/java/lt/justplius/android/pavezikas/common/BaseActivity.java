@@ -1,6 +1,7 @@
 package lt.justplius.android.pavezikas.common;
 
 import android.content.IntentFilter;
+import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
 /**
@@ -10,6 +11,12 @@ import android.support.v4.app.FragmentActivity;
 public class BaseActivity extends FragmentActivity {
     // Receiver for handling connectivity state changes
     private ConnectionChangeReceiver mReceiver = ConnectionChangeReceiver.getInstance();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
 
     @Override
     public void onResume() {
