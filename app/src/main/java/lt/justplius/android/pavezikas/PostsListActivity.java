@@ -36,7 +36,7 @@ public class PostsListActivity extends SlidingActivity
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_post_list);
-        setBehindContentView(R.layout.facebook_login);
+        setBehindContentView(R.layout.menu_list);
         SlidingMenu sm = getSlidingMenu();
         sm.setMode(SlidingMenu.RIGHT);
         sm.setShadowWidthRes(R.dimen.shadow_width);

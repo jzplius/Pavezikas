@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="horizontal"
+              android:background="@drawable/bg_header"
+    >
+
+    <ImageButton
+        android:id="@+id/action_bar_home"
+        android:contentDescription="@string/home"
+        android:layout_width="60dip"
+        android:layout_height="60dip"
+        android:layout_gravity="center_vertical"
+        android:src="@drawable/logo_pavezikas"
+        android:background="@color/transparent"
+        android:onClick="home"
+    />
+
+    <TextView
+        android:id="@+id/action_bar_title"
+        android:layout_width="0dip"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center_vertical"
+        android:text="@string/title"
+        android:textColor="@color/white"
+        style="@style/Header.Text.Big"
+    />
+
+    <ImageButton
+        android:id="@+id/action_bar_refresh"
+        android:contentDescription="@string/refresh"
+        android:layout_width="60dip"
+        android:layout_height="60dip"
+        android:layout_gravity="center_vertical"
+        android:onClick="refresh"
+        android:src="@drawable/icon_refresh"
+        android:background="@color/transparent"
+    />
+
+    <ImageButton
+        android:id="@+id/action_bar_main_menu"
+        android:contentDescription="@string/main_menu"
+
+        android:layout_width="60dip"
+        android:layout_height="60dip"
+        android:layout_gravity="center_vertical"
+
+        android:onClick="main_menu"
+        android:src="@drawable/icon_toggle"
+        android:background="@color/transparent"
+    />
+
+</LinearLayout>
