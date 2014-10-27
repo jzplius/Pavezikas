@@ -10,8 +10,8 @@
               android:background="@drawable/background_post"
               android:orientation="vertical"
               android:isScrollContainer="true"
-    >
 
+    >
 
     <TextView
         android:id="@+id/add_post_step2_route_information_detail"
@@ -21,7 +21,7 @@
         android:layout_marginBottom="2dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
 
         android:gravity="center_horizontal"
         android:text="@string/post_windows_msg1"
@@ -36,7 +36,7 @@
 
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="10dp"
 
         android:background="@drawable/background_post_2"
     >
@@ -64,7 +64,7 @@
             <TextView
                 android:id="@+id/add_post_step2_text_date"
 
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
 
@@ -84,9 +84,13 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
 
-                android:gravity="center_vertical"
+                android:layout_margin="3dp"
+
+                android:gravity="center_vertical|center_horizontal"
+                android:background="@drawable/button_type_1"
                 android:text="@string/edit"
                 android:textColor="@color/button_font_main"
+
             />
 
         </LinearLayout>
@@ -142,7 +146,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
-                    android:gravity="center_vertical"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:layout_margin="3dp"
+                    android:background="@drawable/button_type_1"
                     android:text="@string/edit"
                 />
 
@@ -359,17 +365,20 @@
 
 
 
-            <Button
-                android:id="@+id/add_post_step2_button_continue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:text="@string/next"
-            />
+
 
     </LinearLayout>
 
-
+    <Button
+        android:id="@+id/add_post_step2_button_continue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_margin="3dp"
+        android:background="@drawable/button_type_1"
+        android:text="@string/next"
+        />
 </LinearLayout>
 
 

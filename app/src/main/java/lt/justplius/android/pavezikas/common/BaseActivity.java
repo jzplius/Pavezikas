@@ -4,6 +4,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 
+
 /**
  * This class provides base activity for subclasses. It controls network
  * connectivity state.
@@ -11,6 +12,8 @@ import android.support.v4.app.FragmentActivity;
 public class BaseActivity extends FragmentActivity {
     // Receiver for handling connectivity state changes
     private ConnectionChangeReceiver mReceiver = ConnectionChangeReceiver.getInstance();
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,4 +35,6 @@ public class BaseActivity extends FragmentActivity {
         // Unregister connectivity state receiver
         unregisterReceiver(mReceiver);
     }
+
+
 }

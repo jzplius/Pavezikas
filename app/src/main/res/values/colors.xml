@@ -9,9 +9,9 @@
     <color name="hint_text_dark">#999999</color>
     <color name="text_font_main">#111111</color>
     <color name="button_font_main">#111111</color>
-    <color name="post_shadow">#717171</color>
-    <color name="post_top">#76a8b2</color>
-    <color name="post_background2">#bdcfc3</color>
+    <color name="post_shadow">#dd9700</color>
+    <color name="post_top">#ffb20c</color>
+    <color name="post_background2">#ffcf68</color>
     <color name="line_color">#000000</color>
     <color name="header_windows">#000000</color>
 

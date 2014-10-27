@@ -1,6 +1,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="fill_parent"
-              android:layout_height="fill_parent"
+              android:layout_height="wrap_content"
               android:layout_margin="5dp"
 
               android:background="@drawable/background_post"
@@ -15,7 +15,7 @@
         android:layout_marginBottom="2dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
 
         android:gravity="center_horizontal"
         android:text="@string/post_windows_msg3"
@@ -31,7 +31,7 @@
 
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="10dp"
 
         android:background="@drawable/background_post_2"
     >
@@ -277,15 +277,16 @@
             android:contentDescription="@string/unnamed"
         />
 
-            <Button
-                android:id="@+id/add_post_step3_button_post"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal|center_vertical"
-                android:text="@string/add_post"
-                android:textColor="@color/button_font_main"
-
-            />
-
     </LinearLayout>
+
+    <Button
+        android:id="@+id/add_post_step3_button_post"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:text="@string/add_post"
+        android:layout_margin="5dp"
+        android:textColor="@color/button_font_main"
+        />
+
 </LinearLayout>
