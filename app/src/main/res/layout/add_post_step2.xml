@@ -23,9 +23,12 @@
         android:layout_marginRight="5dp"
         android:layout_marginTop="10dp"
 
+        android:paddingBottom="5dp"
+
         android:gravity="center_horizontal"
         android:text="@string/post_windows_msg1"
         android:textColor="@color/header_windows"
+        android:textStyle="bold"
         android:textAppearance="?android:attr/textAppearanceMedium"
     />
 
@@ -36,7 +39,9 @@
 
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
 
         android:background="@drawable/background_post_2"
     >
@@ -55,9 +60,14 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal"
 
+                android:paddingLeft="5dp"
+                android:paddingStart="5dp"
+                android:paddingRight="5dp"
+                android:paddingEnd="5dp"
+
                 android:gravity="center"
                 android:layout_weight ="0"
-                android:src="@drawable/icon_bag"
+                android:src="@drawable/icon_calendar"
             />
 
 
@@ -78,18 +88,17 @@
             />
 
             <Button
-                android:id="@+id/add_post_step2_button_date"
+                android:id="@+id/add_post_step2_button_date" style="@style/Button_1"
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0"
 
-                android:layout_margin="3dp"
+                android:layout_margin="5dp"
 
                 android:gravity="center_vertical|center_horizontal"
                 android:background="@drawable/button_type_1"
                 android:text="@string/edit"
-                android:textColor="@color/button_font_main"
 
             />
 
@@ -119,10 +128,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
 
+                    android:paddingLeft="5dp"
+                    android:paddingStart="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingEnd="5dp"
+
                     android:layout_gravity="center_horizontal"
                     android:layout_weight="0"
                     android:gravity="center"
-                    android:src="@drawable/icon_bag"
+                    android:src="@drawable/icon_clock"
                 />
 
                 <TextView
@@ -142,12 +156,12 @@
                 />
 
                 <Button
-                    android:id="@+id/add_post_step2_button_time"
+                    android:id="@+id/add_post_step2_button_time" style="@style/Button_1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
                     android:gravity="center_vertical|center_horizontal"
-                    android:layout_margin="3dp"
+                    android:layout_margin="5dp"
                     android:background="@drawable/button_type_1"
                     android:text="@string/edit"
                 />
@@ -163,7 +177,9 @@
                     android:id="@+id/add_post_step2_checkbox_flexibility"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+
                     android:checked="true"
+                    android:textColor="@color/text_font_main"
                     android:text="@string/flexible"
                 />
 
@@ -171,6 +187,8 @@
                     android:id="@+id/add_post_step2_text_leaving_time_flexible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+
+                    android:textColor="@color/text_font_main"
                     android:text="@string/time_flexible_value"
                     android:textAppearance="?android:attr/textAppearanceMedium"
                 />
@@ -185,11 +203,15 @@
 
             <SeekBar
                 android:id="@+id/add_post_step2_seekbar_leaving_time"
+
+                android:paddingTop="5dp"
+                android:paddingBottom="5dp"
+
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:progress="1"
-                />
+            />
 
             </LinearLayout>
 
@@ -214,10 +236,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
 
+                android:paddingLeft="5dp"
+                android:paddingStart="5dp"
+                android:paddingRight="5dp"
+                android:paddingEnd="5dp"
+
                 android:layout_gravity="center_horizontal"
                 android:gravity="center"
                 android:layout_weight ="0"
-                android:src="@drawable/icon_bag"
+                android:src="@drawable/icon_human"
             />
 
             <TextView
@@ -225,7 +252,7 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="1"
 
                 android:gravity="center_vertical|center_horizontal"
                 android:text="@string/seat_picker"
@@ -238,9 +265,10 @@
                 layout="@layout/number_picker"
                 android:id="@+id/pickerSeats"
                 android:gravity="center_horizontal|center_vertical"
+                android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="1"
+                android:layout_weight="2"
             />
 
 
@@ -264,10 +292,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
 
+                android:paddingLeft="5dp"
+                android:paddingStart="5dp"
+                android:paddingRight="5dp"
+                android:paddingEnd="5dp"
+
                 android:layout_gravity="center_horizontal"
-                android:gravity="center"
+                android:gravity="center_vertical"
                 android:layout_weight ="0"
-                android:src="@drawable/icon_bag"
+                android:src="@drawable/icon_money"
             />
 
             <TextView
@@ -275,7 +308,7 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_weight="2"
+                android:layout_weight="1"
 
                 android:gravity="center_vertical|center_horizontal"
                 android:text="@string/price_picker"
@@ -291,7 +324,7 @@
                 android:gravity="center_horizontal|center_vertical"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 />
 
         </LinearLayout>
@@ -314,17 +347,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
 
+                android:paddingLeft="5dp"
+                android:paddingStart="5dp"
+                android:paddingRight="5dp"
+                android:paddingEnd="5dp"
+
                 android:layout_gravity="center_horizontal"
                 android:layout_weight="0"
-                android:gravity="center"
-                android:src="@drawable/icon_bag"
+                android:gravity="center_vertical"
+                android:src="@drawable/icon_phone"
             />
 
             <EditText
                 android:id="@+id/add_post_step2_text_phone"
 
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="42dp"
+
+                android:paddingLeft="20dp"
+                android:paddingStart="20dp"
+                android:paddingRight="2dp"
+                android:paddingEnd="2dp"
 
                 android:ems="10"
                 android:text="@string/phone_first_digits"
@@ -347,6 +390,7 @@
 
             android:gravity="center_vertical|center_horizontal"
             android:text="@string/comment"
+            android:textColor="@color/text_font_main"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <EditText
@@ -371,14 +415,17 @@
 
     <Button
         android:id="@+id/add_post_step2_button_continue"
+        style="@style/Button_2"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:layout_gravity="center_horizontal|center_vertical"
         android:gravity="center_vertical|center_horizontal"
-        android:layout_margin="3dp"
-        android:background="@drawable/button_type_1"
+        android:layout_margin="5dp"
+        android:background="@drawable/button_type_1_bl"
         android:text="@string/next"
-        />
+    />
 </LinearLayout>
 
 

@@ -22,50 +22,39 @@
             android:paddingBottom="5dp"
          >
 
-            <ImageView
-                android:id="@+id/passenger_approval_list_item_icon"
-                android:contentDescription="@string/unnamed"
-
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/passenger_approval_list_item_brick"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-
                 android:layout_gravity="center_vertical|center_horizontal"
-
-                android:layout_marginBottom="3dp"
-                android:layout_marginLeft="35dp"
-                android:layout_marginStart="35dp"
-                android:layout_marginTop="3dp"
-
-                android:src="@drawable/icon_bag"
-            />
-
-            <TextView
-                android:id="@+id/passenger_approval_list_item_text_route_info"
-                android:layout_width="wrap_content"
-                android:layout_height="30dp"
-
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-
-                android:layout_gravity="center_horizontal"
-
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="10dp"
-
-                android:layout_toRightOf="@+id/passenger_approval_list_item_icon"
-                android:layout_toEndOf="@+id/passenger_approval_list_item_icon"
-
                 android:gravity="center_horizontal|center_vertical"
 
-                android:text="@string/default_name"
-                android:textColor="@color/text_font_main"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-            />
+                android:layout_marginBottom="3dp"
+                android:layout_marginTop="10dp"
+                >
+
+                <TextView
+                    android:id="@+id/passenger_approval_list_item_text_route_info"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:layout_gravity="center_horizontal|center_vertical"
+
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+
+                    android:gravity="center_horizontal|center_vertical"
+
+                    android:text="@string/default_name"
+                    android:textColor="@color/text_font_main"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    />
+
+            </LinearLayout>
+
+
+
+
 
             <RelativeLayout
                 android:id="@+id/passenger_approval_list_item_relative_layout_2"
@@ -78,9 +67,9 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
 
-                android:layout_below="@+id/passenger_approval_list_item_icon"
+                android:layout_below="@+id/passenger_approval_list_item_brick"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="2dp"
 
                 android:background="@drawable/background_post_2"
@@ -91,75 +80,76 @@
                 <com.facebook.widget.ProfilePictureView
                    android:id="@+id/passenger_approval_list_item_profile_pic"
 
-                   android:layout_width="70dp"
-                   android:layout_height="70dp"
-
-                   android:layout_marginLeft="5dp"
-                   android:layout_marginStart="5dp"
+                   android:layout_width="60dp"
+                   android:layout_height="60dp"
 
                    android:padding="5dp"
                    android:paddingTop="5dp"
                 />
 
 
-                <ImageView
-                    android:id="@+id/passenger_approval_list_item_icon_seat"
-                    android:contentDescription="@string/unnamed"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
 
-                    android:layout_width="23dp"
-                    android:layout_height="23dp"
-
-                    android:layout_toEndOf="@+id/passenger_approval_list_item_profile_pic"
                     android:layout_toRightOf="@+id/passenger_approval_list_item_profile_pic"
+                    android:layout_toEndOf="@+id/passenger_approval_list_item_profile_pic"
+                >
 
-                    android:layout_marginTop="5dp"
-                    android:layout_marginLeft="5dp"
-                    android:layout_marginStart="5dp"
+                    <ImageView
+                        android:id="@+id/passenger_approval_list_item_icon_seat"
+                        android:contentDescription="@string/unnamed"
 
-                    android:src="@drawable/icon_person"
-                />
+                        android:layout_width="30dp"
+                        android:layout_height="30dp"
 
-                <TextView
-                    android:id="@+id/passenger_approval_list_item_passengers"
+                        android:layout_gravity="center_vertical"
 
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content"
+                        android:src="@drawable/icon_human"
+                        />
 
-                    android:layout_toRightOf="@+id/passenger_approval_list_item_icon_seat"
-                    android:layout_toEndOf="@+id/passenger_approval_list_item_icon_seat"
+                    <TextView
 
-                    android:gravity="center"
-                    android:paddingLeft="3dp"
-                    android:paddingStart="3dp"
-                    android:paddingRight="0dp"
-                    android:paddingEnd="0dp"
+                        android:id="@+id/passenger_approval_list_item_seats_available"
 
-                    android:layout_marginTop="5dp"
+                        android:layout_width="40dp"
+                        android:layout_height="match_parent"
 
-                    android:text="@string/post_list_capacity"
-                    android:textColor="@color/text_font_main"
-                    />
+                        android:layout_gravity="center_vertical|center_horizontal"
+                        android:gravity="center_horizontal|center_vertical"
 
-                <RatingBar
-                    android:id="@+id/passenger_approval_list_item_rating_bar"
-                    style="?android:attr/ratingBarStyleSmall"
+                        android:text="@string/post_list_capacity"
+                        style="@style/Post.Text"
+                        />
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:gravity="center_horizontal|center_vertical">
 
-                    android:layout_alignLeft="@+id/passenger_approval_list_item_icon_seat"
-                    android:layout_alignStart="@+id/passenger_approval_list_item_icon_seat"
 
-                    android:layout_marginLeft="80dp"
-                    android:layout_marginStart="80dp"
-                    android:layout_marginTop="5dp"
+                        <RatingBar
+                            android:id="@+id/passenger_approval_list_item_rating_bar"
+                            style="?android:attr/ratingBarStyleSmall"
 
-                    android:numStars="6"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
 
-                    android:stepSize="0.1"
-                />
+                            android:numStars="5"
 
-                 <ImageView
+                            android:stepSize="0.1"
+                            />
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+
+                <ImageView
                     android:id="@+id/passenger_approval_list_item_arrow"
                     android:contentDescription="@string/unnamed"
 
@@ -171,6 +161,7 @@
                     android:layout_alignParentLeft="false"
                     android:layout_alignParentStart="false"
 
+                    android:layout_gravity="center_vertical"
                     android:layout_centerVertical="true"
 
                     android:layout_marginLeft="10dp"
@@ -224,29 +215,8 @@
                         android:text="@string/comment"
                     />
 
-                    <ImageView
-                        android:id="@+id/passenger_approval_list_line_horizontal_2"
-                        android:contentDescription="@string/unnamed"
 
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
 
-                        android:scaleType="center"
-                        android:src="@drawable/line_horizontal"
-                    />
-
-                    <TextView
-                        android:id="@+id/passenger_approval_list_comment"
-
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-
-                        android:layout_margin="4dp"
-
-                        android:text="@string/post_details_comment"
-                        android:textColor="@color/text_font_main"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                    />
 
                 </LinearLayout>
 
@@ -270,36 +240,80 @@
                 android:orientation="horizontal"
 
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
+
+                android:layout_margin="5dp"
 
                 android:layout_alignTop="@+id/passenger_approval_list_line_horizontal_3"
 
                 android:gravity="center_horizontal"
                 >
 
-                    <Button
-                        android:id="@+id/passenger_approval_list_approve"
+                    <TextView
+                        android:id="@+id/passenger_approval_list_comment"
+
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/button_font_main"
-                        android:text="@string/approve"
-                        style="?android:attr/borderlessButtonStyle"
-                    />
 
-                    <Button
-                        android:id="@+id/passenger_approval_list_deny"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/button_font_main"
-                        android:text="@string/deny"
-                        style="?android:attr/borderlessButtonStyle"
-                    />
 
+                        android:text="@string/post_details_comment"
+                        android:textColor="@color/text_font_main"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:layout_below="@+id/passenger_approval_list_item_comment_block"
+                        android:layout_centerHorizontal="true"/>
                 </LinearLayout>
 
 
             </RelativeLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/passenger_approval_list_item_relative_layout_2"
+                android:orientation="horizontal"
+                android:gravity="center_horizontal">
+
+            <Button
+                android:id="@+id/passenger_approval_list_approve"
+                style="@style/Button_2"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:text="@string/approve"
+
+                android:gravity="center_vertical|center_horizontal"
+
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
+
+                android:background="@drawable/button_type_1_bl"
+
+            />
+
+            <Button
+                android:id="@+id/passenger_approval_list_deny"
+                style="@style/Button_2"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginLeft="5dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginEnd="5dp"
+
+                android:text="@string/deny"
+
+                android:gravity="center_vertical|center_horizontal"
+
+                android:background="@drawable/button_type_1_bl"
+             />
+
+            </LinearLayout>
         </RelativeLayout>
+
 
 </LinearLayout>

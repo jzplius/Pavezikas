@@ -19,51 +19,58 @@
             android:background="@drawable/background_post"
             android:paddingBottom="5dp"
          >
-
-            <ImageView
-                android:id="@+id/post_list_item_icon"
-                android:contentDescription="@string/unnamed"
-
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
+                android:orientation="vertical"
+            >
 
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
+            <LinearLayout
+                android:id="@+id/post_list_item_brick"
 
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical|center_horizontal"
 
-                android:layout_marginBottom="3dp"
-                android:layout_marginLeft="35dp"
-                android:layout_marginStart="35dp"
-                android:layout_marginTop="3dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
 
-                android:src="@drawable/icon_bag"
-            />
-
-            <TextView
-                android:id="@+id/post_list_item_text_route_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-
-                android:layout_gravity="center_horizontal"
-
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
                 android:layout_marginTop="10dp"
+            >
 
-                android:layout_toRightOf="@+id/post_list_item_icon"
-                android:layout_toEndOf="@+id/post_list_item_icon"
+                <ImageView
+                    android:id="@+id/post_list_item_icon"
+                    android:contentDescription="@string/unnamed"
 
-                android:gravity="center_horizontal|center_vertical"
+                    android:layout_width="60dp"
+                    android:layout_height="match_parent"
 
-                android:text="@string/post_list_route"
-                android:textColor="@color/text_font_main"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-            />
+                    android:layout_gravity="center_vertical|center_horizontal"
+
+
+                    android:src="@drawable/icon_human"
+                />
+
+                <TextView
+                    android:id="@+id/post_list_item_text_route_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:layout_gravity="center_horizontal|center_vertical"
+
+                    android:gravity="center_horizontal|center_vertical"
+
+                    android:text="@string/post_list_route"
+                    android:textColor="@color/text_font_main"
+
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    />
+
+             </LinearLayout>
+
+
+
+
 
             <RelativeLayout
                 android:id="@+id/post_list_item_relative_layout_2"
@@ -75,9 +82,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true"
 
-                android:layout_below="@+id/post_list_item_icon"
                 android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="2dp"
 
                 android:background="@drawable/background_post_2"
@@ -88,152 +94,172 @@
                 <com.facebook.widget.ProfilePictureView
                    android:id="@+id/post_list_item_profile_pic"
 
-                   android:layout_width="90dp"
-                   android:layout_height="90dp"
+                   android:layout_width="60dp"
+                   android:layout_height="60dp"
 
                    android:padding="5dp"
                    android:paddingTop="5dp"
                 />
 
-                <ImageView
-                    android:id="@+id/post_list_item_icon_seat"
-                    android:contentDescription="@string/unnamed"
-
-                    android:layout_width="23dp"
-                    android:layout_height="23dp"
-
-                    android:layout_alignLeft="@+id/date_information"
-                    android:layout_alignStart="@+id/date_information"
-
-                    android:layout_centerVertical="true"
-
-                    android:paddingStart="5dp"
-                    android:paddingLeft="5dp"
-                    android:paddingRight="0dp"
-                    android:paddingEnd="0dp"
-
-                    android:src="@drawable/icon_person"
-                />
-
-                <RatingBar
-                    android:id="@+id/post_list_item_rating_bar"
-                    style="?android:attr/ratingBarStyleSmall"
-
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                >
 
-                    android:layout_centerVertical="true"
-                    android:layout_alignLeft="@+id/post_list_item_icon_seat"
-                    android:layout_alignStart="@+id/post_list_item_icon_seat"
-                    android:layout_marginLeft="80dp"
-                    android:layout_marginStart="80dp"
 
-                    android:numStars="6"
 
-                    android:stepSize="0.1"
-                />
-                
-                 <ImageView
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+
+                    android:layout_toRightOf="@+id/post_list_item_profile_pic"
+                    android:layout_toEndOf="@+id/post_list_item_profile_pic"
+                   >
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical|center_horizontal"
+
+                    android:gravity="center_vertical"
+                    >
+
+                    <TextView
+                        android:id="@+id/date_information"
+                        style="@style/Post.Text"
+
+                        android:layout_weight="1"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text="@string/post_list_date"
+                    />
+
+                    <TextView
+
+                        android:id="@+id/time_information"
+                        style="@style/Post.Text"
+
+                        android:layout_weight="1"
+
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+
+                        android:gravity="center_horizontal|center_vertical"
+                        android:text="@string/post_list_time"
+                    />
+
+
+                </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:id="@+id/post_list_item_icon_seat"
+                            android:contentDescription="@string/unnamed"
+
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+
+                            android:layout_gravity="center_vertical"
+
+                            android:src="@drawable/icon_human"
+                            />
+
+                        <TextView
+
+                            android:id="@+id/post_list_item_seats_available"
+
+                            android:layout_width="40dp"
+                            android:layout_height="match_parent"
+
+                            android:layout_gravity="center_vertical|center_horizontal"
+                            android:gravity="center_horizontal|center_vertical"
+
+                            android:text="@string/post_list_capacity"
+                            style="@style/Post.Text"
+                        />
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            android:gravity="center_horizontal|center_vertical">
+
+
+                        <RatingBar
+                            android:id="@+id/post_list_item_rating_bar"
+                            style="?android:attr/ratingBarStyleSmall"
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+
+                            android:numStars="5"
+
+                            android:stepSize="0.1"
+                            />
+
+                        </LinearLayout>
+
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal"
+                        android:layout_gravity="center_horizontal|center_vertical"
+                        android:gravity="center_horizontal|center_vertical"
+                        >
+
+                        <TextView
+                            android:id="@+id/name_surname"
+                            style="@style/Post.Text"
+
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+
+                            android:layout_marginBottom="3dp"
+
+                            android:gravity="center"
+                            android:text="@string/post_list_user"
+                            />
+
+                    </LinearLayout>
+
+                </LinearLayout>
+
+                <ImageView
                     android:id="@+id/post_list_item_arrow"
                     android:contentDescription="@string/unnamed"
 
                     android:layout_width="25dp"
                     android:layout_height="25dp"
 
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentLeft="false"
-                    android:layout_alignParentStart="false"
-
                     android:layout_centerVertical="true"
 
-                    android:paddingRight="5dp"
-                    android:paddingEnd="5dp"
-                    android:paddingLeft="0dp"
-                    android:paddingStart="0dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
 
                     android:src="@drawable/icon_arrow"
-                 />
+                    />
 
-                <TextView
-                    android:id="@+id/name_surname"
-                    style="@style/Post.Text"
 
-                    android:layout_width="200dip"
-                    android:layout_height="wrap_content"
-
-                    android:layout_alignBottom="@+id/post_list_item_profile_pic"
-                    android:layout_alignLeft="@+id/post_list_item_icon_seat"
-                    android:layout_alignStart="@+id/post_list_item_icon_seat"
-
-                    android:layout_marginBottom="3dp"
-                    android:layout_toLeftOf="@+id/post_list_item_arrow"
-                    android:layout_toStartOf="@+id/post_list_item_arrow"
-                    android:layout_toRightOf="@+id/post_list_item_profile_pic"
-                    android:layout_toEndOf="@+id/post_list_item_profile_pic"
-
-                    android:gravity="center"
-                    android:text="@string/post_list_user"
-                />
-
-                <TextView
-
-                    android:id="@+id/post_list_item_seats_available"
-
-                    android:layout_width="20dp"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-
-                    android:layout_toRightOf="@+id/post_list_item_icon_seat"
-                    android:layout_toEndOf="@+id/post_list_item_icon_seat"
-                    android:gravity="center"
-                    android:paddingLeft="3dp"
-                    android:paddingStart="3dp"
-                    android:paddingRight="0dp"
-                    android:paddingEnd="0dp"
-
-                    android:text="@string/post_list_capacity"
-                    style="@style/Post.Text"
-                />
-
-                <TextView
-                    android:id="@+id/date_information"
-                    style="@style/Post.Text"
-
-                    android:layout_width="100dip"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentTop="true"
-
-                    android:layout_marginTop="3dp"
-
-                    android:layout_toRightOf="@+id/post_list_item_profile_pic"
-                    android:layout_toEndOf="@+id/post_list_item_profile_pic"
-
-                    android:gravity="center"
-                    android:text="@string/post_list_date"
-                />
-
-                <TextView
-                    android:id="@+id/time_information"
-                    style="@style/Post.Text"
-
-                    android:layout_width="110dp"
-                    android:layout_height="wrap_content"
-
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-
-                    android:layout_alignParentTop="true"
-                    android:layout_marginTop="3dp"
-
-                    android:layout_toRightOf="@+id/date_information"
-                    android:layout_toEndOf="@+id/date_information"
-
-                    android:gravity="center"
-                    android:text="@string/post_list_time"
-                />
 
             </RelativeLayout>
+
+            </LinearLayout>
+
         </RelativeLayout>
 
 </LinearLayout>

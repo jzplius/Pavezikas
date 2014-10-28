@@ -8,13 +8,15 @@
     >
 
     <Button
-        android:id="@+id/number_picker_increase"
+        android:id="@+id/number_picker_increase" style="@style/Button_1"
 
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
 
+        android:text="@string/plus"
+
         android:layout_gravity="center_horizontal"
-        android:background="@drawable/number_increase_btn"
+        android:background="@drawable/button_type_1"
     />
 
     <EditText
@@ -36,13 +38,15 @@
     />
 
     <Button
-        android:id="@+id/number_picker_decrease"
+        android:id="@+id/number_picker_decrease" style="@style/Button_1"
 
-        android:layout_width="wrap_content"
+        android:text="@string/minus"
+
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
 
-        android:background="@drawable/number_decrease_btn"
+        android:background="@drawable/button_type_1"
     />
 
     </LinearLayout>

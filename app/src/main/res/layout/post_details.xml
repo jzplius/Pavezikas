@@ -1,6 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
@@ -16,16 +17,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
-        android:layout_marginBottom="2dp"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
 
         android:gravity="center_horizontal|center_vertical"
 
         android:text="@string/post_details_route"
 
-        android:textColor="@color/text_font_main"
+        android:textColor="@color/header_windows"
+        android:textStyle="bold"
         android:textAppearance="?android:attr/textAppearanceMedium"
     />
 
@@ -35,7 +37,7 @@
 
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
+        android:layout_marginRight="10dp"
 
         android:background="@drawable/background_post_2"
         android:padding="5dp"
@@ -144,22 +146,24 @@
                 android:id="@+id/post_details_detail_icon"
                 android:contentDescription="@string/unnamed"
 
-                android:layout_width="0dp"
-                android:layout_height="20dp"
-                android:layout_weight="1"
+                android:layout_width="wrap_content"
+                android:layout_height="30dp"
+                android:layout_weight="0"
+                android:layout_gravity="center_vertical"
 
-                android:gravity="center_horizontal"
-                android:src="@drawable/icon_bag"
+                android:gravity="center_horizontal|center_vertical"
+                android:src="@drawable/icon_human"
             />
 
             <TextView
                 android:id="@+id/post_details_post_type"
 
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:layout_gravity="center_vertical"
 
-                android:gravity="center_horizontal"
+                android:gravity="center_horizontal|center_vertical"
                 android:text="@string/post_details_type"
                 android:textColor="@color/text_font_main"
                 android:textAppearance="?android:attr/textAppearanceMedium"
@@ -244,13 +248,18 @@
 
                 <Button
                     android:id="@+id/post_details_profile"
+                    style="@style/Button_1"
 
                     android:layout_width="120dp"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
 
+                    android:layout_margin="5dp"
+
+                    android:gravity="center_vertical|center_horizontal"
+                    android:background="@drawable/button_type_1"
+
                     android:minHeight="20dip"
-                    android:textColor="@color/button_font_main"
                     android:text="@string/post_details_profile"
                 />
 
@@ -298,7 +307,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
 
-                android:src="@drawable/icon_date"
+                android:src="@drawable/icon_calendar"
             />
 
             <TextView
@@ -307,6 +316,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
+                android:layout_gravity="center_vertical"
+
 
                 android:gravity="center_horizontal"
                 android:text="@string/post_details_date"
@@ -323,7 +334,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
 
-                android:src="@drawable/icon_time"
+                android:src="@drawable/icon_clock"
             />
 
             <TextView
@@ -332,6 +343,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
+                android:layout_gravity="center_vertical"
 
                 android:gravity="center_horizontal"
                 android:text="@string/post_details_time"
@@ -364,7 +376,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
 
-                android:src="@drawable/icon_person"
+                android:src="@drawable/icon_human"
             />
 
             <TextView
@@ -373,6 +385,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
+                android:layout_gravity="center_vertical"
 
                 android:gravity="center_horizontal"
                 android:text="@string/post_details_seats"
@@ -397,6 +410,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="3"
+                android:layout_gravity="center_vertical"
 
                 android:gravity="center_horizontal"
                 android:text="@string/post_details_price"
@@ -480,15 +494,16 @@
                 android:contentDescription="@string/unnamed"
 
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="50dp"
                 android:layout_weight="2"
 
-                android:src="@drawable/icon_other_pin"
+                android:src="@drawable/icon_home_pin"
             />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
 
                 android:layout_marginLeft="4dp"
                 android:layout_marginStart="4dp"
@@ -527,8 +542,9 @@
                 android:contentDescription="@string/unnamed"
 
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="50dp"
                 android:layout_weight="1"
+                android:layout_gravity="center_vertical"
 
                 android:src="@drawable/icon_arrow"
             />
@@ -556,6 +572,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
+
             android:layout_alignRight="@+id/post_details_linear_layout_5"
             android:layout_alignEnd="@+id/post_details_linear_layout_5"
             android:layout_below="@+id/post_details_line_horizontal_5"
@@ -573,15 +590,16 @@
                 android:contentDescription="@string/unnamed"
 
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="50dp"
                 android:layout_weight="2"
 
-                android:src="@drawable/icon_other_pin"
+                android:src="@drawable/icon_destination_pin"
             />
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
 
                 android:layout_marginLeft="4dp"
                 android:layout_marginStart="4dp"
@@ -620,8 +638,9 @@
                 android:contentDescription="@string/unnamed"
 
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
+                android:layout_height="50dp"
                 android:layout_weight="1"
+                android:layout_gravity="center_vertical"
 
                 android:src="@drawable/icon_arrow"
             />

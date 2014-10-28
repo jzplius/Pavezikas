@@ -7,12 +7,15 @@
     <color name="light_text">@android:color/primary_text_light</color>
     <color name="hint_text_light">#CCCCCC</color>
     <color name="hint_text_dark">#999999</color>
-    <color name="text_font_main">#111111</color>
+    <color name="text_font_main">#625D5D</color>
     <color name="button_font_main">#111111</color>
+    <color name="button_color_type_1">#ad7600</color>
+    <color name="button_color_type_2">#BCC6CC</color>
     <color name="post_shadow">#dd9700</color>
     <color name="post_top">#ffb20c</color>
     <color name="post_background2">#ffcf68</color>
-    <color name="line_color">#000000</color>
-    <color name="header_windows">#000000</color>
+    <color name="line_color">#ffb20c</color>
+    <color name="header_windows">#625D5D</color>
+    <color name="menu_background">#B7CEEC</color>
 
 </resources>

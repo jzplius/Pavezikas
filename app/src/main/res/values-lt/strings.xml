@@ -9,8 +9,8 @@
     <string name="hint_date_picker">Data: Pasirinkite data</string>
     <string name="hint_time_picker">Laikas: Pasirinkite laiką</string>
     <string name="hint_city_address">Adresas, Miestas</string>
-    <string name="seat_picker">Vietos: Vietų skaičius</string>
-    <string name="price_picker">Kaina: Nustatyta kaina</string>
+    <string name="seat_picker">Vietos:</string>
+    <string name="price_picker">Kaina:</string>
     <string name="driver">Vežėjas</string>
     <string name="passenger">Keleivis</string>
     <string name="post_windows_msg1">Informacijos pildymas</string>

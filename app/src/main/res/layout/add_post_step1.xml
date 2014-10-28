@@ -30,6 +30,8 @@
             android:layout_alignParentStart="false"
             android:layout_alignParentEnd="false"
 
+            android:layout_marginTop="10dp"
+
             android:layout_gravity="center_horizontal"
 
             android:layout_toLeftOf="@+id/add_post_step1_arrow_driver"
@@ -89,13 +91,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_post"
-        android:paddingBottom="5dp" >
+        android:layout_marginTop="10dp" >
 
         <ImageView
             android:id="@+id/add_post_step1_passenger_logo"
             android:contentDescription="@string/passenger"
             android:layout_width="wrap_content"
             android:layout_height="100dp"
+            android:layout_marginTop="10dp"
 
             android:layout_alignParentLeft="true"
             android:layout_alignParentRight="false"
@@ -107,8 +110,10 @@
             android:layout_toLeftOf="@+id/add_post_step1_arrow_passenger"
             android:layout_toStartOf="@+id/add_post_step1_arrow_passenger"
 
+
+
             android:gravity="center"
-            android:src="@drawable/icon_bag"
+            android:src="@drawable/icon_passenger"
         />
 
         <ImageView

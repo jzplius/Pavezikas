@@ -1,3 +1,8 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+>
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="fill_parent"
               android:layout_height="wrap_content"
@@ -16,10 +21,12 @@
         android:layout_marginLeft="5dp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="10dp"
+        android:paddingBottom="5dp"
 
         android:gravity="center_horizontal"
         android:text="@string/post_windows_msg3"
         android:textColor="@color/header_windows"
+        android:textStyle="bold"
         android:textAppearance="?android:attr/textAppearanceMedium"
     />
 
@@ -31,7 +38,9 @@
 
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
 
         android:background="@drawable/background_post_2"
     >
@@ -51,11 +60,11 @@
                 android:contentDescription="@string/unnamed"
 
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="60dp"
 
                 android:layout_weight="1"
 
-                android:src="@drawable/icon_other_pin"
+                android:src="@drawable/icon_home_pin"
             />
 
             <LinearLayout
@@ -119,17 +128,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight ="2"
-                android:prompt="@string/choose_city" />
+                android:prompt="@string/choose_city"
+            />
 
             <Button
                 android:id="@+id/add_post_step3_button_address_leaving"
+                style="@style/Button_1"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight ="0"
 
-                android:gravity="center_vertical"
+                android:layout_margin="5dp"
+
+                android:gravity="center_vertical|center_horizontal"
+                android:background="@drawable/button_type_1"
+
                 android:text="@string/details"
-                android:textColor="@color/button_font_main"
+
             />
 
         </LinearLayout>
@@ -157,11 +172,11 @@
                 android:contentDescription="@string/unnamed"
 
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="60dp"
 
                 android:layout_weight="1"
 
-                android:src="@drawable/icon_other_pin"
+                android:src="@drawable/icon_destination_pin"
             />
 
             <LinearLayout
@@ -223,14 +238,18 @@
 
             <Button
                 android:id="@+id/add_post_step3_button_address_destination"
+                style="@style/Button_1"
 
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_weight ="0"
 
-                android:gravity="center_vertical"
+                android:layout_margin="5dp"
+
+                android:gravity="center_vertical|center_horizontal"
+                android:background="@drawable/button_type_1"
+
                 android:text="@string/details"
-                android:textColor="@color/button_font_main"
             />
 
         </LinearLayout>
@@ -260,16 +279,21 @@
         <ImageView style="@style/LineHorizontal"
             android:id="@+id/add_post_step3_line_horizontal5"
             android:contentDescription="@string/unnamed"
-            />
+        />
 
         <Button
             android:id="@+id/add_post_step3_buttonCheckGroups"
+            style="@style/Button_1"
 
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
+            android:layout_margin="5dp"
+
+            android:gravity="center_vertical|center_horizontal"
+            android:background="@drawable/button_type_1"
+
             android:text="@string/check_fb_groups"
-            android:textColor="@color/button_font_main"
         />
 
         <ImageView style="@style/LineHorizontal"
@@ -277,16 +301,56 @@
             android:contentDescription="@string/unnamed"
         />
 
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+        >
+
+            <TextView
+                android:id="@+id/add_post_step3_selected_groups"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+
+                android:layout_marginTop="5dp"
+
+                android:layout_gravity="center_horizontal"
+                android:text="@string/post_windows_msg6"
+                android:textColor="@color/text_font_main"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+            />
+
+            <ListView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/listView"
+                android:layout_gravity="center_horizontal"
+
+            />
+
+        </LinearLayout>
+
+        <ImageView style="@style/LineHorizontal"
+                   android:id="@+id/add_post_step3_line_horizontal7"
+                   android:contentDescription="@string/unnamed"
+        />
+
     </LinearLayout>
 
     <Button
         android:id="@+id/add_post_step3_button_post"
+        style="@style/Button_2"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal|center_vertical"
         android:text="@string/add_post"
+        android:gravity="center_vertical|center_horizontal"
         android:layout_margin="5dp"
-        android:textColor="@color/button_font_main"
+        android:background="@drawable/button_type_1_bl"
         />
 
 </LinearLayout>
+
+</ScrollView>
