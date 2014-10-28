@@ -33,7 +33,8 @@
 
         <activity
             android:name=".PostsListActivity"
-            android:label="@string/title_post_list" >
+            android:label="@string/title_post_list"
+            android:uiOptions="splitActionBarWhenNarrow">
         </activity>
         <activity
             android:name=".PostDetailActivity"

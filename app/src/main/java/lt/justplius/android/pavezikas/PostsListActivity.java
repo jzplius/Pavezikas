@@ -1,11 +1,14 @@
 package lt.justplius.android.pavezikas;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.util.Log;
+import android.view.Menu;
+import android.view.Window;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.jeremyfeinstein.slidingmenu.lib.app.SlidingActivity;
-
 
 /**
  * An activity representing a list of Posts. This activity
@@ -23,9 +26,10 @@ import com.jeremyfeinstein.slidingmenu.lib.app.SlidingActivity;
  * {@link PostsListFragment.Callbacks} interface
  * to listen for item selections.
  */
-public class PostsListActivity extends SlidingActivity
+public class PostsListActivity extends BaseFragmentActivity
         implements PostsListFragment.Callbacks {
 
+    private static final String TAG = "PostsListActivity";
     /**
      * Whether or not the activity is in two-pane mode, i.e. running on a tablet
      * device.
@@ -33,19 +37,43 @@ public class PostsListActivity extends SlidingActivity
     private boolean mTwoPane;
 
     @Override
+    protected Fragment createFragment() {
+        return new PostsListFragment();
+    }
+
+    @Override
+    protected Fragment createDetailsFragment() {
+        return PostDetailFragment.newInstance("1");
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_fragment);
-        setBehindContentView(R.layout.menu_list);
-        SlidingMenu sm = getSlidingMenu();
-        sm.setMode(SlidingMenu.RIGHT);
-        sm.setShadowWidthRes(R.dimen.shadow_width);
-        sm.setShadowDrawable(R.drawable.shadowright);
-        sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-        sm.setFadeDegree(0.35f);
-        sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        //requestWindowFeature(Window.FEATURE_ACTION_BAR);
 
-        if (findViewById(R.id.post_detail_container) != null) {
+        // Set custom actionbar
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+            actionBar.setCustomView(R.layout.actionbar);
+        } else {
+            Log.i(TAG, "Error in retrieving actionbar");
+        }
+
+        // configure the SlidingMenu
+        SlidingMenu menu = new SlidingMenu(this);
+        menu.setMode(SlidingMenu.RIGHT);
+        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+        menu.setShadowWidthRes(R.dimen.shadow_width);
+        menu.setShadowDrawable(R.drawable.shadowright);
+        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
+        menu.setFadeDegree(0.35f);
+        menu.attachToActivity(this, SlidingMenu.SLIDING_WINDOW);
+        menu.setMenu(R.layout.menu_list);
+
+
+
+        if (findViewById(R.id.fragment_details_container) != null) {
             // The detail container view will be present only in the
             // large-screen layouts (res/values-large and
             // res/values-sw600dp). If this view is present, then the
@@ -54,9 +82,11 @@ public class PostsListActivity extends SlidingActivity
 
             // In two-pane mode, list items should be given the
             // 'activated' state when touched.
-            ((PostsListFragment) getFragmentManager()
-                    .findFragmentById(R.id.post_list))
+            ((PostsListFragment) getSupportFragmentManager()
+                    .findFragmentById(R.id.fragment_container))
                     .setActivateOnItemClick(true);
+
+            inflateDetailsFragment();
         }
 
         // TODO: If exposing deep links into your app, handle intents here.
@@ -76,8 +106,8 @@ public class PostsListActivity extends SlidingActivity
             arguments.putString(PostDetailFragment.ARG_ITEM_ID, id);
             PostDetailFragment fragment = new PostDetailFragment();
             fragment.setArguments(arguments);
-            getFragmentManager().beginTransaction()
-                    .replace(R.id.post_detail_container, fragment)
+            getSupportFragmentManager().beginTransaction()
+                    .replace(R.id.fragment_details_container, fragment)
                     .commit();
 
         } else {

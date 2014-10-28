@@ -2,10 +2,14 @@ package lt.justplius.android.pavezikas;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.app.ListFragment;
+import android.support.v4.app.ListFragment;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 
 import lt.justplius.android.pavezikas.dummy.DummyContent;
@@ -77,6 +81,8 @@ public class PostsListFragment extends ListFragment {
                 android.R.layout.simple_list_item_activated_1,
                 android.R.id.text1,
                 DummyContent.ITEMS));
+
+        setHasOptionsMenu(true);
     }
 
     @Override
@@ -90,25 +96,6 @@ public class PostsListFragment extends ListFragment {
         }
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-        // Activities containing this fragment must implement its callbacks.
-        if (!(activity instanceof Callbacks)) {
-            throw new IllegalStateException("Activity must implement fragment's callbacks.");
-        }
-
-        mCallbacks = (Callbacks) activity;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-
-        // Reset the active callbacks interface to the dummy implementation.
-        mCallbacks = sDummyCallbacks;
-    }
 
     @Override
     public void onListItemClick(ListView listView, View view, int position, long id) {
@@ -119,14 +106,6 @@ public class PostsListFragment extends ListFragment {
         mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (mActivatedPosition != ListView.INVALID_POSITION) {
-            // Serialize and persist the activated item position.
-            outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
-        }
-    }
 
     /**
      * Turns on activate-on-click mode. When this mode is on, list items will be
@@ -148,5 +127,67 @@ public class PostsListFragment extends ListFragment {
         }
 
         mActivatedPosition = position;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.posts_list_menu, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        String toastText = null;
+        switch (item.getItemId()) {
+            case R.id.add:
+                toastText = "Paspaudei 'add'";
+                break;
+            case R.id.search:
+                toastText = "Paspaudei 'search'";
+                break;
+            case R.id.drivers:
+                toastText = "Paspaudei 'drivers'";
+                break;
+            case R.id.passengers:
+                toastText = "Paspaud�te 'Passengers'";
+                break;
+            case R.id.all:
+                toastText = "Paspaud�te 'All'";
+                break;
+        }
+        if (toastText != null) {
+            Toast.makeText(getActivity(), toastText, Toast.LENGTH_LONG).show();
+            return true;
+        } else {
+            return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (mActivatedPosition != ListView.INVALID_POSITION) {
+            // Serialize and persist the activated item position.
+            outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
+        }
+    }
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+
+        // Activities containing this fragment must implement its callbacks.
+        if (!(activity instanceof Callbacks)) {
+            throw new IllegalStateException("Activity must implement fragment's callbacks.");
+        }
+
+        mCallbacks = (Callbacks) activity;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+
+        // Reset the active callbacks interface to the dummy implementation.
+        mCallbacks = sDummyCallbacks;
     }
 }
