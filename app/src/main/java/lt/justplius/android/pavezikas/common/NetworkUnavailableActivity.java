@@ -1,5 +1,6 @@
 package lt.justplius.android.pavezikas.common;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -7,11 +8,13 @@ import android.widget.Button;
 
 import lt.justplius.android.pavezikas.R;
 
+import static lt.justplius.android.pavezikas.common.NetworkState.*;
+
 /**
  * This activity shows a view that reminds to turn on internet connection.
  * If internet is present user pushes button to return to previous activity.
  */
-public class NetworkUnavailableActivity extends BaseActivity {
+public class NetworkUnavailableActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,15 +25,15 @@ public class NetworkUnavailableActivity extends BaseActivity {
 
         // Static variable used to avoid simultaneous invoking of
         // NetworkUnavailable Activity from different fragments.
-        NetworkState.sIsConnectionBeingHandled = true;
+        sIsConnectionBeingHandled = true;
         // Handle responses to events on view objects
         buttonCheckConnection.setOnClickListener(new OnClickListener() {
 
             @Override
             public void onClick(View v) {
                 // Return to previous activity if internet connection is present
-                if (NetworkState.sIsConnected) {
-                    NetworkState.sIsConnectionBeingHandled = false;
+                if (sIsConnected) {
+                    sIsConnectionBeingHandled = false;
                     finish();
                 }
             }
@@ -43,6 +46,6 @@ public class NetworkUnavailableActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         // If the button has been pressed twice go to the main screen of phone
-        new BackStackDoubleTapExit(this);
+        BackStackDoubleTapExit.BackStackDoubleTapExit(this);
     }
 }

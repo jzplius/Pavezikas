@@ -1,7 +1,7 @@
 package lt.justplius.android.pavezikas;
 
 import android.os.Bundle;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +27,14 @@ public class PostDetailFragment extends Fragment {
      * The dummy content this fragment is presenting.
      */
     private DummyContent.DummyItem mItem;
+
+    public static Fragment newInstance (String itemId){
+        Bundle args = new Bundle();
+        args.putString(PostDetailFragment.ARG_ITEM_ID, "1");
+        PostDetailFragment fragment = new PostDetailFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the

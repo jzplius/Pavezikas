@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+		<item
+        android:id="@+id/add"
+        android:title="@string/add_post"
+        android:orderInCategory="1"
+        android:showAsAction="ifRoom"
+        android:icon="@drawable/icon_plus"
+        />
+		
+		<item
+        android:showAsAction="ifRoom"
+        android:orderInCategory="2"
+        android:title="@string/filter_all"
+        
+        >
+            <menu>
+                <item
+                    android:id="@+id/drivers"
+                    android:showAsAction="ifRoom"
+                    android:title="@string/drivers"
+                    android:icon="@drawable/icon_car_menu"
+                    />
+                <item
+                    android:id="@+id/passengers"
+                    android:showAsAction="ifRoom"
+                    android:title="@string/passengers"
+                    android:icon="@drawable/icon_bag_menu"
+                    />
+                <item
+                    android:id="@+id/all"
+                    android:showAsAction="ifRoom"
+                    android:title="@string/all"/>
+            </menu>
+    	</item>
+		
+		<item
+        android:id="@+id/search"
+        android:title="@string/search"
+        android:orderInCategory="3"
+        android:showAsAction="always"
+        android:icon="@drawable/icon_search"
+        />
+</menu>

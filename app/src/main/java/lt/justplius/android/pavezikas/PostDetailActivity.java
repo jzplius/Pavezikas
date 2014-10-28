@@ -53,8 +53,8 @@ public class PostDetailActivity extends SlidingActivity {
                     getIntent().getStringExtra(PostDetailFragment.ARG_ITEM_ID));
             PostDetailFragment fragment = new PostDetailFragment();
             fragment.setArguments(arguments);
-            getFragmentManager().beginTransaction()
-                    .add(R.id.post_detail_container, fragment)
+            getSupportFragmentManager().beginTransaction()
+                    .add(R.id.fragment_details_container, fragment)
                     .commit();
         }
     }

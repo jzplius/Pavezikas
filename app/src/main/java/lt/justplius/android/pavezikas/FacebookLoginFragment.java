@@ -1,28 +1,19 @@
 package lt.justplius.android.pavezikas;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
 import com.facebook.FacebookAuthorizationException;
 import com.facebook.FacebookOperationCanceledException;
-import com.facebook.HttpMethod;
-import com.facebook.Request;
-import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
@@ -30,7 +21,24 @@ import com.facebook.model.GraphUser;
 import com.facebook.widget.FacebookDialog;
 import com.facebook.widget.LoginButton;
 
-public class FacebookLogin extends Activity {
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+/**
+ * A simple {@link Fragment} subclass.
+ *
+ */
+public class FacebookLoginFragment extends Fragment {
+    public FacebookLoginFragment() {
+        // Required empty public constructor
+    }
+
     private static final String TAG = "FacebookLogin";
 
     public SharedPreferences mPreferences;
@@ -61,7 +69,7 @@ public class FacebookLogin extends Activity {
 
         if (exception instanceof FacebookOperationCanceledException ||
                 exception instanceof FacebookAuthorizationException) {
-            new AlertDialog.Builder(FacebookLogin.this)
+            new AlertDialog.Builder(getActivity())
                     .setTitle(R.string.facebook_failed_to_authenticate)
                     .setMessage(R.string.facebook_failed_to_authenticate)
                     .setPositiveButton(R.string.ok, null)
@@ -87,39 +95,12 @@ public class FacebookLogin extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.facebook_login);
-
         // Instantiate facebook lifecycle helper class
-        mUiHelper = new UiLifecycleHelper(this, callback);
+        mUiHelper = new UiLifecycleHelper(getActivity(), callback);
         mUiHelper.onCreate(savedInstanceState);
 
-        mPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
-        LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginButton.setReadPermissions(Arrays.asList("read_stream", "email", "user_groups", "user_birthday"));
-        loginButton.setUserInfoChangedCallback(new LoginButton.UserInfoChangedCallback() {
-            @SuppressWarnings("unchecked")
-            @Override
-            public void onUserInfoFetched(GraphUser user) {
-                Session session = Session.getActiveSession();
-                // If authentication is successful update and retrieve
-                // user data from DB and save information to shared preferences
-                if (session != null && session.isOpened() && user != null) {
-                    String id = user.getId();
-                    String name_surname = user.getFirstName() + " " + user.getLastName();
-                    String email = user.getProperty("email").toString();
-
-                    mPreferences.edit().putString("FB_ID", id).apply();
-                    mPreferences.edit().putString("FB_NAME_SURNAME", name_surname).apply();
-
-                    ArrayList<NameValuePair> nvp = new ArrayList<>();
-                    nvp.add(new BasicNameValuePair("id", id));
-                    nvp.add(new BasicNameValuePair("name_surname", name_surname));
-                    nvp.add(new BasicNameValuePair("email", email));
-                    new UpdateUserInformationTask().execute(nvp);
-                }
-            }
-        });
 
         /*// Make the API call to get user groups
         new Request(
@@ -155,7 +136,41 @@ public class FacebookLogin extends Activity {
     }
 
     @Override
-    protected void onResume() {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.facebook_login, container, false);
+        LoginButton loginButton = (LoginButton) view.findViewById(R.id.login_button);
+        loginButton.setFragment(this);
+        loginButton.setReadPermissions(
+                Arrays.asList("read_stream", "email", "user_groups", "user_birthday"));
+        loginButton.setUserInfoChangedCallback(new LoginButton.UserInfoChangedCallback() {
+            @SuppressWarnings("unchecked")
+            @Override
+            public void onUserInfoFetched(GraphUser user) {
+                Session session = Session.getActiveSession();
+                // If authentication is successful update and retrieve
+                // user data from DB and save information to shared preferences
+                if (session != null && session.isOpened() && user != null) {
+                    String id = user.getId();
+                    String name_surname = user.getFirstName() + " " + user.getLastName();
+                    String email = user.getProperty("email").toString();
+
+                    mPreferences.edit().putString("FB_ID", id).apply();
+                    mPreferences.edit().putString("FB_NAME_SURNAME", name_surname).apply();
+
+                    ArrayList<NameValuePair> nvp = new ArrayList<>();
+                    nvp.add(new BasicNameValuePair("id", id));
+                    nvp.add(new BasicNameValuePair("name_surname", name_surname));
+                    nvp.add(new BasicNameValuePair("email", email));
+                    new UpdateUserInformationTask().execute(nvp);
+                }
+            }
+        });
+        return view;
+    }
+
+    @Override
+    public void onResume() {
         super.onResume();
 
         // For scenarios where the main activity is launched and user
@@ -172,13 +187,13 @@ public class FacebookLogin extends Activity {
 
     @SuppressWarnings("NullableProblems")
     @Override
-    protected void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         mUiHelper.onSaveInstanceState(outState);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mUiHelper.onActivityResult(requestCode, resultCode, data, mDialogCallback);
     }
@@ -190,7 +205,7 @@ public class FacebookLogin extends Activity {
     }
 
     @Override
-    protected void onStop() {
+    public void onStop() {
         super.onStop();
         mUiHelper.onStop();
     }
@@ -199,55 +214,55 @@ public class FacebookLogin extends Activity {
     public void onDestroy() {
         super.onDestroy();
         mUiHelper.onDestroy();
-    }    
+    }
 
     // Update user information on DB
     private class UpdateUserInformationTask extends AsyncTask<ArrayList<NameValuePair>, Void, Void> {
         private String mUrl;
 
-    	protected void onPreExecute () {
+        protected void onPreExecute () {
             mUrl = getString(R.string.url_update_user);
-    	}
+        }
 
-		@SafeVarargs
+        @SafeVarargs
         @Override
-		protected final Void doInBackground(ArrayList<NameValuePair>... nvp) {
-			new ServerDbQuerry(nvp[0], mUrl);
-			return null;
-		}
+        protected final Void doInBackground(ArrayList<NameValuePair>... nvp) {
+            new HttpPostStringResponse(mUrl, nvp[0]);
+            return null;
+        }
     }
-    
+
     // Retrieve latest user data from DB
     private class SelectUserRatingTask extends AsyncTask<ArrayList<NameValuePair>, Void, String> {
         private String mUrl;
-        
-    	protected void onPreExecute () {
-            mUrl = getString(R.string.url_select_user_rating);
-    	}
-    	
-		@SafeVarargs
-        @Override
-		protected final String doInBackground(ArrayList<NameValuePair>... nvp) {
-			return new ServerDbQuerry(nvp[0], mUrl).returnJSON();
-		}
-		
-		protected void onPostExecute(String result) {
-    	        try {
-                    JSONArray jsonArray = new JSONArray(result);
-                    JSONObject jsonObject = jsonArray.getJSONObject(0);
 
-                    mPreferences.edit().putFloat("FB_RATING",
-                            Float.parseFloat(jsonObject.getString("rating"))).apply();
-					
-					// Start main activity without possibility to return to this activity
-	                Intent intent = new Intent(FacebookLogin.this, PostsListActivity.class);
-	                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-	                startActivity(intent);
-	                finish();
-					
-				} catch (JSONException e) {
-					Log.e(TAG, "Error retrieving user rating: " + e.toString());
-				}
-	     }
+        protected void onPreExecute () {
+            mUrl = getString(R.string.url_select_user_rating);
+        }
+
+        @SafeVarargs
+        @Override
+        protected final String doInBackground(ArrayList<NameValuePair>... nvp) {
+            return new HttpPostStringResponse(mUrl, nvp[0]).returnJSON();
+        }
+
+        protected void onPostExecute(String result) {
+            try {
+                JSONArray jsonArray = new JSONArray(result);
+                JSONObject jsonObject = jsonArray.getJSONObject(0);
+
+                mPreferences.edit().putFloat("FB_RATING",
+                        Float.parseFloat(jsonObject.getString("rating"))).apply();
+
+                // Start main activity without possibility to return to this activity
+                Intent intent = new Intent(getActivity(), PostsListActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
+                getActivity().finish();
+
+            } catch (JSONException e) {
+                Log.e(TAG, "Error retrieving user rating: " + e.toString());
+            }
+        }
     }
 }

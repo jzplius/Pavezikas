@@ -14,7 +14,7 @@ public class BackStackDoubleTapExit {
     // Member indicating whether "back pressed" button was pressed once
     private static boolean backToExitPressedOnce;
 
-    public BackStackDoubleTapExit(Context context) {
+    public static void BackStackDoubleTapExit(Context context) {
         // If the button has been pressed twice go to the main screen of phone
         if (backToExitPressedOnce) {
             Intent startMain = new Intent(Intent.ACTION_MAIN);
