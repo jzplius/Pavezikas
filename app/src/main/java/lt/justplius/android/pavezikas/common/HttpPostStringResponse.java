@@ -1,4 +1,4 @@
-package lt.justplius.android.pavezikas;
+package lt.justplius.android.pavezikas.common;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
-import android.view.Menu;
 import android.view.Window;
 
 import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
@@ -30,10 +29,8 @@ public class PostsListActivity extends BaseFragmentActivity
         implements PostsListFragment.Callbacks {
 
     private static final String TAG = "PostsListActivity";
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
+
+    // Whether or not the activity is in two-pane mode, i.e. running on a tablet device.
     private boolean mTwoPane;
 
     @Override
@@ -48,8 +45,8 @@ public class PostsListActivity extends BaseFragmentActivity
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_ACTION_BAR);
         super.onCreate(savedInstanceState);
-        //requestWindowFeature(Window.FEATURE_ACTION_BAR);
 
         // Set custom actionbar
         ActionBar actionBar = getActionBar();
@@ -60,7 +57,7 @@ public class PostsListActivity extends BaseFragmentActivity
             Log.i(TAG, "Error in retrieving actionbar");
         }
 
-        // configure the SlidingMenu
+        // Configure the SlidingMenu
         SlidingMenu menu = new SlidingMenu(this);
         menu.setMode(SlidingMenu.RIGHT);
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
@@ -70,8 +67,6 @@ public class PostsListActivity extends BaseFragmentActivity
         menu.setFadeDegree(0.35f);
         menu.attachToActivity(this, SlidingMenu.SLIDING_WINDOW);
         menu.setMenu(R.layout.menu_list);
-
-
 
         if (findViewById(R.id.fragment_details_container) != null) {
             // The detail container view will be present only in the
@@ -88,8 +83,6 @@ public class PostsListActivity extends BaseFragmentActivity
 
             inflateDetailsFragment();
         }
-
-        // TODO: If exposing deep links into your app, handle intents here.
     }
 
     /**
