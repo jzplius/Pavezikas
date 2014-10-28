@@ -11,19 +11,6 @@ import android.content.Intent;
  * "Network is active", "Network is inactive", "No network available".
  */
 public class ConnectionChangeReceiver extends BroadcastReceiver {
-    // Receiver handling internet connection change events
-    private static ConnectionChangeReceiver mReceiver;
-
-    public static ConnectionChangeReceiver getInstance() {
-        if (mReceiver == null) {
-            mReceiver = new ConnectionChangeReceiver();
-        }
-        return mReceiver;
-    }
-
-    public ConnectionChangeReceiver() {
-    }
-
     // Handle the network state change event by asynchronously executing checkIfDeviceIsConnected()
     @Override
     public void onReceive(Context context, Intent intent) {

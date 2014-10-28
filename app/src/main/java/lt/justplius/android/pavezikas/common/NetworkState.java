@@ -28,7 +28,7 @@ import java.net.URL;
  */
 public class NetworkState {
     // Static members for usage of connection state handling
-    public static boolean sIsConnected = true;
+    public static boolean sIsConnected = false;
     public static boolean sIsConnectionBeingHandled = false;
 
     // Check if device has any available network connection
@@ -36,8 +36,8 @@ public class NetworkState {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-
-        return activeNetworkInfo != null;
+        sIsConnected = activeNetworkInfo != null;
+        return sIsConnected;
     }
 
     // Check if device is connected to active internet connection
@@ -91,24 +91,17 @@ public class NetworkState {
 
     // Method responsible for invoking NetworkUnavailableActivity if
     // network is not present at runtime
-    public static void handleIfNoNetworkAvailable(Context context) {
+    public static void handleNoNetworkAvailable(Context context) {
         // Static variable for avoiding simultaneous invoking of
         // NetworkUnavailableActivity from different fragments
         // while inflating few of them at start
         if (!sIsConnectionBeingHandled) {
-            if (!sIsConnected) {
-                // Global variable for avoiding simultaneous invoking of
-                // NetworkUnavailable Activity from different fragments
-                // while inflating few of them at start
-                sIsConnectionBeingHandled = true;
-
-                // Start new activity when internet connection is not present
-                Intent intent = new Intent(
-                        context.getApplicationContext(),
-                        NetworkUnavailableActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(intent);
-            }
+            // Start new activity when internet connection is not present
+            Intent intent = new Intent(
+                context.getApplicationContext(),
+                NetworkUnavailableActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(intent);
         }
     }
 }

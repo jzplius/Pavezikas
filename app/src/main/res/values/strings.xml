@@ -53,11 +53,6 @@
     <string name="post_details_start_adress">Miestas, gatve</string>
     <string name="approve">Patvirtinti</string>
     <string name="deny">Atmesti</string>
-
-
-
-
-
     <string name="app_name">Pavezikas</string>
     <string name="action_settings">Nustatymai</string>
     <string name="add_post">Pridėti skelbimą</string>
@@ -227,5 +222,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_post_list">Posts</string>
     <string name="title_post_detail">Post Detail</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
