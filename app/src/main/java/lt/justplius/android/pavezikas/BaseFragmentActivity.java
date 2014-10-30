@@ -1,13 +1,9 @@
 package lt.justplius.android.pavezikas;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.Window;
 
 import lt.justplius.android.pavezikas.common.BackStackDoubleTapExit;
 import lt.justplius.android.pavezikas.common.NetworkState;
@@ -15,11 +11,7 @@ import lt.justplius.android.pavezikas.common.NetworkState;
 import static lt.justplius.android.pavezikas.common.NetworkState.handleNoNetworkAvailable;
 import static lt.justplius.android.pavezikas.common.NetworkState.sIsConnected;
 
-/**
- * Created by JUSTPLIUS on 2014.08.26.
- */
 public abstract class BaseFragmentActivity extends FragmentActivity {
-    private static final String TAG = "BaseFragmentActivity";
 
     protected abstract Fragment createFragment();
     protected abstract Fragment createDetailsFragment();
@@ -31,20 +23,10 @@ public abstract class BaseFragmentActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //requestWindowFeature(Window.FEATURE_ACTION_BAR);
         setContentView(getLayoutResourceId());
 
         // First time determine if device has any available network connection
         NetworkState.isNetworkAvailable(this);
-
-        /*// Set custom actionbar
-        ActionBar actionBar = getActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-            actionBar.setCustomView(R.layout.actionbar);
-        } else {
-            Log.i(TAG, "Error in retrieving actionbar");
-        }*/
     }
 
     @Override

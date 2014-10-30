@@ -14,6 +14,9 @@ import android.view.ViewGroup;
 
 import com.facebook.FacebookAuthorizationException;
 import com.facebook.FacebookOperationCanceledException;
+import com.facebook.HttpMethod;
+import com.facebook.Request;
+import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
@@ -30,10 +33,8 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-/**
- * A simple {@link Fragment} subclass.
- *
- */
+import lt.justplius.android.pavezikas.common.HttpPostStringResponse;
+
 public class FacebookLoginFragment extends Fragment {
     public FacebookLoginFragment() {
         // Required empty public constructor
@@ -83,12 +84,41 @@ public class FacebookLoginFragment extends Fragment {
                 ArrayList<NameValuePair> nvp = new ArrayList<> ();
                 nvp.add(new BasicNameValuePair("id", mPreferences.getString("FB_ID", "0")));
                 mSelectUserRatingTask.execute(nvp);
+
+                // Make the API call to get user groups
+                new Request(
+                        Session.getActiveSession(),
+                        "/me/groups",
+                        null,
+                        HttpMethod.GET,
+                        new Request.Callback() {
+                            @Override
+                            public void onCompleted(Response response) {
+                                // Retrieve Facebook user groups data from GraphObject
+                                try {
+                                    JSONObject group;
+                                    JSONArray groups = response.getGraphObject()
+                                            .getInnerJSONObject()
+                                            .getJSONArray("data");
+                                    for (int i = 0; i < groups.length(); i++) {
+                                        group = groups.getJSONObject(i);
+                                        // Getting name and id of a group TODO rar
+                                        Log.i("facebook group: ",
+                                                group.getString("name")
+                                                        + "(id: " + group.getString("id") + ")\n");
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    Log.e(TAG, " Error retrieving user groups: " + e.toString());
+                                }
+                            }
+                        }
+                ).executeAsync();
             }
         } else if (state.isClosed()) {
             Log.i(TAG, "Logged out..."); // TODO rar
             mSelectUserRatingTask = null;
         }
-
     }
 
     @Override
@@ -102,37 +132,6 @@ public class FacebookLoginFragment extends Fragment {
         mPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 
-        /*// Make the API call to get user groups
-        new Request(
-                Session.getActiveSession(),
-                "/me/groups",
-                null,
-                HttpMethod.GET,
-                new Request.Callback() {
-                    @Override
-                    public void onCompleted(Response response) {
-                        // Retrieve Facebook user groups data from GraphObject
-                        try {
-                            JSONObject group;
-                            JSONArray groups = response.getGraphObject()
-                                    .getInnerJSONObject()
-                                    .getJSONArray("data");
-                            for (int i = 0; i < groups.length(); i++) {
-                                group = groups.getJSONObject(i);
-                                // Getting name and id of a group TODO rar
-                                Log.i("facebook group: ",
-                                        group.getString("name")
-                                                + "(id: " + group.getString("id") + ")\n");
-
-                            }
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                            Log.e(TAG, " Error retrieving user groups: " + e.toString());
-                        }
-                    }
-
-                }
-        ).executeAsync();*/
     }
 
     @Override
