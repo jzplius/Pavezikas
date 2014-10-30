@@ -1,18 +1,31 @@
 package lt.justplius.android.pavezikas;
 
 import android.app.Activity;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.Toast;
 
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.text.ParseException;
+import java.util.ArrayList;
+
+import lt.justplius.android.pavezikas.common.HttpPostStringResponse;
 import lt.justplius.android.pavezikas.dummy.DummyContent;
+import lt.justplius.android.pavezikas.posts.PostListItem;
+import lt.justplius.android.pavezikas.posts.PostsListViewAdapter;
 
 /**
  * A list fragment representing a list of Posts. This fragment
@@ -24,12 +37,11 @@ import lt.justplius.android.pavezikas.dummy.DummyContent;
  * interface.
  */
 public class PostsListFragment extends ListFragment {
-
     /**
      * The serialization (saved instance state) Bundle key representing the
      * activated item position. Only used on tablets.
      */
-    private static final String STATE_ACTIVATED_POSITION = "activated_position";
+    private static final String STATE_ACTIVATED_POSITION = "activated_position"; // TODO rar
 
     /**
      * The fragment's current callback object, which is notified of list item
@@ -41,6 +53,9 @@ public class PostsListFragment extends ListFragment {
      * The current activated item position. Only used on tablets.
      */
     private int mActivatedPosition = ListView.INVALID_POSITION;
+
+    private ArrayList<PostListItem> mItems;
+    private PostsListViewAdapter mAdapter;
 
     /**
      * A callback interface that all activities containing this fragment must
@@ -75,14 +90,19 @@ public class PostsListFragment extends ListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TODO: replace with a real list adapter.
-        setListAdapter(new ArrayAdapter<>(
-                getActivity(),
-                android.R.layout.simple_list_item_activated_1,
-                android.R.id.text1,
-                DummyContent.ITEMS));
-
         setHasOptionsMenu(true);
+
+        mItems = new ArrayList<>();
+        mAdapter = new PostsListViewAdapter(getActivity(), mItems);
+
+        GetPostsTask getPostsTask = new GetPostsTask();
+        getPostsTask.execute();
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        return super.onCreateView(inflater, container, savedInstanceState);
     }
 
     @Override
@@ -171,6 +191,63 @@ public class PostsListFragment extends ListFragment {
             outState.putInt(STATE_ACTIVATED_POSITION, mActivatedPosition);
         }
     }
+
+    private class GetPostsTask extends AsyncTask<Void, Void, String> {
+        private static final String TAG = "GetPostsTask";
+        private String mUrl;
+
+        protected void onPreExecute () {
+            mUrl = getString(R.string.url_get_posts);
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            return new HttpPostStringResponse(mUrl, null).returnJSON();
+        }
+
+        protected void onPostExecute(String result) {
+            try{
+                JSONArray jsonArray = new JSONArray(result);
+                JSONObject jsonObject;
+                PostListItem post;
+                for(int i=0;i<jsonArray.length();i++){
+                    jsonObject = jsonArray.getJSONObject(i);
+                    post = new PostListItem();
+                    post.setId(jsonObject.getInt("post_id"));
+                    post.setName(jsonObject.getString("name_surname"));
+                    post.setRouteInformation(jsonObject.getString("route"));
+                    post.setSeatsAvailable(jsonObject.getInt("seats_available"));
+                    post.setDate(jsonObject.getString("leaving_date"));
+                    post.setLeavingTimeFrom(jsonObject.getString("leaving_time_from"));
+                    post.setLeavingTimeTo(jsonObject.getString("leaving_time_to"));
+                    post.setUserId(jsonObject.getString("user_id"));
+
+                    /*if (jsonObject.getInt("ratings_count") > 0){
+                        //TODO get current rating
+                        i++;
+                    }*/
+                    mItems.add(post);
+                }
+                setListAdapter(mAdapter);
+                mAdapter.notifyDataSetChanged();
+
+                /*if (mainActivity.post_id == 0) {
+                    mainActivity.post_id = driverPosts.get(0).getId();
+                }
+                if (mainActivity.isDetailsFragmentSelected == false) {
+                    //highlights the selected item.
+                    getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+                    mainActivity.switchDetailsFragment(new PostDetailsFragment(driverPosts.get(0).getId()));
+                }*/
+
+            }catch(JSONException e){
+                Log.e(TAG, "get posts async task error: ", e);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
