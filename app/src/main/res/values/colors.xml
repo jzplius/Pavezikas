@@ -8,6 +8,7 @@
     <color name="hint_text_light">#CCCCCC</color>
     <color name="hint_text_dark">#999999</color>
     <color name="text_font_main">#625D5D</color>
+    <color name="text_font_menu">#0a2575</color>
     <color name="button_font_main">#111111</color>
     <color name="button_color_type_1">#ad7600</color>
     <color name="button_color_type_2">#BCC6CC</color>
@@ -17,5 +18,7 @@
     <color name="line_color">#ffb20c</color>
     <color name="header_windows">#625D5D</color>
     <color name="menu_background">#B7CEEC</color>
+    <color name="popup_background">#1c43b9</color>
+    <color name="item_color">#B7CEEC</color>
 
 </resources>
