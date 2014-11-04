@@ -13,7 +13,6 @@
         android:showAsAction="ifRoom"
         android:orderInCategory="2"
         android:title="@string/filter_all"
-        
         >
             <menu>
                 <item
@@ -26,7 +25,7 @@
                     android:id="@+id/passengers"
                     android:showAsAction="ifRoom"
                     android:title="@string/passengers"
-                    android:icon="@drawable/icon_bag_menu"
+                    android:icon="@drawable/icon_passenger_menu"
                     />
                 <item
                     android:id="@+id/all"

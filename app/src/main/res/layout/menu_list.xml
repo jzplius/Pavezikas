@@ -9,53 +9,50 @@
     xmlns:facebook="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingTop="5dp"
-    android:background="@drawable/background_menu"
     >
 
-    <RelativeLayout
+    <LinearLayout
+
+        android:id="@+id/menu_list_upper_panel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingStart="5dp"
-        android:paddingEnd="0dp"
-        android:paddingLeft="5dp"
-        android:paddingRight="0dp"
-        android:paddingBottom="0dp"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_horizontal"
+
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+
+        android:background="@color/menu_list_upper_panel"
+
     >
 
         <com.facebook.widget.ProfilePictureView
 
-        	android:id="@+id/menu_list_profile_picture"
-        	android:layout_width="100dp"
+            android:id="@+id/menu_list_profile_picture"
+            android:layout_width="100dp"
             android:layout_height="100dp"
-        	android:gravity="center_horizontal"
-       		facebook:preset_size="normal"
+            android:gravity="center_horizontal"
 
-       		android:layout_alignParentLeft="true"
-            android:layout_alignParentRight="false"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentEnd="false"
 
-       		android:paddingLeft="5dp"
+            facebook:preset_size="normal"
+
+            android:paddingLeft="5dp"
             android:paddingStart="5dp"
             android:paddingRight="0dp"
             android:paddingEnd="0dp"
 
-       		facebook:login_text="@string/login"
-        	facebook:logout_text="@string/logout"
-        />
+            facebook:login_text="@string/login"
+            facebook:logout_text="@string/logout"
+            />
 
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="95dp"
-			android:layout_toRightOf="@+id/menu_list_profile_picture"
-            android:layout_toEndOf="@+id/menu_list_profile_picture"
-            
+            android:layout_height="100dp"
             android:orientation="vertical"
-        >
+            >
 
             <TextView
                 android:id="@+id/menu_list_name_surname"
@@ -73,7 +70,7 @@
                 android:hint="@string/default_name"
                 android:textColorHint="@color/hint_text_dark"
                 android:textAppearance="?android:attr/textAppearanceMedium"
-            />
+                />
 
             <RatingBar
                 android:id="@+id/menu_list_bar_rating"
@@ -86,9 +83,9 @@
                 android:isIndicator="true"
                 android:numStars="5"
                 android:stepSize="0.1"
-            />
-            
-			<com.facebook.widget.LoginButton
+                />
+
+            <com.facebook.widget.LoginButton
                 android:id="@+id/menu_list_button_login"
 
                 android:layout_width="wrap_content"
@@ -100,143 +97,161 @@
                 android:layout_gravity="center_horizontal"
 
                 facebook:login_text="@string/login"
-        		facebook:logout_text="@string/logout"
-            />
-            
-            
+                facebook:logout_text="@string/logout"
+                />
+
+
         </LinearLayout>
-    </RelativeLayout>
-
-    <ImageView style="@style/LineHorizontal2"
-               android:id="@+id/menu_list_line_horizontal0"
-               android:contentDescription="@string/unnamed"
-        />
-
-    <LinearLayout style="@style/MenuLinearLayout"
-        android:id="@+id/menu_list_link_1"
-    >
-
-        <ImageView style="@style/MenuIcon"
-            android:id="@+id/menu_list_icon1"
-            android:src="@drawable/icon_menu_pin"
-            android:contentDescription="@string/unnamed"
-        />
-        <TextView style="@style/MenuText"
-            android:id="@+id/menu_list_text1"
-            android:text="@string/menu_item_1"
-        />
 
     </LinearLayout>
 
-    <ImageView style="@style/LineHorizontal2"
-               android:id="@+id/menu_list_line_horizontal1"
-               android:contentDescription="@string/unnamed"
-        />
 
-    <LinearLayout style="@style/MenuLinearLayout"
-                  android:id="@+id/menu_list_link_2"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical"
+
+        android:layout_marginTop="10dp"
+
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="10dp"
     >
 
-        <ImageView style="@style/MenuIcon"
-                   android:id="@+id/menu_list_icon2"
-                   android:src="@drawable/icon_menu_route"
+        <ImageView style="@style/LineHorizontal2"
+                   android:id="@+id/menu_list_line_horizontal0"
+                   android:contentDescription="@string/unnamed"
+        />
+
+        <LinearLayout style="@style/MenuLinearLayout"
+            android:id="@+id/menu_list_link_1"
+        >
+
+            <ImageView style="@style/MenuIcon"
+                android:id="@+id/menu_list_icon1"
+                android:src="@drawable/icon_menu_pin"
+                android:contentDescription="@string/unnamed"
+            />
+            <TextView style="@style/MenuText"
+                android:id="@+id/menu_list_text1"
+                android:text="@string/menu_item_1"
+            />
+
+        </LinearLayout>
+
+        <ImageView style="@style/LineHorizontal2"
+                   android:id="@+id/menu_list_line_horizontal1"
                    android:contentDescription="@string/unnamed"
             />
-        <TextView style="@style/MenuText"
-                  android:id="@+id/menu_list_text2"
-                  android:text="@string/menu_item_2"
-            />
 
-    </LinearLayout>
+        <LinearLayout style="@style/MenuLinearLayout"
+                      android:id="@+id/menu_list_link_2"
+        >
 
-    <ImageView style="@style/LineHorizontal2"
-               android:id="@+id/menu_list_line_horizontal2"
-               android:contentDescription="@string/unnamed"
-        />
+            <ImageView style="@style/MenuIcon"
+                       android:id="@+id/menu_list_icon2"
+                       android:src="@drawable/icon_menu_route"
+                       android:contentDescription="@string/unnamed"
+                />
+            <TextView style="@style/MenuText"
+                      android:id="@+id/menu_list_text2"
+                      android:text="@string/menu_item_2"
+                />
 
-    <LinearLayout style="@style/MenuLinearLayout"
-                  android:id="@+id/menu_list_link_3"
-    >
+        </LinearLayout>
 
-        <ImageView style="@style/MenuIcon"
-                   android:id="@+id/menu_list_icon3"
-                   android:src="@drawable/icon_menu_pin"
+        <ImageView style="@style/LineHorizontal2"
+                   android:id="@+id/menu_list_line_horizontal2"
                    android:contentDescription="@string/unnamed"
             />
-        <TextView style="@style/MenuText"
-                  android:id="@+id/menu_list_text3"
-                  android:text="@string/menu_item_3"
-            />
 
-    </LinearLayout>
+        <LinearLayout style="@style/MenuLinearLayout"
+                      android:id="@+id/menu_list_link_3"
+        >
 
-    <ImageView style="@style/LineHorizontal2"
-               android:id="@+id/menu_list_line_horizontal3"
-               android:contentDescription="@string/unnamed"
-        />
+            <ImageView style="@style/MenuIcon"
+                       android:id="@+id/menu_list_icon3"
+                       android:src="@drawable/icon_menu_pin"
+                       android:contentDescription="@string/unnamed"
+                />
+            <TextView style="@style/MenuText"
+                      android:id="@+id/menu_list_text3"
+                      android:text="@string/menu_item_3"
+                />
 
-    <LinearLayout style="@style/MenuLinearLayout"
-                  android:id="@+id/menu_list_link_4"
-    >
+        </LinearLayout>
 
-        <ImageView style="@style/MenuIcon"
-                   android:id="@+id/menu_list_icon4"
-                   android:src="@drawable/icon_menu_history"
+        <ImageView style="@style/LineHorizontal2"
+                   android:id="@+id/menu_list_line_horizontal3"
                    android:contentDescription="@string/unnamed"
             />
-        <TextView style="@style/MenuText"
-                  android:id="@+id/menu_list_text4"
-                  android:text="@string/menu_item_4"
-            />
 
-    </LinearLayout>
+        <LinearLayout style="@style/MenuLinearLayout"
+                      android:id="@+id/menu_list_link_4"
+        >
 
-    <ImageView style="@style/LineHorizontal2"
-               android:id="@+id/menu_list_line_horizontal4"
-               android:contentDescription="@string/unnamed"
-        />
+            <ImageView style="@style/MenuIcon"
+                       android:id="@+id/menu_list_icon4"
+                       android:src="@drawable/icon_menu_history"
+                       android:contentDescription="@string/unnamed"
+                />
+            <TextView style="@style/MenuText"
+                      android:id="@+id/menu_list_text4"
+                      android:text="@string/menu_item_4"
+                />
 
-    <LinearLayout style="@style/MenuLinearLayout"
-                  android:id="@+id/menu_list_link_5"
-    >
+        </LinearLayout>
 
-        <ImageView style="@style/MenuIcon"
-                   android:id="@+id/menu_list_icon5"
-                   android:src="@drawable/icon_menu_settings"
+        <ImageView style="@style/LineHorizontal2"
+                   android:id="@+id/menu_list_line_horizontal4"
                    android:contentDescription="@string/unnamed"
             />
-        <TextView style="@style/MenuText"
-                  android:id="@+id/menu_list_text5"
-                  android:text="@string/menu_item_5"
-            />
 
-    </LinearLayout>
+        <LinearLayout style="@style/MenuLinearLayout"
+                      android:id="@+id/menu_list_link_5"
+        >
 
-    <ImageView style="@style/LineHorizontal2"
-               android:id="@+id/menu_list_line_horizontal5"
-               android:contentDescription="@string/unnamed"
-        />
+            <ImageView style="@style/MenuIcon"
+                       android:id="@+id/menu_list_icon5"
+                       android:src="@drawable/icon_menu_settings"
+                       android:contentDescription="@string/unnamed"
+                />
+            <TextView style="@style/MenuText"
+                      android:id="@+id/menu_list_text5"
+                      android:text="@string/menu_item_5"
+                />
 
-    <LinearLayout style="@style/MenuLinearLayout"
-                  android:id="@+id/menu_list_link_6"
-    >
+        </LinearLayout>
 
-        <ImageView style="@style/MenuIcon"
-                   android:id="@+id/menu_list_icon6"
-                   android:src="@drawable/icon_menu_info"
+        <ImageView style="@style/LineHorizontal2"
+                   android:id="@+id/menu_list_line_horizontal5"
                    android:contentDescription="@string/unnamed"
             />
-        <TextView style="@style/MenuText"
-                  android:id="@+id/menu_list_text6"
-                  android:text="@string/menu_item_6"
+
+        <LinearLayout style="@style/MenuLinearLayout"
+                      android:id="@+id/menu_list_link_6"
+        >
+
+            <ImageView style="@style/MenuIcon"
+                       android:id="@+id/menu_list_icon6"
+                       android:src="@drawable/icon_menu_info"
+                       android:contentDescription="@string/unnamed"
+                />
+            <TextView style="@style/MenuText"
+                      android:id="@+id/menu_list_text6"
+                      android:text="@string/menu_item_6"
+                />
+
+        </LinearLayout>
+
+        <ImageView style="@style/LineHorizontal2"
+                   android:id="@+id/menu_list_line_horizontal6"
+                   android:contentDescription="@string/unnamed"
             />
 
     </LinearLayout>
-
-    <ImageView style="@style/LineHorizontal2"
-               android:id="@+id/menu_list_line_horizontal6"
-               android:contentDescription="@string/unnamed"
-        />
     
 </LinearLayout>
 </ScrollView>

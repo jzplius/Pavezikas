@@ -259,8 +259,7 @@
                         android:text="@string/post_details_comment"
                         android:textColor="@color/text_font_main"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:layout_below="@+id/passenger_approval_list_item_comment_block"
-                        android:layout_centerHorizontal="true"/>
+                        />
                 </LinearLayout>
 
 
@@ -291,6 +290,8 @@
 
                 android:background="@drawable/button_type_1_bl"
 
+                android:layout_marginTop="5dp"
+
             />
 
             <Button
@@ -304,6 +305,7 @@
                 android:layout_marginStart="5dp"
                 android:layout_marginRight="5dp"
                 android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
 
                 android:text="@string/deny"
 

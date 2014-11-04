@@ -9,8 +9,10 @@
 
         <item name="android:popupMenuStyle">@style/MyPopupMenu</item>
         <item name="android:actionBarStyle">@style/ActionBar</item>
-        <item name="android:windowBackground">@color/menu_background</item>
-        <item name="android:itemTextAppearance">@style/TextAppearance</item>
+        <item name="android:windowBackground">@drawable/background_windows</item>
+        <item name="android:itemTextAppearance">@style/MenuTextAppearance</item>
+        <item name="android:actionMenuTextColor">@color/action_bar_text_color</item>
+
 
     </style>
 
@@ -21,11 +23,21 @@
     <style name="ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">@drawable/background_action_bar</item>
         <item name="android:backgroundSplit">@drawable/background_action_bar</item>
+        <item name="android:titleTextStyle">@style/TitleColorStyle</item>
+
     </style>
 
-    <style name="TextAppearance">
-        <item name="android:textColor">@color/item_color</item>
+    <style name="MenuTextAppearance">
+        <item name="android:textColor">@color/action_bar_text_color</item>
     </style>
+
+
+    <style name="TitleColorStyle" parent="android:TextAppearance.Holo">
+        <item name="android:textColor">@color/action_bar_text_color</item>
+    </style>
+
+
+
 
 
 

@@ -37,7 +37,9 @@
 
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="5dp"
+        android:layout_marginStart="5dp"
         android:layout_marginRight="10dp"
+        android:layout_marginEnd="10dp"
 
         android:background="@drawable/background_post_2"
         android:padding="5dp"
@@ -110,6 +112,22 @@
             android:src="@drawable/icon_email_menu"
         />
 
+        <ImageButton
+            android:id="@+id/post_details_button_skype"
+            android:contentDescription="@string/unnamed"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+
+            android:layout_alignLeft="@+id/post_details_button_email"
+            android:layout_alignStart="@+id/post_details_button_email"
+            android:layout_below="@+id/post_details_button_email"
+
+            android:layout_marginTop="5dp"
+            android:background="@color/transparent"
+            android:scaleType="fitXY"
+            android:src="@drawable/icon_skype_menu"
+            />
+
         <ImageView
             android:id="@+id/post_details_line_vertical_1"
             android:contentDescription="@string/unnamed"
@@ -152,7 +170,7 @@
                 android:layout_gravity="center_vertical"
 
                 android:gravity="center_horizontal|center_vertical"
-                android:src="@drawable/icon_human"
+                android:src="@drawable/icon_type_passenger"
             />
 
             <TextView

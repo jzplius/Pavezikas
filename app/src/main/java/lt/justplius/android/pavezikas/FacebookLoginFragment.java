@@ -251,7 +251,7 @@ public class FacebookLoginFragment extends Fragment {
                 JSONObject jsonObject = jsonArray.getJSONObject(0);
 
                 mPreferences.edit().putFloat("FB_RATING",
-                        Float.parseFloat(jsonObject.getString("rating"))).apply();
+                        Float.valueOf(jsonObject.getString("rating"))).apply();
 
                 // Start main activity without possibility to return to this activity
                 Intent intent = new Intent(getActivity(), PostsListActivity.class);

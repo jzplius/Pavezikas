@@ -8,19 +8,12 @@
     android:orientation="vertical"
     android:paddingBottom="@dimen/list_padding">
 
-        <RelativeLayout
-            android:id="@+id/post_list_item_background"
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:background="@drawable/background_post"
-            android:paddingBottom="5dp"
-         >
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:background="@drawable/background_post"
             >
 
             <LinearLayout
@@ -40,19 +33,25 @@
                     android:id="@+id/post_list_item_icon"
                     android:contentDescription="@string/unnamed"
 
-                    android:layout_width="60dp"
-                    android:layout_height="match_parent"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+
+                    android:layout_marginStart="25dp"
+                    android:layout_marginLeft="25dp"
 
                     android:layout_gravity="center_vertical|center_horizontal"
 
 
-                    android:src="@drawable/icon_human"
+                    android:src="@drawable/icon_type_passenger"
                 />
 
                 <TextView
                     android:id="@+id/post_list_item_text_route_info"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
 
                     android:layout_gravity="center_horizontal|center_vertical"
 
@@ -75,13 +74,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="80dp"
 
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true"
-
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="2dp"
 
                 android:background="@drawable/background_post_2"
@@ -99,15 +95,6 @@
                    android:paddingTop="5dp"
                 />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                >
-
-
-
-                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -237,27 +224,10 @@
 
                 </LinearLayout>
 
-                <ImageView
-                    android:id="@+id/post_list_item_arrow"
-                    android:contentDescription="@string/unnamed"
-
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-
-                    android:layout_centerVertical="true"
-
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-
-                    android:src="@drawable/icon_arrow"
-                    />
-
-
 
             </RelativeLayout>
 
             </LinearLayout>
 
-        </RelativeLayout>
 
 </LinearLayout>

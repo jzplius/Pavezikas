@@ -16,9 +16,13 @@
     <color name="post_top">#ffb20c</color>
     <color name="post_background2">#ffcf68</color>
     <color name="line_color">#ffb20c</color>
+    <color name="menu_list_upper_panel">#ffb20c</color>
     <color name="header_windows">#625D5D</color>
     <color name="menu_background">#B7CEEC</color>
+    <color name="menu_background_2">#D9F5F7</color>
+    <color name="menu_background_3">#FFF3A9</color>
     <color name="popup_background">#1c43b9</color>
     <color name="item_color">#B7CEEC</color>
+    <color name="action_bar_text_color">#FFF3A9</color>
 
 </resources>
