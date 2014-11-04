@@ -1,4 +1,4 @@
-package lt.justplius.android.pavezikas;
+package lt.justplius.android.pavezikas.posts;
 
 import android.app.Activity;
 import android.os.AsyncTask;
@@ -22,16 +22,15 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.util.ArrayList;
 
+import lt.justplius.android.pavezikas.PostsListActivity;
+import lt.justplius.android.pavezikas.R;
 import lt.justplius.android.pavezikas.common.HttpPostStringResponse;
-import lt.justplius.android.pavezikas.dummy.DummyContent;
-import lt.justplius.android.pavezikas.posts.PostListItem;
-import lt.justplius.android.pavezikas.posts.PostsListViewAdapter;
 
 /**
  * A list fragment representing a list of Posts. This fragment
  * also supports tablet devices by allowing list items to be given an
  * 'activated' state upon selection. This helps indicate which item is
- * currently being viewed in a {@link PostDetailFragment}.
+ * currently being viewed in a {@link lt.justplius.android.pavezikas.PostDetailFragment}.
  * <p>
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.
@@ -41,13 +40,13 @@ public class PostsListFragment extends ListFragment {
      * The serialization (saved instance state) Bundle key representing the
      * activated item position. Only used on tablets.
      */
-    private static final String STATE_ACTIVATED_POSITION = "activated_position"; // TODO rar
+    private static final String STATE_ACTIVATED_POSITION = "activated_position";
 
     /**
      * The fragment's current callback object, which is notified of list item
      * clicks.
      */
-    private Callbacks mCallbacks = sDummyCallbacks;
+    private Callbacks mCallbacks = null;
 
     /**
      * The current activated item position. Only used on tablets.
@@ -66,18 +65,8 @@ public class PostsListFragment extends ListFragment {
         /**
          * Callback for when an item has been selected.
          */
-        public void onItemSelected(String id);
+        public void onItemSelected(int id);
     }
-
-    /**
-     * A dummy implementation of the {@link Callbacks} interface that does
-     * nothing. Used only when this fragment is not attached to an activity.
-     */
-    private static Callbacks sDummyCallbacks = new Callbacks() {
-        @Override
-        public void onItemSelected(String id) {
-        }
-    };
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -89,8 +78,8 @@ public class PostsListFragment extends ListFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setHasOptionsMenu(true);
+        setRetainInstance(true);
 
         mItems = new ArrayList<>();
         mAdapter = new PostsListViewAdapter(getActivity(), mItems);
@@ -123,7 +112,9 @@ public class PostsListFragment extends ListFragment {
 
         // Notify the active callbacks interface (the activity, if the
         // fragment is attached to one) that an item has been selected.
-        mCallbacks.onItemSelected(DummyContent.ITEMS.get(position).id);
+        if (mCallbacks != null) {
+            mCallbacks.onItemSelected(mItems.get(position).getId());
+        }
     }
 
 
@@ -228,20 +219,22 @@ public class PostsListFragment extends ListFragment {
                     }*/
                     mItems.add(post);
                 }
-                setListAdapter(mAdapter);
+                // Perform first posts list item click, so that it would be selected by default
+                if (getListAdapter() == null && ((PostsListActivity) getActivity()).isTwoPane()) {
+                    setListAdapter(mAdapter);
+                    ListView listView = getListView();
+                    listView.performItemClick(
+                            listView.getAdapter().getView(0, null, null),
+                            0,
+                            listView.getAdapter().getItemId(0));
+                } else {
+                    setListAdapter(mAdapter);
+                }
+
                 mAdapter.notifyDataSetChanged();
 
-                /*if (mainActivity.post_id == 0) {
-                    mainActivity.post_id = driverPosts.get(0).getId();
-                }
-                if (mainActivity.isDetailsFragmentSelected == false) {
-                    //highlights the selected item.
-                    getListView().setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-                    mainActivity.switchDetailsFragment(new PostDetailsFragment(driverPosts.get(0).getId()));
-                }*/
-
             }catch(JSONException e){
-                Log.e(TAG, "get posts async task error: ", e);
+                Log.e(TAG, "Get posts async task error: ", e);
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -265,6 +258,6 @@ public class PostsListFragment extends ListFragment {
         super.onDetach();
 
         // Reset the active callbacks interface to the dummy implementation.
-        mCallbacks = sDummyCallbacks;
+        mCallbacks = null;
     }
 }

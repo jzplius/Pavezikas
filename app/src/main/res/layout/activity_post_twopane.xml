@@ -7,8 +7,7 @@
     android:baselineAligned="false"
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
-    android:showDividers="middle"
-    tools:context="lt.justplius.android.pavezikas.PostsListActivity">
+    android:showDividers="middle">
 
     <!--
     This layout is a two-pane layout for the Posts
@@ -21,9 +20,8 @@
     http://developer.android.com/training/multiscreen/screensizes.html#TaskUseAliasFilters
     -->
 
-    <fragment
+    <FrameLayout
         android:id="@+id/fragment_container"
-        android:name="lt.justplius.android.pavezikas.PostsListFragment"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="2"

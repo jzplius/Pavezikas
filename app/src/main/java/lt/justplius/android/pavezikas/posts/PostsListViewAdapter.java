@@ -1,9 +1,11 @@
 package lt.justplius.android.pavezikas.posts;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 
 import com.facebook.widget.ProfilePictureView;
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +16,8 @@ import android.widget.TextView;
 import lt.justplius.android.pavezikas.R;
 
 public class PostsListViewAdapter extends ArrayAdapter<PostListItem> {
-        private ArrayList<PostListItem> mItems;
+    private static final String TAG = "PostsListViewAdapter";
+    private ArrayList<PostListItem> mItems;
         
         public PostsListViewAdapter(Context context, ArrayList<PostListItem> items) {
             super(context, R.layout.activity_post_list);
@@ -26,7 +29,17 @@ public class PostsListViewAdapter extends ArrayAdapter<PostListItem> {
             return mItems.size();
         }
 
-		@Override
+        /**
+         * {@inheritDoc}
+         *
+         * @param position
+         */
+        @Override
+        public PostListItem getItem(int position) {
+            return mItems.get(position);
+        }
+
+        @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             // View holder for single ListView item
             final ViewHolder holder;
@@ -53,7 +66,11 @@ public class PostsListViewAdapter extends ArrayAdapter<PostListItem> {
             holder.routeInformation.setText(mItems.get(position).getRouteInformation());
             holder.profilePicture.setProfileId(String.valueOf(mItems.get(position).getUserId()));
             holder.seatsAvailable.setText(mItems.get(position).getSeatsAvailable());
-            holder.dateInformation.setText(mItems.get(position).getDate());
+            try {
+                holder.dateInformation.setText(mItems.get(position).getDate(getContext()));
+            } catch (ParseException e) {
+                Log.e(TAG, "Error parsing date", e);
+            }
             holder.timeInformation.setText(mItems.get(position).getTime());
             holder.rating.setRating(mItems.get(position).getRating());
             holder.nameSurname.setText(mItems.get(position).getNameSurname());

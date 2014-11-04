@@ -36,15 +36,18 @@ import java.util.Arrays;
 import lt.justplius.android.pavezikas.common.HttpPostStringResponse;
 
 public class FacebookLoginFragment extends Fragment {
+    private static final String TAG = "FacebookLogin";
+    public static final String PREF_FB_ID = "FB_ID";
+    public static final String PREF_FB_NAME_SURNAME = "FB_NAME_SURNAME";
+    public static final String PREF_FB_RATING = "FB_RATING";
+
+    private UiLifecycleHelper mUiHelper;
+    private SelectUserRatingTask mSelectUserRatingTask = null;
+    private SharedPreferences mSharedPreferences;
+
     public FacebookLoginFragment() {
         // Required empty public constructor
     }
-
-    private static final String TAG = "FacebookLogin";
-
-    public SharedPreferences mPreferences;
-    private UiLifecycleHelper mUiHelper;
-    private SelectUserRatingTask mSelectUserRatingTask = null;
 
     private Session.StatusCallback callback = new Session.StatusCallback() {
         @Override
@@ -82,7 +85,7 @@ public class FacebookLoginFragment extends Fragment {
             if (mSelectUserRatingTask == null) {
                 mSelectUserRatingTask = new SelectUserRatingTask();
                 ArrayList<NameValuePair> nvp = new ArrayList<> ();
-                nvp.add(new BasicNameValuePair("id", mPreferences.getString("FB_ID", "0")));
+                nvp.add(new BasicNameValuePair("id", mSharedPreferences.getString(PREF_FB_ID, "0")));
                 mSelectUserRatingTask.execute(nvp);
 
                 // Make the API call to get user groups
@@ -129,9 +132,7 @@ public class FacebookLoginFragment extends Fragment {
         mUiHelper = new UiLifecycleHelper(getActivity(), callback);
         mUiHelper.onCreate(savedInstanceState);
 
-        mPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
-
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
     }
 
     @Override
@@ -150,12 +151,15 @@ public class FacebookLoginFragment extends Fragment {
                 // If authentication is successful update and retrieve
                 // user data from DB and save information to shared preferences
                 if (session != null && session.isOpened() && user != null) {
+
                     String id = user.getId();
                     String name_surname = user.getFirstName() + " " + user.getLastName();
                     String email = user.getProperty("email").toString();
 
-                    mPreferences.edit().putString("FB_ID", id).apply();
-                    mPreferences.edit().putString("FB_NAME_SURNAME", name_surname).apply();
+                    mSharedPreferences.edit()
+                            .putString(PREF_FB_ID, id)
+                            .putString(PREF_FB_NAME_SURNAME, name_surname)
+                            .apply();
 
                     ArrayList<NameValuePair> nvp = new ArrayList<>();
                     nvp.add(new BasicNameValuePair("id", id));
@@ -250,8 +254,10 @@ public class FacebookLoginFragment extends Fragment {
                 JSONArray jsonArray = new JSONArray(result);
                 JSONObject jsonObject = jsonArray.getJSONObject(0);
 
-                mPreferences.edit().putFloat("FB_RATING",
-                        Float.valueOf(jsonObject.getString("rating"))).apply();
+                mSharedPreferences
+                        .edit()
+                        .putFloat(PREF_FB_RATING, Float.valueOf(jsonObject.getString("rating")))
+                        .apply();
 
                 // Start main activity without possibility to return to this activity
                 Intent intent = new Intent(getActivity(), PostsListActivity.class);

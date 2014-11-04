@@ -1,13 +1,16 @@
 package lt.justplius.android.pavezikas;
 
+import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
+import android.util.Log;
 import android.view.MenuItem;
 
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.jeremyfeinstein.slidingmenu.lib.app.SlidingActivity;
-
+import lt.justplius.android.pavezikas.common.BaseSingleFragmentActivity;
+import lt.justplius.android.pavezikas.common.SlidingMenuUtils;
+import lt.justplius.android.pavezikas.posts.PostsListFragment;
 
 /**
  * An activity representing a single Post detail screen. This
@@ -18,44 +21,58 @@ import com.jeremyfeinstein.slidingmenu.lib.app.SlidingActivity;
  * This activity is mostly just a 'shell' activity containing nothing
  * more than a {@link PostDetailFragment}.
  */
-public class PostDetailActivity extends SlidingActivity {
+public class PostDetailActivity extends BaseSingleFragmentActivity
+        implements PostsListFragment.Callbacks {
+
+    private static final String TAG = "PostDetailsActivity";
+
+    @Override
+    protected int getLayoutResourceId() {
+        return R.layout.activity_post_detail;
+    }
+
+    @Override
+    protected int getFragmentContainerId() {
+        return R.id.fragment_details_container;
+    }
+
+    @Override
+    protected Fragment createFragment() {
+        return PostDetailFragment.newInstance(
+                getIntent().getIntExtra(PostDetailFragment.ARG_POST_ID, 0));
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_post_detail);
-        setBehindContentView(R.layout.facebook_login);
-        SlidingMenu sm = getSlidingMenu();
-        sm.setMode(SlidingMenu.RIGHT);
-        sm.setShadowWidthRes(R.dimen.shadow_width);
-        sm.setShadowDrawable(R.drawable.shadowright);
-        sm.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-        sm.setFadeDegree(0.35f);
-        sm.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 
-        // Show the Up button in the action bar.
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getIntent().hasExtra(PostDetailFragment.ARG_POST_ID)) {
+            // Configure the SlidingMenu
+            new SlidingMenuUtils(this).setSlidingMenu();
 
-        // savedInstanceState is non-null when there is fragment state
-        // saved from previous configurations of this activity
-        // (e.g. when rotating the screen from portrait to landscape).
-        // In this case, the fragment will automatically be re-added
-        // to its container so we don't need to manually add it.
-        // For more information, see the Fragments API guide at:
-        //
-        // http://developer.android.com/guide/components/fragments.html
-        //
-        if (savedInstanceState == null) {
-            // Create the detail fragment and add it to the activity
-            // using a fragment transaction.
-            Bundle arguments = new Bundle();
-            arguments.putString(PostDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(PostDetailFragment.ARG_ITEM_ID));
-            PostDetailFragment fragment = new PostDetailFragment();
-            fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .add(R.id.fragment_details_container, fragment)
-                    .commit();
+            // Show the Up button in the action bar.
+            // Set custom actionbar
+            ActionBar actionBar = getActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+                actionBar.setCustomView(R.layout.actionbar);
+            } else {
+                Log.i(TAG, "Error in retrieving actionbar");
+            }
+
+            // savedInstanceState is non-null when there is fragment state
+            // saved from previous configurations of this activity
+            // (e.g. when rotating the screen from portrait to landscape).
+            // In this case, the fragment will automatically be re-added
+            // to its container so we don't need to manually add it.
+            // For more information, see the Fragments API guide at:
+            //
+            // http://developer.android.com/guide/components/fragments.html
+            //
+            /*if (savedInstanceState == null) {
+                inflateFragment(getIntent().getIntExtra(PostDetailFragment.ARG_POST_ID, 0));
+            }*/
         }
     }
 
@@ -74,5 +91,9 @@ public class PostDetailActivity extends SlidingActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onItemSelected(int id) {
     }
 }

@@ -2,12 +2,21 @@ package lt.justplius.android.pavezikas;
 
 import android.app.ActionBar;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Window;
+import android.widget.RatingBar;
+import android.widget.TextView;
 
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
+import com.facebook.widget.ProfilePictureView;
+
+import lt.justplius.android.pavezikas.common.BackStackDoubleTapExit;
+import lt.justplius.android.pavezikas.common.BaseTwoFragmentsActivity;
+import lt.justplius.android.pavezikas.common.SlidingMenuUtils;
+import lt.justplius.android.pavezikas.posts.PostsListFragment;
 
 /**
  * An activity representing a list of Posts. This activity
@@ -18,14 +27,14 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
  * item details side-by-side using two vertical panes.
  * <p>
  * The activity makes heavy use of fragments. The list of items is a
- * {@link PostsListFragment} and the item details
+ * {@link lt.justplius.android.pavezikas.posts.PostsListFragment} and the item details
  * (if present) is a {@link PostDetailFragment}.
  * <p>
  * This activity also implements the required
- * {@link PostsListFragment.Callbacks} interface
+ * {@link lt.justplius.android.pavezikas.posts.PostsListFragment.Callbacks} interface
  * to listen for item selections.
  */
-public class PostsListActivity extends BaseFragmentActivity
+public class PostsListActivity extends BaseTwoFragmentsActivity
         implements PostsListFragment.Callbacks {
 
     private static final String TAG = "PostsListActivity";
@@ -39,8 +48,8 @@ public class PostsListActivity extends BaseFragmentActivity
     }
 
     @Override
-    protected Fragment createDetailsFragment() {
-        return PostDetailFragment.newInstance("1");
+    protected Fragment createDetailsFragment(int selectionId) {
+        return PostDetailFragment.newInstance(selectionId);
     }
 
     @Override
@@ -58,15 +67,21 @@ public class PostsListActivity extends BaseFragmentActivity
         }
 
         // Configure the SlidingMenu
-        SlidingMenu menu = new SlidingMenu(this);
-        menu.setMode(SlidingMenu.RIGHT);
-        menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        menu.setShadowWidthRes(R.dimen.shadow_width);
-        menu.setShadowDrawable(R.drawable.shadowright);
-        menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
-        menu.setFadeDegree(0.35f);
-        menu.attachToActivity(this, SlidingMenu.SLIDING_WINDOW);
-        menu.setMenu(R.layout.menu_list);
+        new SlidingMenuUtils(this).setSlidingMenu();
+
+        // Set content to SlidingMenu's views
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
+
+        TextView textViewNameSurname = (TextView) findViewById(R.id.menu_list_name_surname);
+        textViewNameSurname.setText(
+                sp.getString(FacebookLoginFragment.PREF_FB_NAME_SURNAME, "Vardas Pavardė"));
+
+        ProfilePictureView profilePictureView = (ProfilePictureView)
+                findViewById(R.id.menu_list_profile_picture);
+        profilePictureView.setProfileId(sp.getString(FacebookLoginFragment.PREF_FB_ID, "0"));
+
+        RatingBar ratingBar = (RatingBar) findViewById(R.id.menu_list_rating_bar);
+        ratingBar.setRating(sp.getFloat(FacebookLoginFragment.PREF_FB_RATING, 0));
 
         if (findViewById(R.id.fragment_details_container) != null) {
             // The detail container view will be present only in the
@@ -77,11 +92,9 @@ public class PostsListActivity extends BaseFragmentActivity
 
             // In two-pane mode, list items should be given the
             // 'activated' state when touched.
-            ((PostsListFragment) getSupportFragmentManager()
+            /*((PostsListFragment) getSupportFragmentManager()
                     .findFragmentById(R.id.fragment_container))
-                    .setActivateOnItemClick(true);
-
-            inflateDetailsFragment();
+                    .setActivateOnItemClick(true);*/
         }
     }
 
@@ -90,25 +103,30 @@ public class PostsListActivity extends BaseFragmentActivity
      * indicating that the item with the given ID was selected.
      */
     @Override
-    public void onItemSelected(String id) {
+    public void onItemSelected(int postId) {
         if (mTwoPane) {
             // In two-pane mode, show the detail view in this activity by
             // adding or replacing the detail fragment using a
             // fragment transaction.
-            Bundle arguments = new Bundle();
-            arguments.putString(PostDetailFragment.ARG_ITEM_ID, id);
-            PostDetailFragment fragment = new PostDetailFragment();
-            fragment.setArguments(arguments);
-            getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.fragment_details_container, fragment)
-                    .commit();
-
+            inflateDetailsFragment(postId);
         } else {
             // In single-pane mode, simply start the detail activity
             // for the selected item ID.
             Intent detailIntent = new Intent(this, PostDetailActivity.class);
-            detailIntent.putExtra(PostDetailFragment.ARG_ITEM_ID, id);
+            detailIntent.putExtra(PostDetailFragment.ARG_POST_ID, postId);
             startActivity(detailIntent);
         }
+    }
+
+    // Disable on back button pressed event by default
+    // and exit from app on back button pressed twice
+    @Override
+    public void onBackPressed() {
+        // If the button has been pressed twice go to the main screen of phone
+        BackStackDoubleTapExit.BackStackDoubleTapExit(this);
+    }
+
+    public boolean isTwoPane(){
+        return mTwoPane;
     }
 }

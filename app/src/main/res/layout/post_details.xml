@@ -1,6 +1,6 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
@@ -225,7 +225,7 @@
         >
 
             <com.facebook.widget.ProfilePictureView
-                android:id="@+id/post_details_profile_pic"
+                android:id="@+id/post_details_profile_picture"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -543,7 +543,7 @@
                 />
 
                 <TextView
-                    android:id="@+id/post_details_destination"
+                    android:id="@+id/post_details_dropping_address"
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -639,7 +639,7 @@
                 />
 
                 <TextView
-                    android:id="@+id/post_details_start_adress"
+                    android:id="@+id/post_details_leaving_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"

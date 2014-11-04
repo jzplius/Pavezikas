@@ -231,5 +231,8 @@
     <string name="title_post_list">Posts</string>
     <string name="title_post_detail">Post Detail</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="seats">Vietos:</string>
+    <string name="price">Kaina:</string>
+    <string name="currency">Lt</string>
 
 </resources>

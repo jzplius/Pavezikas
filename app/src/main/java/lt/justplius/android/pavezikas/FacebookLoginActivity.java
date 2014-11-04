@@ -2,21 +2,21 @@ package lt.justplius.android.pavezikas;
 
 import android.support.v4.app.Fragment;
 
-public class FacebookLoginActivity extends BaseFragmentActivity {
+import lt.justplius.android.pavezikas.common.BackStackDoubleTapExit;
+import lt.justplius.android.pavezikas.common.BaseSingleFragmentActivity;
 
-    @Override
-    protected int getLayoutResourceId() {
-        return R.layout.activity_fragment;
-    }
+public class FacebookLoginActivity extends BaseSingleFragmentActivity {
 
     @Override
     protected Fragment createFragment() {
         return new FacebookLoginFragment();
     }
 
-    // Not used in single Fragment layouts, only used in two pane layouts
+    // Disable on back button pressed event by default
+    // and exit from app on back button pressed twice
     @Override
-    protected Fragment createDetailsFragment() {
-        return null;
+    public void onBackPressed() {
+        // If the button has been pressed twice go to the main screen of phone
+        BackStackDoubleTapExit.BackStackDoubleTapExit(this);
     }
 }
