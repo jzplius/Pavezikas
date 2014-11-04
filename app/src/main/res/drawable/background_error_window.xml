@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+
+<!-- 2dp shadow -->
+<item>
+<shape android:shape="rectangle" >
+ 
+<solid android:color="@color/error_window_shadow" />
+<corners android:radius="30dp" />
+ 
+</shape>
+</item>
+
+<!-- Top color -->
+<item android:top="10dp" android:right="10dp" android:left="10dp" android:bottom="10dp">
+ 
+<shape android:shape="rectangle" >
+<solid android:color="@color/error_window_background" />
+<corners android:radius="30dp" />
+
+ 
+</shape>
+ 
+</item>
+    <!--<item android:id="@android:id/background" android:left="10dp" android:right="20dp" android:top="10dp">
+
+   <bitmap
+       android:src="@drawable/background_triangles"
+       android:tileMode="repeat"
+    />
+
+
+
+ </item>
+     !-->
+</layer-list>

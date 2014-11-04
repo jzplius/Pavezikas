@@ -120,13 +120,10 @@
         android:layout_marginRight="10dp"
     >
 
-        <ImageView style="@style/LineHorizontal2"
-                   android:id="@+id/menu_list_line_horizontal0"
-                   android:contentDescription="@string/unnamed"
-        />
 
         <LinearLayout style="@style/MenuLinearLayout"
             android:id="@+id/menu_list_link_1"
+            android:layout_marginBottom="5dp"
         >
 
             <ImageView style="@style/MenuIcon"
@@ -141,13 +138,10 @@
 
         </LinearLayout>
 
-        <ImageView style="@style/LineHorizontal2"
-                   android:id="@+id/menu_list_line_horizontal1"
-                   android:contentDescription="@string/unnamed"
-            />
 
         <LinearLayout style="@style/MenuLinearLayout"
                       android:id="@+id/menu_list_link_2"
+                      android:layout_marginBottom="5dp"
         >
 
             <ImageView style="@style/MenuIcon"
@@ -162,13 +156,10 @@
 
         </LinearLayout>
 
-        <ImageView style="@style/LineHorizontal2"
-                   android:id="@+id/menu_list_line_horizontal2"
-                   android:contentDescription="@string/unnamed"
-            />
 
         <LinearLayout style="@style/MenuLinearLayout"
                       android:id="@+id/menu_list_link_3"
+                      android:layout_marginBottom="5dp"
         >
 
             <ImageView style="@style/MenuIcon"
@@ -183,13 +174,10 @@
 
         </LinearLayout>
 
-        <ImageView style="@style/LineHorizontal2"
-                   android:id="@+id/menu_list_line_horizontal3"
-                   android:contentDescription="@string/unnamed"
-            />
 
         <LinearLayout style="@style/MenuLinearLayout"
                       android:id="@+id/menu_list_link_4"
+                      android:layout_marginBottom="5dp"
         >
 
             <ImageView style="@style/MenuIcon"
@@ -204,13 +192,10 @@
 
         </LinearLayout>
 
-        <ImageView style="@style/LineHorizontal2"
-                   android:id="@+id/menu_list_line_horizontal4"
-                   android:contentDescription="@string/unnamed"
-            />
 
         <LinearLayout style="@style/MenuLinearLayout"
                       android:id="@+id/menu_list_link_5"
+                      android:layout_marginBottom="5dp"
         >
 
             <ImageView style="@style/MenuIcon"
@@ -225,13 +210,10 @@
 
         </LinearLayout>
 
-        <ImageView style="@style/LineHorizontal2"
-                   android:id="@+id/menu_list_line_horizontal5"
-                   android:contentDescription="@string/unnamed"
-            />
 
         <LinearLayout style="@style/MenuLinearLayout"
                       android:id="@+id/menu_list_link_6"
+                      android:layout_marginBottom="5dp"
         >
 
             <ImageView style="@style/MenuIcon"
@@ -246,10 +228,7 @@
 
         </LinearLayout>
 
-        <ImageView style="@style/LineHorizontal2"
-                   android:id="@+id/menu_list_line_horizontal6"
-                   android:contentDescription="@string/unnamed"
-            />
+
 
     </LinearLayout>
     

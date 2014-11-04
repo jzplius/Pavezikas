@@ -68,8 +68,10 @@
                 android:layout_alignParentEnd="true"
 
                 android:layout_below="@+id/passenger_approval_list_item_brick"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
                 android:layout_marginTop="2dp"
 
                 android:background="@drawable/background_post_2"
@@ -92,10 +94,22 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:gravity="center_horizontal"
+
+                    android:baselineAligned="false"
 
                     android:layout_toRightOf="@+id/passenger_approval_list_item_profile_pic"
                     android:layout_toEndOf="@+id/passenger_approval_list_item_profile_pic"
                 >
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_gravity="center_horizontal|center_vertical"
+                    android:gravity="center_horizontal|center_vertical"
+                    android:layout_weight="1"
+                    >
 
                     <ImageView
                         android:id="@+id/passenger_approval_list_item_icon_seat"
@@ -123,12 +137,17 @@
                         style="@style/Post.Text"
                         />
 
+
+                </LinearLayout>
+
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal"
                         android:layout_gravity="center_horizontal|center_vertical"
-                        android:gravity="center_horizontal|center_vertical">
+                        android:gravity="center_horizontal|center_vertical"
+                        android:layout_weight="1"
+                    >
 
 
                         <RatingBar
@@ -149,31 +168,7 @@
                 </LinearLayout>
 
 
-                <ImageView
-                    android:id="@+id/passenger_approval_list_item_arrow"
-                    android:contentDescription="@string/unnamed"
 
-                    android:layout_width="25dp"
-                    android:layout_height="50dp"
-
-                    android:layout_alignParentRight="true"
-                    android:layout_alignParentEnd="true"
-                    android:layout_alignParentLeft="false"
-                    android:layout_alignParentStart="false"
-
-                    android:layout_gravity="center_vertical"
-                    android:layout_centerVertical="true"
-
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"
-
-                    android:paddingRight="5dp"
-                    android:paddingEnd="5dp"
-                    android:paddingLeft="0dp"
-                    android:paddingStart="0dp"
-
-                    android:src="@drawable/icon_arrow"
-                 />
 
                 <LinearLayout
                 android:id="@+id/passenger_approval_list_item_comment_block"
@@ -186,8 +181,6 @@
                 android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"
 
-                android:layout_toLeftOf="@+id/passenger_approval_list_item_arrow"
-                android:layout_toStartOf="@+id/passenger_approval_list_item_arrow"
                 android:layout_toRightOf="@+id/passenger_approval_list_item_profile_pic"
                 android:layout_toEndOf="@+id/passenger_approval_list_item_profile_pic"
                 >
@@ -277,7 +270,7 @@
                 style="@style/Button_2"
 
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
 
                 android:text="@string/approve"
 
@@ -299,7 +292,7 @@
                 style="@style/Button_2"
 
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="30dp"
 
                 android:layout_marginLeft="5dp"
                 android:layout_marginStart="5dp"
