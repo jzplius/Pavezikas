@@ -73,7 +73,7 @@
                 />
 
             <RatingBar
-                android:id="@+id/menu_list_bar_rating"
+                android:id="@+id/menu_list_rating_bar"
                 style="?android:attr/ratingBarStyleSmall"
 
                 android:layout_width="wrap_content"
