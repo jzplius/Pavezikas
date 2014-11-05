@@ -148,6 +148,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
 
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:layout_gravity="center_horizontal|center_vertical"
+                            android:gravity="center_horizontal|center_vertical"
+                            android:layout_weight="1"
+                            >
+
 
 
                         <ImageView
@@ -175,6 +184,8 @@
                             android:text="@string/post_list_capacity"
                             style="@style/Post.Text"
                         />
+
+                            </LinearLayout>
 
                         <LinearLayout
                             android:layout_width="0dp"
