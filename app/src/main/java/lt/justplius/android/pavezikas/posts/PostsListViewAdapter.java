@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -58,6 +59,7 @@ public class PostsListViewAdapter extends ArrayAdapter<PostListItem> {
                 holder.timeInformation = (TextView) convertView.findViewById(R.id.post_list_item_time_information);
                 holder.nameSurname = (TextView) convertView.findViewById(R.id.post_list_item_name_surname);
                 holder.rating = (RatingBar) convertView.findViewById(R.id.post_list_item_rating_bar);
+                holder.postTypeIcon = (ImageView) convertView.findViewById(R.id.post_list_item_imageView_post_type);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
@@ -74,18 +76,27 @@ public class PostsListViewAdapter extends ArrayAdapter<PostListItem> {
             holder.timeInformation.setText(mItems.get(position).getTime());
             holder.rating.setRating(mItems.get(position).getRating());
             holder.nameSurname.setText(mItems.get(position).getNameSurname());
+            // Determine whether post type is driver ('d'), o passenger ('p')
+            if (mItems.get(position).getPostType() == 'd') {
+                holder.postTypeIcon.setImageDrawable(
+                        getContext().getResources().getDrawable(R.drawable.icon_type_driver));
+            } else {
+                holder.postTypeIcon.setImageDrawable(
+                        getContext().getResources().getDrawable(R.drawable.icon_type_passenger));
+            }
 
             return convertView;
         }
         
         //static views for each row
         static class ViewHolder {        
-                TextView routeInformation;
-                ProfilePictureView profilePicture;
-                TextView seatsAvailable;
-                TextView dateInformation;
-                TextView timeInformation;
-                RatingBar rating;
-                TextView nameSurname;
+            TextView routeInformation;
+            ProfilePictureView profilePicture;
+            TextView seatsAvailable;
+            TextView dateInformation;
+            TextView timeInformation;
+            RatingBar rating;
+            TextView nameSurname;
+            ImageView postTypeIcon;
         }             
 }

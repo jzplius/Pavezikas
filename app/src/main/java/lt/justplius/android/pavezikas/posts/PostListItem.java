@@ -20,6 +20,7 @@ public class PostListItem {
 	private Time mLeavingTimeTo;
 	private String mNameSurname;
     private String mUserId;
+    private char mPostType;
 
     public PostListItem() {
         mLeavingTimeFrom = new Time();
@@ -172,5 +173,13 @@ public class PostListItem {
         String price = res.getString(R.string.price);
         String currency = res.getString(R.string.currency);
         return price + priceString + currency;
+    }
+
+    public char getPostType() {
+        return mPostType;
+    }
+
+    public void setPostType(char postType) {
+        mPostType = postType;
     }
 }

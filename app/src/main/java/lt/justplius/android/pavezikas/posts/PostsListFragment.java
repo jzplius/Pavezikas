@@ -212,6 +212,7 @@ public class PostsListFragment extends ListFragment {
                     post.setLeavingTimeFrom(jsonObject.getString("leaving_time_from"));
                     post.setLeavingTimeTo(jsonObject.getString("leaving_time_to"));
                     post.setUserId(jsonObject.getString("user_id"));
+                    post.setPostType(jsonObject.getString("post_type").charAt(0));
 
                     /*if (jsonObject.getInt("ratings_count") > 0){
                         //TODO get current rating

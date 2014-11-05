@@ -18,14 +18,11 @@ public class NetworkUnavailableActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_network_unavailable);
+        setContentView(R.layout.error_network_unavailable);
 
         // Get instances of view objects
         Button buttonCheckConnection = (Button) findViewById(R.id.button_check_connection);
 
-        // Static variable used to avoid simultaneous invoking of
-        // NetworkUnavailable Activity from different fragments.
-        sIsConnectionBeingHandled = true;
         // Handle responses to events on view objects
         buttonCheckConnection.setOnClickListener(new OnClickListener() {
 

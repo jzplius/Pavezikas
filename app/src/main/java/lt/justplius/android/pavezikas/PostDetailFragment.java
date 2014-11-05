@@ -8,8 +8,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -55,6 +57,8 @@ public class PostDetailFragment extends Fragment {
      * represents.
      */
     public static final String ARG_POST_ID = "post_id";
+    private ViewStub mViewStub;
+    private ProgressBar mProgressBar;
 
     public static Fragment newInstance (int selectionId){
         Bundle args = new Bundle();
@@ -86,23 +90,9 @@ public class PostDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.post_details, container, false);
-        mTextViewNameSurname = (TextView) v.findViewById(R.id.post_details_name_surname);
-        mRatingBar = (RatingBar) v.findViewById(R.id.post_details_rating);
-        mButtonProfile = (Button) v.findViewById(R.id.post_details_profile);
-        mTextViewDate = (TextView) v.findViewById(R.id.post_details_date);
-        mTextViewSeatsAvailable = (TextView) v.findViewById(R.id.post_details_seats);
-        mTextViewTime = (TextView) v.findViewById(R.id.post_details_time);
-        mTextViewPrice = (TextView) v.findViewById(R.id.post_details_price);
-        mTextViewComment = (TextView) v.findViewById(R.id.post_details_comment);
-        mTextViewLeavingAddress = (TextView) v.findViewById(R.id.post_details_leaving_address);
-        mDroppingAddress = (TextView) v.findViewById(R.id.post_details_dropping_address);
-        mImageButtonFacebook = (ImageButton) v.findViewById(R.id.post_details_button_facebook);
-        mImageButtonCall = (ImageButton) v.findViewById(R.id.post_details_button_call);
-        mImageButtonSms = (ImageButton) v.findViewById(R.id.post_details_button_sms);
-        mImageButtonEmail = (ImageButton) v.findViewById(R.id.post_details_button_email);
-        mProfilePictureView = (ProfilePictureView) v.findViewById(R.id.post_details_profile_picture);
-        mTextViewRouteInfo = (TextView) v.findViewById(R.id.post_details_route_info);
+        View v = inflater.inflate(R.layout.viewstub, container, false);
+        mViewStub = (ViewStub) v.findViewById(R.id.viewStub_import);
+        mProgressBar = (ProgressBar) v.findViewById(R.id.viewStub_progressBar);
         return v;
     }
 
@@ -129,6 +119,27 @@ public class PostDetailFragment extends Fragment {
         @Override
         protected void onPostExecute(String result) {
             try{
+                // Inflate a default layout when data download is finished
+                mProgressBar.setVisibility(View.GONE);
+                View v = mViewStub.inflate();
+                mTextViewNameSurname = (TextView) v.findViewById(R.id.post_details_name_surname);
+                mRatingBar = (RatingBar) v.findViewById(R.id.post_details_rating);
+                mButtonProfile = (Button) v.findViewById(R.id.post_details_profile);
+                mTextViewDate = (TextView) v.findViewById(R.id.post_details_date);
+                mTextViewSeatsAvailable = (TextView) v.findViewById(R.id.post_details_seats);
+                mTextViewTime = (TextView) v.findViewById(R.id.post_details_time);
+                mTextViewPrice = (TextView) v.findViewById(R.id.post_details_price);
+                mTextViewComment = (TextView) v.findViewById(R.id.post_details_comment);
+                mTextViewLeavingAddress = (TextView) v.findViewById(R.id.post_details_leaving_address);
+                mDroppingAddress = (TextView) v.findViewById(R.id.post_details_dropping_address);
+                mImageButtonFacebook = (ImageButton) v.findViewById(R.id.post_details_button_facebook);
+                mImageButtonCall = (ImageButton) v.findViewById(R.id.post_details_button_call);
+                mImageButtonSms = (ImageButton) v.findViewById(R.id.post_details_button_sms);
+                mImageButtonEmail = (ImageButton) v.findViewById(R.id.post_details_button_email);
+                mProfilePictureView = (ProfilePictureView) v.findViewById(R.id.post_details_profile_picture);
+                mTextViewRouteInfo = (TextView) v.findViewById(R.id.post_details_route_info);
+
+                // Set put downloaded data on to views
                 JSONObject jsonObject = new JSONObject(result);
                 mTextViewRouteInfo.setText(jsonObject.getString("route"));
                 mTextViewNameSurname.setText(jsonObject.getString("name_surname"));

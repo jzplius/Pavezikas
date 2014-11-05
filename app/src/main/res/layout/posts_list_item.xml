@@ -30,7 +30,7 @@
             >
 
                 <ImageView
-                    android:id="@+id/post_list_item_icon"
+                    android:id="@+id/post_list_item_imageView_post_type"
                     android:contentDescription="@string/unnamed"
 
                     android:layout_width="30dp"

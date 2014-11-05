@@ -92,10 +92,12 @@ public class NetworkState {
     // Method responsible for invoking NetworkUnavailableActivity if
     // network is not present at runtime
     public static void handleNoNetworkAvailable(Context context) {
-        // Static variable for avoiding simultaneous invoking of
-        // NetworkUnavailableActivity from different fragments
-        // while inflating few of them at start
+
         if (!sIsConnectionBeingHandled) {
+            // Static variable for avoiding simultaneous invoking of
+            // NetworkUnavailableActivity from different fragments
+            // while inflating few of them at start
+            sIsConnectionBeingHandled = true;
             // Start new activity when internet connection is not present
             Intent intent = new Intent(
                 context.getApplicationContext(),
