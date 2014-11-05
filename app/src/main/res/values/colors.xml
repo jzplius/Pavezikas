@@ -26,5 +26,6 @@
     <color name="action_bar_text_color">#FFF3A9</color>
     <color name="error_window_background">#1c43b9</color>
     <color name="error_window_shadow">#B7CEEC</color>
+    <color name="pin_text">#3e5fc0</color>
 
 </resources>

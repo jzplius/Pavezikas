@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="from">Iš</string>
+    <string name="to">Į</string>
     <string name="go_back">Grįžti</string>
     <string name="refresh">Atnaujinti</string>
     <string name="next">Toliau</string>
@@ -35,6 +37,7 @@
     <string name="menu_item_4">Istorija</string>
     <string name="menu_item_5">Nustatymai</string>
     <string name="menu_item_6">Info</string>
+    <string name="arrow">&#62;</string>
     <string name="post_list_route">Miestas -> Miestas</string>
     <string name="post_list_date">Menesis 00d</string>
     <string name="post_list_time">00:00-00:00</string>
