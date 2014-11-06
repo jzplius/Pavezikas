@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme"
         android:uiOptions="splitActionBarWhenNarrow" >
         <activity
-            android:name=".FacebookLoginActivity"
+            android:name=".facebook_login.FacebookLoginActivity"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Black.NoTitleBar"
             android:windowSoftInputMode="adjustResize" >
@@ -32,14 +32,18 @@
             android:value="@string/app_id" />
 
         <activity
-            android:name=".PostsListActivity"
+            android:name=".posts.PostsListActivity"
             android:label="@string/title_post_list"
             android:uiOptions="splitActionBarWhenNarrow">
         </activity>
         <activity
-            android:name=".PostDetailActivity"
+            android:name=".add_post.AddPostActivity"
+            android:label="@string/title_post_list">
+        </activity>
+        <activity
+            android:name=".posts.PostDetailActivity"
             android:label="@string/title_post_detail"
-            android:parentActivityName=".PostsListActivity" >
+            android:parentActivityName=".posts.PostsListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="lt.justplius.android.pavezikas.PostListActivity" />

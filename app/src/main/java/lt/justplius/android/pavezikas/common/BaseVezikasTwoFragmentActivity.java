@@ -1,11 +1,9 @@
-package lt.justplius.android.pavezikas;
+package lt.justplius.android.pavezikas.common;
 
 import android.app.ActionBar;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.Window;
 import android.widget.RatingBar;
@@ -13,44 +11,33 @@ import android.widget.TextView;
 
 import com.facebook.widget.ProfilePictureView;
 
-import lt.justplius.android.pavezikas.common.BackStackDoubleTapExit;
-import lt.justplius.android.pavezikas.common.BaseTwoFragmentsActivity;
-import lt.justplius.android.pavezikas.common.SlidingMenuUtils;
-import lt.justplius.android.pavezikas.posts.PostsListFragment;
+import lt.justplius.android.pavezikas.R;
+import lt.justplius.android.pavezikas.facebook_login.FacebookLoginFragment;
 
 /**
  * An activity representing a list of Posts. This activity
  * has different presentations for handset and tablet-size devices. On
  * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link PostDetailActivity} representing
+ * lead to a {@link lt.justplius.android.pavezikas.posts.PostDetailActivity} representing
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  * <p>
  * The activity makes heavy use of fragments. The list of items is a
  * {@link lt.justplius.android.pavezikas.posts.PostsListFragment} and the item details
- * (if present) is a {@link PostDetailFragment}.
+ * (if present) is a {@link lt.justplius.android.pavezikas.posts.PostDetailFragment}.
  * <p>
  * This activity also implements the required
  * {@link lt.justplius.android.pavezikas.posts.PostsListFragment.Callbacks} interface
  * to listen for item selections.
  */
-public class PostsListActivity extends BaseTwoFragmentsActivity
-        implements PostsListFragment.Callbacks {
+public abstract class BaseVezikasTwoFragmentActivity extends BaseTwoFragmentsActivity {
 
-    private static final String TAG = "PostsListActivity";
+    private static final String TAG = "AddPostActivity";
 
     // Whether or not the activity is in two-pane mode, i.e. running on a tablet device.
     private boolean mTwoPane;
 
-    @Override
-    protected Fragment createFragment() {
-        return new PostsListFragment();
-    }
-
-    @Override
-    protected Fragment createDetailsFragment(int selectionId) {
-        return PostDetailFragment.newInstance(selectionId);
-    }
+    protected abstract int setActionBarLayoutResourceId();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -61,7 +48,7 @@ public class PostsListActivity extends BaseTwoFragmentsActivity
         ActionBar actionBar = getActionBar();
         if (actionBar != null) {
             actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-            actionBar.setCustomView(R.layout.actionbar);
+            actionBar.setCustomView(setActionBarLayoutResourceId());
         } else {
             Log.i(TAG, "Error in retrieving actionbar");
         }
@@ -89,32 +76,6 @@ public class PostsListActivity extends BaseTwoFragmentsActivity
             // res/values-sw600dp). If this view is present, then the
             // activity should be in two-pane mode.
             mTwoPane = true;
-
-            // In two-pane mode, list items should be given the
-            // 'activated' state when touched.
-            /*((PostsListFragment) getSupportFragmentManager()
-                    .findFragmentById(R.id.fragment_container))
-                    .setActivateOnItemClick(true);*/
-        }
-    }
-
-    /**
-     * Callback method from {@link PostsListFragment.Callbacks}
-     * indicating that the item with the given ID was selected.
-     */
-    @Override
-    public void onItemSelected(int postId) {
-        if (mTwoPane) {
-            // In two-pane mode, show the detail view in this activity by
-            // adding or replacing the detail fragment using a
-            // fragment transaction.
-            inflateDetailsFragment(postId);
-        } else {
-            // In single-pane mode, simply start the detail activity
-            // for the selected item ID.
-            Intent detailIntent = new Intent(this, PostDetailActivity.class);
-            detailIntent.putExtra(PostDetailFragment.ARG_POST_ID, postId);
-            startActivity(detailIntent);
         }
     }
 

@@ -22,7 +22,6 @@ import org.json.JSONObject;
 import java.text.ParseException;
 import java.util.ArrayList;
 
-import lt.justplius.android.pavezikas.PostsListActivity;
 import lt.justplius.android.pavezikas.R;
 import lt.justplius.android.pavezikas.common.HttpPostStringResponse;
 
@@ -30,7 +29,7 @@ import lt.justplius.android.pavezikas.common.HttpPostStringResponse;
  * A list fragment representing a list of Posts. This fragment
  * also supports tablet devices by allowing list items to be given an
  * 'activated' state upon selection. This helps indicate which item is
- * currently being viewed in a {@link lt.justplius.android.pavezikas.PostDetailFragment}.
+ * currently being viewed in a {@link PostDetailFragment}.
  * <p>
  * Activities containing this fragment MUST implement the {@link Callbacks}
  * interface.

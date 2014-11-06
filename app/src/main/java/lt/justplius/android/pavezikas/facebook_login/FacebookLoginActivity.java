@@ -1,4 +1,4 @@
-package lt.justplius.android.pavezikas;
+package lt.justplius.android.pavezikas.facebook_login;
 
 import android.support.v4.app.Fragment;
 

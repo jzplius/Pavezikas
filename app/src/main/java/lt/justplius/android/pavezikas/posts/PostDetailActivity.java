@@ -1,4 +1,4 @@
-package lt.justplius.android.pavezikas;
+package lt.justplius.android.pavezikas.posts;
 
 import android.app.ActionBar;
 import android.content.Intent;
@@ -8,9 +8,9 @@ import android.support.v4.app.NavUtils;
 import android.util.Log;
 import android.view.MenuItem;
 
+import lt.justplius.android.pavezikas.R;
 import lt.justplius.android.pavezikas.common.BaseSingleFragmentActivity;
 import lt.justplius.android.pavezikas.common.SlidingMenuUtils;
-import lt.justplius.android.pavezikas.posts.PostsListFragment;
 
 /**
  * An activity representing a single Post detail screen. This
@@ -60,19 +60,6 @@ public class PostDetailActivity extends BaseSingleFragmentActivity
             } else {
                 Log.i(TAG, "Error in retrieving actionbar");
             }
-
-            // savedInstanceState is non-null when there is fragment state
-            // saved from previous configurations of this activity
-            // (e.g. when rotating the screen from portrait to landscape).
-            // In this case, the fragment will automatically be re-added
-            // to its container so we don't need to manually add it.
-            // For more information, see the Fragments API guide at:
-            //
-            // http://developer.android.com/guide/components/fragments.html
-            //
-            /*if (savedInstanceState == null) {
-                inflateFragment(getIntent().getIntExtra(PostDetailFragment.ARG_POST_ID, 0));
-            }*/
         }
     }
 

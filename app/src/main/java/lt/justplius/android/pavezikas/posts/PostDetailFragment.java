@@ -1,4 +1,4 @@
-package lt.justplius.android.pavezikas;
+package lt.justplius.android.pavezikas.posts;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -26,8 +26,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import lt.justplius.android.pavezikas.R;
 import lt.justplius.android.pavezikas.common.HttpPostStringResponse;
-import lt.justplius.android.pavezikas.posts.PostListItem;
 
 /**
  * A fragment representing a single Post detail screen.
@@ -101,6 +101,7 @@ public class PostDetailFragment extends Fragment {
         private Time leaving_time_from;
         private Time leaving_time_to;
         private String mUrl;
+        private TextView mTextViewPostType;
 
         @Override
         protected void onPreExecute () {
@@ -138,6 +139,7 @@ public class PostDetailFragment extends Fragment {
                 mImageButtonEmail = (ImageButton) v.findViewById(R.id.post_details_button_email);
                 mProfilePictureView = (ProfilePictureView) v.findViewById(R.id.post_details_profile_picture);
                 mTextViewRouteInfo = (TextView) v.findViewById(R.id.post_details_route_info);
+                mTextViewPostType = (TextView) v.findViewById(R.id.post_details_textView_post_type);
 
                 // Set put downloaded data on to views
                 JSONObject jsonObject = new JSONObject(result);
@@ -166,7 +168,13 @@ public class PostDetailFragment extends Fragment {
                                 getActivity(), jsonObject.getString("price")));
                 mTextViewLeavingAddress.setText(jsonObject.getString("leaving_address"));
                 mDroppingAddress.setText(jsonObject.getString("dropping_address"));
-
+                switch (jsonObject.getString("post_type")) {
+                    case "d":
+                        mTextViewPostType.setText(R.string.driver);
+                        break;
+                    case "p":
+                        mTextViewPostType.setText(R.string.passenger);
+                }
                 //dynamically remove message view from layout if such does not exist
                 if (jsonObject.getString("message").equals("null")){
                     mTextViewComment.setVisibility(View.GONE);

@@ -1,4 +1,4 @@
-package lt.justplius.android.pavezikas;
+package lt.justplius.android.pavezikas.facebook_login;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -33,7 +33,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import lt.justplius.android.pavezikas.R;
 import lt.justplius.android.pavezikas.common.HttpPostStringResponse;
+import lt.justplius.android.pavezikas.posts.PostsListActivity;
 
 public class FacebookLoginFragment extends Fragment {
     private static final String TAG = "FacebookLogin";
