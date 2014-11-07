@@ -57,7 +57,7 @@ public class PostsListViewAdapter extends ArrayAdapter<PostListItem> {
                 holder.seatsAvailable = (TextView) convertView.findViewById(R.id.post_list_item_seats_available);
                 holder.dateInformation = (TextView) convertView.findViewById(R.id.post_list_item_date_information);
                 holder.timeInformation = (TextView) convertView.findViewById(R.id.post_list_item_time_information);
-                holder.nameSurname = (TextView) convertView.findViewById(R.id.post_list_item_name_surname);
+                holder.nameSurname = (TextView) convertView.findViewById(R.id.post_list_item_price);
                 holder.rating = (RatingBar) convertView.findViewById(R.id.post_list_item_rating_bar);
                 holder.postTypeIcon = (ImageView) convertView.findViewById(R.id.post_list_item_imageView_post_type);
                 convertView.setTag(holder);
