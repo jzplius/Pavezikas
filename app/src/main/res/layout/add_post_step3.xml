@@ -82,7 +82,7 @@
             >
 
                 <TextView
-                    android:id="@+id/add_post_step3_text_leaving"
+                    android:id="@+id/add_post_step3_textView_leaving"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -95,13 +95,12 @@
                 />
 
                 <TextView
-                    android:id="@+id/add_post_step3_text_address_leaving"
+                    android:id="@+id/add_post_step3_textView_address_leaving"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
                     android:gravity="center_horizontal"
 
-                    android:text=""
                     android:textColor="@color/text_font_main"
                     android:hint="@string/hint_city_address"
                     android:textColorHint="@color/hint_text_dark"
@@ -189,7 +188,7 @@
             >
 
                 <TextView
-                    android:id="@+id/add_post_step3_text_destination"
+                    android:id="@+id/add_post_step3_textView_destination"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -200,13 +199,12 @@
                 />
 
                 <TextView
-                    android:id="@+id/add_post_step3_text_destination_address"
+                    android:id="@+id/add_post_step3_textView_destination_address"
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_horizontal"
 
-                    android:text=""
                     android:textColor="@color/text_font_main"
 
                     android:hint="@string/hint_city_address"
@@ -309,7 +307,7 @@
         >
 
             <TextView
-                android:id="@+id/add_post_step3_selected_groups"
+                android:id="@+id/add_post_step3_textView_selected_groups"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
 

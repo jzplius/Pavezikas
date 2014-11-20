@@ -59,6 +59,8 @@
     <string name="deny">Atmesti</string>
     <string name="plus">+</string>
     <string name="minus">-</string>
+    <string name="hours"> val. </string>
+    <string name="minutes"> min. </string>
 
 
 
@@ -78,7 +80,7 @@
     <string name="error_inserting_driver_post_seats_number"> Nurodykite teisingą laisvų vietų skaičių (iki 9). </string>
     <string name="facebook_permissions_not_granted">Negalima atlikti šio veiksmo, nes neturite reikiamų Facebook leidimų.</string>
     <string name="filter_all">Filtras: Visi</string>
-    <string name="finish">Baigti</string>
+    <string name="change">Keisti</string>
     <string name="home">Grįžti</string>
     <string name="login">Prisijungti</string>
     <string name="facebook_failed_to_authenticate">Nepavyko prisijungti!</string>
@@ -100,27 +102,27 @@
     <string name="ok">Gerai</string>
     <string name="passengers">Keleiviai</string>
     <string name="press_twice_to_exit_app">Norėdami išeiti paspauskite ATGAL dar kartą</string>
-    <string name="revert_to_city">Atstatyti į miestą</string>
+    <string name="cancel">Atšaukti</string>
     <string name="search">Ieškoti</string>
     <string name="set_dropping_address">Įrašyti paleidimo adresą</string>
     <string name="set_leaving_address">Įrašyti išvykimo adresą</string>
     <string name="set_price">Nustatyti kainą litais</string>
     <string name="set_seats_number">Nustatyti vietų skaičių</string>
     <string name="successful_post_insert">Skelbimas sėkmingai įterptas!</string>
-    <string name="time_flexible_value">+- 30 min</string>
+    <string name="time_flexible_value"> +- 30 min</string>
     <string name="title_activity_details">DetailsActivity</string>
     <string name="title_activity_facbook_login">FacbookLoginActivity</string>
     <string name="unsuccessful_post_insert">Skelbimo nepavyko įterpti! Bandykite dar kartą.</string>
-    <string name="url_get_posts">http://pavezikas.bugs3.com/json_db_access/getPosts.php</string>
-    <string name="url_get_facebook_information">http://pavezikas.bugs3.com/json_db_access/getFacebookInformation.php</string>
-    <string name="url_insert_to_post">http://pavezikas.bugs3.com/json_db_access/insertToPost.php</string>
-    <string name="url_select_from_address">http://pavezikas.bugs3.com/json_db_access/selectFromAddress.php</string>
-    <string name="url_select_from_phone">http://pavezikas.bugs3.com/json_db_access/selectFromPhone.php</string>
-    <string name="url_select_from_route">http://pavezikas.bugs3.com/json_db_access/selectFromRoute.php</string>
-    <string name="url_select_my_posts">http://pavezikas.bugs3.com/json_db_access/selectMyPosts.php</string>
-    <string name="url_select_post_details">http://pavezikas.bugs3.com/json_db_access/selectPostDetails.php</string>
-    <string name="url_select_user_rating">http://pavezikas.bugs3.com/json_db_access/selectUserRating.php</string>
-    <string name="url_update_user">http://pavezikas.bugs3.com/json_db_access/UpdateUser.php</string>
+    <string name="url_get_posts">http://vezikas.bugs3.com/json_db_access/getPosts.php</string>
+    <string name="url_get_facebook_information">http://vezikas.bugs3.com/json_db_access/getFacebookInformation.php</string>
+    <string name="url_insert_to_post">http://vezikas.bugs3.com/json_db_access/insertToPost.php</string>
+    <string name="url_select_from_address">http://vezikas.bugs3.com/json_db_access/selectFromAddress.php</string>
+    <string name="url_select_from_phone">http://vezikas.bugs3.com/json_db_access/selectFromPhone.php</string>
+    <string name="url_select_from_route">http://vezikas.bugs3.com/json_db_access/selectFromRoute.php</string>
+    <string name="url_select_my_posts">http://vezikas.bugs3.com/json_db_access/selectMyPosts.php</string>
+    <string name="url_select_post_details">http://vezikas.bugs3.com/json_db_access/selectPostDetails.php</string>
+    <string name="url_select_user_rating">http://vezikas.bugs3.com/json_db_access/selectUserRating.php</string>
+    <string name="url_update_user">http://vezikas.bugs3.com/json_db_access/UpdateUser.php</string>
 
     <string-array name="cities_list">
         <item>Vilnius</item>
@@ -234,8 +236,9 @@
     <string name="title_post_list">Posts</string>
     <string name="title_post_detail">Post Detail</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="seats">Vietos:</string>
-    <string name="price">Kaina:</string>
+    <string name="seats">Vietų: </string>
+    <string name="price">Kaina: </string>
+    <string name="time">Laikas: </string>
     <string name="currency">Lt</string>
 
 </resources>

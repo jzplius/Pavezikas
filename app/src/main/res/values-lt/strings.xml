@@ -86,16 +86,16 @@
     <string name="title_activity_details">DetailsActivity</string>
     <string name="title_activity_facbook_login">FacbookLoginActivity</string>
     <string name="unsuccessful_post_insert">Skelbimo nepavyko įterpti! Bandykite dar kartą.</string>
-    <string name="url_get_posts">http://pavezikas.bugs3.com/json_db_access/getPosts.php</string>
-    <string name="url_get_facebook_information">http://pavezikas.bugs3.com/json_db_access/getFacebookInformation.php</string>
-    <string name="url_insert_to_post">http://pavezikas.bugs3.com/json_db_access/insertToPost.php</string>
-    <string name="url_select_from_address">http://pavezikas.bugs3.com/json_db_access/selectFromAddress.php</string>
-    <string name="url_select_from_phone">http://pavezikas.bugs3.com/json_db_access/selectFromPhone.php</string>
-    <string name="url_select_from_route">http://pavezikas.bugs3.com/json_db_access/selectFromRoute.php</string>
-    <string name="url_select_my_posts">http://pavezikas.bugs3.com/json_db_access/selectMyPosts.php</string>
-    <string name="url_select_post_details">http://pavezikas.bugs3.com/json_db_access/selectPostDetails.php</string>
-    <string name="url_select_user_rating">http://pavezikas.bugs3.com/json_db_access/selectUserRating.php</string>
-    <string name="url_update_user">http://pavezikas.bugs3.com/json_db_access/UpdateUser.php</string>
+    <string name="url_get_posts">http://vezikas.bugs3.com/json_db_access/getPosts.php</string>
+    <string name="url_get_facebook_information">http://vezikas.bugs3.com/json_db_access/getFacebookInformation.php</string>
+    <string name="url_insert_to_post">http://vezikas.bugs3.com/json_db_access/insertToPost.php</string>
+    <string name="url_select_from_address">http://vezikas.bugs3.com/json_db_access/selectFromAddress.php</string>
+    <string name="url_select_from_phone">http://vezikas.bugs3.com/json_db_access/selectFromPhone.php</string>
+    <string name="url_select_from_route">http://vezikas.bugs3.com/json_db_access/selectFromRoute.php</string>
+    <string name="url_select_my_posts">http://vezikas.bugs3.com/json_db_access/selectMyPosts.php</string>
+    <string name="url_select_post_details">http://vezikas.bugs3.com/json_db_access/selectPostDetails.php</string>
+    <string name="url_select_user_rating">http://vezikas.bugs3.com/json_db_access/selectUserRating.php</string>
+    <string name="url_update_user">http://vezikas.bugs3.com/json_db_access/UpdateUser.php</string>
     <string-array name="cities_list">
         <item>Vilnius</item>
         <item>Kaunas</item>

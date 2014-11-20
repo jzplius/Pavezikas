@@ -1,6 +1,7 @@
 package lt.justplius.android.pavezikas.posts;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -23,6 +24,7 @@ import java.text.ParseException;
 import java.util.ArrayList;
 
 import lt.justplius.android.pavezikas.R;
+import lt.justplius.android.pavezikas.add_post.AddPostActivity;
 import lt.justplius.android.pavezikas.common.HttpPostStringResponse;
 
 /**
@@ -150,7 +152,8 @@ public class PostsListFragment extends ListFragment {
         String toastText = null;
         switch (item.getItemId()) {
             case R.id.add:
-                toastText = "Paspaudei 'add'";
+                Intent intent = new Intent(getActivity(), AddPostActivity.class);
+                startActivity(intent);
                 break;
             case R.id.search:
                 toastText = "Paspaudei 'search'";
@@ -211,7 +214,8 @@ public class PostsListFragment extends ListFragment {
                     post.setLeavingTimeFrom(jsonObject.getString("leaving_time_from"));
                     post.setLeavingTimeTo(jsonObject.getString("leaving_time_to"));
                     post.setUserId(jsonObject.getString("user_id"));
-                    post.setPostType(jsonObject.getString("post_type").charAt(0));
+                    post.setPostType(jsonObject.getString("post_type"));
+                    post.setPrice(jsonObject.getString("price"));
 
                     /*if (jsonObject.getInt("ratings_count") > 0){
                         //TODO get current rating

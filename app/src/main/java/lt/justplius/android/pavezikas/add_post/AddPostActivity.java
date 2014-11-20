@@ -1,26 +1,14 @@
 package lt.justplius.android.pavezikas.add_post;
 
-import android.app.ActionBar;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
-import android.util.Log;
-import android.view.Window;
-import android.widget.RatingBar;
-import android.widget.TextView;
-
-import com.facebook.widget.ProfilePictureView;
+import android.support.v4.app.FragmentManager;
 
 import lt.justplius.android.pavezikas.R;
-import lt.justplius.android.pavezikas.common.BackStackDoubleTapExit;
-import lt.justplius.android.pavezikas.common.BaseTwoFragmentsActivity;
-import lt.justplius.android.pavezikas.common.SlidingMenuUtils;
-import lt.justplius.android.pavezikas.facebook_login.FacebookLoginFragment;
-import lt.justplius.android.pavezikas.posts.PostDetailActivity;
-import lt.justplius.android.pavezikas.posts.PostDetailFragment;
-import lt.justplius.android.pavezikas.posts.PostsListFragment;
+import lt.justplius.android.pavezikas.common.BaseVezikasTwoFragmentActivity;
+
+import static lt.justplius.android.pavezikas.common.NetworkState.handleNoNetworkAvailable;
+import static lt.justplius.android.pavezikas.common.NetworkState.sIsConnected;
 
 /**
  * An activity representing a list of Posts. This activity
@@ -38,93 +26,110 @@ import lt.justplius.android.pavezikas.posts.PostsListFragment;
  * {@link lt.justplius.android.pavezikas.posts.PostsListFragment.Callbacks} interface
  * to listen for item selections.
  */
-public class AddPostActivity extends BaseTwoFragmentsActivity
-        implements PostsListFragment.Callbacks {
+public class AddPostActivity extends BaseVezikasTwoFragmentActivity
+implements AddPostStep1Fragment.AddPostStep1Callback,
+        AddPostStep2Fragment.AddPostStep2Callback,
+        AddPostStep3Fragment.AddPostStep3Callback{
+    private static final String ARG_CURRENT_STEP = "current_step";
+    private int mCurrentStep = 1;
 
-    private static final String TAG = "AddPostActivity";
+    //TODO check if device is two pane
 
-    // Whether or not the activity is in two-pane mode, i.e. running on a tablet device.
-    private boolean mTwoPane;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        if (savedInstanceState != null) {
+            mCurrentStep = savedInstanceState.getInt(ARG_CURRENT_STEP);
+        }
+    }
 
     @Override
     protected Fragment createFragment() {
-        return new PostsListFragment();
+        switch (mCurrentStep) {
+            case 3:
+                return new AddPostStep2Fragment();
+            default:
+                return new AddPostStep1Fragment();
+        }
     }
 
     @Override
     protected Fragment createDetailsFragment(int selectionId) {
-        return PostDetailFragment.newInstance(selectionId);
+        switch (mCurrentStep) {
+            case 3:
+                return new AddPostStep3Fragment();
+            default:
+                return new AddPostStep2Fragment();
+        }
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        requestWindowFeature(Window.FEATURE_ACTION_BAR);
-        super.onCreate(savedInstanceState);
-
-        // Set custom actionbar
-        ActionBar actionBar = getActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-            actionBar.setCustomView(R.layout.actionbar);
-        } else {
-            Log.i(TAG, "Error in retrieving actionbar");
-        }
-
-        // Configure the SlidingMenu
-        new SlidingMenuUtils(this).setSlidingMenu();
-
-        // Set content to SlidingMenu's views
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-
-        TextView textViewNameSurname = (TextView) findViewById(R.id.menu_list_name_surname);
-        textViewNameSurname.setText(
-                sp.getString(FacebookLoginFragment.PREF_FB_NAME_SURNAME, "Vardas Pavardė"));
-
-        ProfilePictureView profilePictureView = (ProfilePictureView)
-                findViewById(R.id.menu_list_profile_picture);
-        profilePictureView.setProfileId(sp.getString(FacebookLoginFragment.PREF_FB_ID, "0"));
-
-        RatingBar ratingBar = (RatingBar) findViewById(R.id.menu_list_rating_bar);
-        ratingBar.setRating(sp.getFloat(FacebookLoginFragment.PREF_FB_RATING, 0));
-
-        if (findViewById(R.id.fragment_details_container) != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-large and
-            // res/values-sw600dp). If this view is present, then the
-            // activity should be in two-pane mode.
-            mTwoPane = true;
-        }
+    protected int setActionBarLayoutResourceId() {
+        return R.layout.actionbar;
     }
 
-    /**
-     * Callback method from {@link lt.justplius.android.pavezikas.posts.PostsListFragment.Callbacks}
-     * indicating that the item with the given ID was selected.
-     */
+    // Inflate prepared to inflate Fragment
     @Override
-    public void onItemSelected(int postId) {
-        if (mTwoPane) {
-            // In two-pane mode, show the detail view in this activity by
-            // adding or replacing the detail fragment using a
-            // fragment transaction.
-            inflateDetailsFragment(postId);
+    protected void inflateFragment() {
+        if (sIsConnected) {
+            FragmentManager fm = getSupportFragmentManager();
+            // Inflate newly prepared Fragment
+            // without checking if it has already been inflated
+            Fragment fragment = createFragment();
+            fm.beginTransaction()
+                .replace(getFragmentContainerId(), fragment)
+                .commit();
         } else {
-            // In single-pane mode, simply start the detail activity
-            // for the selected item ID.
-            Intent detailIntent = new Intent(this, PostDetailActivity.class);
-            detailIntent.putExtra(PostDetailFragment.ARG_POST_ID, postId);
-            startActivity(detailIntent);
+            handleNoNetworkAvailable(this);
         }
     }
 
-    // Disable on back button pressed event by default
-    // and exit from app on back button pressed twice
+    protected int getCurrentStep() {
+        return mCurrentStep;
+    }
+
+    @Override
+    public void onPostTypeSelected() {
+        if (mCurrentStep != 2) {
+            mCurrentStep = 2;
+            inflateDetailsFragment(0);
+        }
+    }
+
+    @Override
+    public void onInformationSelected() {
+        mCurrentStep = 3;
+        inflateFragment();
+        inflateDetailsFragment(0);
+    }
+
+    @Override
+    public void onPostRouteSelected() {
+
+    }
+
     @Override
     public void onBackPressed() {
-        // If the button has been pressed twice go to the main screen of phone
-        BackStackDoubleTapExit.BackStackDoubleTapExit(this);
+        mCurrentStep--;
+        switch (mCurrentStep) {
+            case 0:
+                finish();
+                break;
+            case 1:
+                removeDetailsFragment();
+                break;
+            default:
+                inflateFragment();
+                inflateDetailsFragment(0);
+                break;
+        }
     }
 
-    public boolean isTwoPane(){
-        return mTwoPane;
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putInt(ARG_CURRENT_STEP, mCurrentStep);
+        super.onSaveInstanceState(outState);
     }
 }

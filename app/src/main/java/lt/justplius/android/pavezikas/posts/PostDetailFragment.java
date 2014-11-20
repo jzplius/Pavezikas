@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -28,6 +29,10 @@ import java.util.ArrayList;
 
 import lt.justplius.android.pavezikas.R;
 import lt.justplius.android.pavezikas.common.HttpPostStringResponse;
+
+import static lt.justplius.android.pavezikas.post.PostUtils.getFormattedDate;
+import static lt.justplius.android.pavezikas.post.PostUtils.getFormattedPrice;
+import static lt.justplius.android.pavezikas.post.PostUtils.getFormattedSeats;
 
 /**
  * A fragment representing a single Post detail screen.
@@ -52,6 +57,7 @@ public class PostDetailFragment extends Fragment {
     private ImageButton mImageButtonSms;
     private ImageButton mImageButtonEmail;
     private ProfilePictureView mProfilePictureView;
+    private ImageView mImageViewPostType;
     /**
      * The fragment argument representing the item ID that this fragment
      * represents.
@@ -59,6 +65,7 @@ public class PostDetailFragment extends Fragment {
     public static final String ARG_POST_ID = "post_id";
     private ViewStub mViewStub;
     private ProgressBar mProgressBar;
+
 
     public static Fragment newInstance (int selectionId){
         Bundle args = new Bundle();
@@ -140,8 +147,10 @@ public class PostDetailFragment extends Fragment {
                 mProfilePictureView = (ProfilePictureView) v.findViewById(R.id.post_details_profile_picture);
                 mTextViewRouteInfo = (TextView) v.findViewById(R.id.post_details_route_info);
                 mTextViewPostType = (TextView) v.findViewById(R.id.post_details_textView_post_type);
+                mImageViewPostType = (ImageView) v.findViewById(R.id.post_details_imageView_post_type);
 
                 // Set put downloaded data on to views
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
                 JSONObject jsonObject = new JSONObject(result);
                 mTextViewRouteInfo.setText(jsonObject.getString("route"));
                 mTextViewNameSurname.setText(jsonObject.getString("name_surname"));
@@ -156,24 +165,32 @@ public class PostDetailFragment extends Fragment {
                 });
                 setLeavingTimeFrom(jsonObject.getString("leaving_time_from"));
                 setLeavingTimeTo(jsonObject.getString("leaving_time_to"));
+
                 mTextViewDate.setText(
-                        PostListItem.getFormattedDate(
-                                getActivity(), jsonObject.getString("leaving_date")));
+                        getFormattedDate(
+                                getActivity(), sdf.parse(jsonObject.getString("leaving_date")).getTime()));
                 mTextViewSeatsAvailable.setText(
-                        PostListItem.getFormattedSeats(
+                        getFormattedSeats(
                                 getActivity(), jsonObject.getString("seats_available")));
                 mTextViewTime.setText(getTime());
                 mTextViewPrice.setText(
-                        PostListItem.getFormattedPrice(
+                        getFormattedPrice(
                                 getActivity(), jsonObject.getString("price")));
                 mTextViewLeavingAddress.setText(jsonObject.getString("leaving_address"));
                 mDroppingAddress.setText(jsonObject.getString("dropping_address"));
                 switch (jsonObject.getString("post_type")) {
                     case "d":
                         mTextViewPostType.setText(R.string.driver);
+                        mImageViewPostType.setImageDrawable(
+                                getActivity().getResources().getDrawable(
+                                        R.drawable.icon_type_driver));
                         break;
                     case "p":
                         mTextViewPostType.setText(R.string.passenger);
+                        mImageViewPostType.setImageDrawable(
+                                getActivity().getResources().getDrawable(
+                                        R.drawable.icon_type_passenger));
+                        break;
                 }
                 //dynamically remove message view from layout if such does not exist
                 if (jsonObject.getString("message").equals("null")){
@@ -188,7 +205,7 @@ public class PostDetailFragment extends Fragment {
             }
         }
 
-        //get posts time
+        // Get posts' time
         public String getTime(){
             StringBuilder timeString = new StringBuilder();
             timeString.append(leaving_time_from.hour)
@@ -207,12 +224,12 @@ public class PostDetailFragment extends Fragment {
             return timeString.toString();
         }
 
-        public void setLeavingTimeFrom(String _time) throws ParseException{
-            leaving_time_from.set(new SimpleDateFormat("HH:mm:ss").parse(_time).getTime());
+        public void setLeavingTimeFrom(String time) throws ParseException{
+            leaving_time_from.set(new SimpleDateFormat("HH:mm:ss").parse(time).getTime());
         }
 
-        public void setLeavingTimeTo(String _time) throws ParseException{
-            leaving_time_to.set(new SimpleDateFormat("HH:mm:ss").parse(_time).getTime());
+        public void setLeavingTimeTo(String time) throws ParseException{
+            leaving_time_to.set(new SimpleDateFormat("HH:mm:ss").parse(time).getTime());
         }
     }
 }

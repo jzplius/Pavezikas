@@ -33,4 +33,14 @@ public abstract class BaseTwoFragmentsActivity extends BaseSingleFragmentActivit
             handleNoNetworkAvailable(this);
         }
     }
+
+    // Remove details Fragment from FragmentManager
+    protected void removeDetailsFragment() {
+        Fragment fragment
+                = getSupportFragmentManager().findFragmentById(setFragmentDetailsContainer());
+        getSupportFragmentManager()
+            .beginTransaction()
+            .remove(fragment)
+            .commit();
+    }
 }

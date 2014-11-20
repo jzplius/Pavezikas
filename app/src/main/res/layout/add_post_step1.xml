@@ -11,7 +11,7 @@
     android:paddingTop="8dp" >
 
     <RelativeLayout
-        android:id="@+id/add_post_step1_DriverBackground"
+        android:id="@+id/add_post_step1_driverBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_post"
@@ -56,7 +56,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/add_post_step1_PassengerBackground"
+        android:id="@+id/add_post_step1_passengerBackground"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/background_post"

@@ -73,14 +73,13 @@
 
 
             <TextView
-                android:id="@+id/add_post_step2_text_date"
+                android:id="@+id/add_post_step2_textView_date"
 
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="2"
 
                 android:gravity="center_vertical|center_horizontal"
-                android:text=""
                 android:textColor="@color/text_font_main"
                 android:hint="@string/hint_date_picker"
                 android:textColorHint="@color/hint_text_dark"
@@ -142,13 +141,12 @@
                 />
 
                 <TextView
-                    android:id="@+id/add_post_step2_text_time"
+                    android:id="@+id/add_post_step2_textView_time"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="2"
                     android:gravity="center_vertical|center_horizontal"
 
-                    android:text=""
                     android:textColor="@color/text_font_main"
 
                     android:hint="@string/hint_time_picker"
@@ -176,7 +174,7 @@
             >
 
                 <CheckBox
-                    android:id="@+id/add_post_step2_checkbox_flexibility"
+                    android:id="@+id/add_post_step2_checkBox_flexibility"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -186,7 +184,7 @@
                 />
 
                 <TextView
-                    android:id="@+id/add_post_step2_text_leaving_time_flexible"
+                    android:id="@+id/add_post_step2_textView_leaving_time_flexible"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
 
@@ -204,7 +202,7 @@
             >
 
             <SeekBar
-                android:id="@+id/add_post_step2_seekbar_leaving_time"
+                android:id="@+id/add_post_step2_seekBar_leaving_time"
 
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
@@ -213,7 +211,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:progress="1"
-            />
+                android:indeterminate="false"/>
 
             </LinearLayout>
 
@@ -266,7 +264,7 @@
 
             <include
                 layout="@layout/number_picker"
-                android:id="@+id/pickerSeats"
+                android:id="@+id/add_post_step2_picker_seats"
                 android:gravity="center_horizontal|center_vertical"
                 android:layout_gravity="center_vertical|center_horizontal"
                 android:layout_width="wrap_content"
@@ -364,7 +362,7 @@
             />
 
             <EditText
-                android:id="@+id/add_post_step2_text_phone"
+                android:id="@+id/add_post_step2_editText_phone"
 
                 android:layout_width="wrap_content"
                 android:layout_height="42dp"
@@ -374,7 +372,8 @@
                 android:paddingRight="2dp"
                 android:paddingEnd="2dp"
 
-                android:ems="10"
+                android:ems="8"
+                android:maxLength="14"
                 android:text="@string/phone_first_digits"
                 android:textColor="@color/text_font_main"
 
@@ -399,7 +398,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
         <EditText
-            android:id="@+id/add_post_step2_message"
+            android:id="@+id/add_post_step2_editText_message"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
 

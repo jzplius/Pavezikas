@@ -8,7 +8,7 @@
     >
 
     <Button
-        android:id="@+id/number_picker_increase" style="@style/Button_1"
+        android:id="@+id/button_number_picker_increase" style="@style/Button_1"
 
         android:layout_width="50dp"
         android:layout_height="wrap_content"
@@ -20,8 +20,6 @@
     />
 
     <EditText
-        android:id="@+id/number_picker_edit_text"
-
         android:layout_width="wrap_content"
         android:layout_height="48dp"
         android:layout_gravity="center_horizontal"
@@ -29,7 +27,6 @@
         android:background="@drawable/number_input"
         android:gravity="center"
         android:singleLine="true"
-        android:text=""
         android:textColor="@color/text_font_main"
         android:textSize="30sp"
         android:inputType="number"
@@ -38,7 +35,7 @@
     />
 
     <Button
-        android:id="@+id/number_picker_decrease" style="@style/Button_1"
+        android:id="@+id/button_number_picker_decrease" style="@style/Button_1"
 
         android:text="@string/minus"
 
