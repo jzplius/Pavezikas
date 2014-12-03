@@ -1,4 +1,4 @@
-package lt.justplius.android.pavezikas.facebook_login;
+package lt.justplius.android.pavezikas.facebook;
 
 import android.app.AlertDialog;
 import android.content.Intent;
@@ -72,7 +72,6 @@ public class FacebookLoginFragment extends Fragment {
     @SuppressWarnings("unchecked")
     private void onSessionStateChange(@SuppressWarnings("UnusedParameters") Session session,
                                       SessionState state, Exception exception) {
-
         if (exception instanceof FacebookOperationCanceledException ||
                 exception instanceof FacebookAuthorizationException) {
             new AlertDialog.Builder(getActivity())
@@ -101,20 +100,32 @@ public class FacebookLoginFragment extends Fragment {
                             public void onCompleted(Response response) {
                                 // Retrieve Facebook user groups data from GraphObject
                                 try {
+                                    // Data to be passed to DB
+                                    ArrayList<NameValuePair> pairs = new ArrayList<>();
+                                    NameValuePair pair;
+                                    pair = new BasicNameValuePair("user_id",
+                                            mSharedPreferences.getString(PREF_FB_ID, "0"));
+                                    pairs.add(pair);
+
+                                    // Data to contain response
                                     JSONObject group;
                                     JSONArray groups = response.getGraphObject()
                                             .getInnerJSONObject()
                                             .getJSONArray("data");
                                     for (int i = 0; i < groups.length(); i++) {
                                         group = groups.getJSONObject(i);
-                                        // Getting name and id of a group TODO rar
-                                        Log.i("facebook group: ",
-                                                group.getString("name")
-                                                        + "(id: " + group.getString("id") + ")\n");
+                                        // Get name and id of a group
+                                        pair = new BasicNameValuePair("id[]", group.getString("id"));
+                                        pairs.add(pair);
+                                        pair = new BasicNameValuePair("name[]", group.getString("name"));
+                                        pairs.add(pair);
                                     }
+                                    // Update groups list
+                                    new UpdateUserGroupsTask().execute(pairs);
+
                                 } catch (JSONException e) {
                                     e.printStackTrace();
-                                    Log.e(TAG, " Error retrieving user groups: " + e.toString());
+                                    Log.e(TAG, "Error retrieving user groups: " + e.toString());
                                 }
                             }
                         }
@@ -270,6 +281,23 @@ public class FacebookLoginFragment extends Fragment {
             } catch (JSONException e) {
                 Log.e(TAG, "Error retrieving user rating: " + e.toString());
             }
+        }
+    }
+
+    // TODO download in background thread
+    // Update user information on DB
+    private class UpdateUserGroupsTask extends AsyncTask<ArrayList<NameValuePair>, Void, Void> {
+        private String mUrl;
+
+        protected void onPreExecute () {
+            mUrl = getString(R.string.url_update_user_groups);
+        }
+
+        @SafeVarargs
+        @Override
+        protected final Void doInBackground(ArrayList<NameValuePair>... nvp) {
+            new HttpPostStringResponse(mUrl, nvp[0]);
+            return null;
         }
     }
 }

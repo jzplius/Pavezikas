@@ -6,10 +6,13 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+
+import lt.justplius.android.pavezikas.R;
 
 /**
  * This is a static class for usage in these situations:
@@ -26,7 +29,7 @@ import java.net.URL;
  * - handleIfNoNetworkAvailable(): invokes NetworkUnavailableActivity if
  * network is not present at runtime
  */
-public class NetworkState {
+public class NetworkStateUtils {
     // Static members for usage of connection state handling
     public static boolean sIsConnected = false;
     public static boolean sIsConnectionBeingHandled = false;
@@ -42,7 +45,7 @@ public class NetworkState {
 
     // Check if device is connected to active internet connection
     public static boolean hasActiveInternetConnection(Context context) {
-        final String TAG = "NetworkState.java"; // Remove for release app
+        final String TAG = "NetworkStateUtils.java"; // Remove for release app
 
         if (isNetworkAvailable(context)) {
             Log.d(TAG, "Network available"); // Remove for release app
@@ -105,5 +108,15 @@ public class NetworkState {
             intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(intent);
         }
+    }
+
+    // Method that returns isConnected value and if needed informs
+    // with toast about no connection being present, used in
+    // network-sensitive actions pre-check
+    public static boolean isConnected(Context context) {
+        if (!sIsConnected) {
+            Toast.makeText(context, R.string.no_internet_connection, Toast.LENGTH_LONG).show();
+        }
+        return sIsConnected;
     }
 }

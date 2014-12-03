@@ -14,7 +14,7 @@ import android.widget.TimePicker;
 
 import lt.justplius.android.pavezikas.post.PostManager;
 
-public class TimePickerFragment extends DialogFragment
+public class TimePickerDialogFragment extends DialogFragment
 implements TimePickerDialog.OnTimeSetListener {
 	
 	@NonNull

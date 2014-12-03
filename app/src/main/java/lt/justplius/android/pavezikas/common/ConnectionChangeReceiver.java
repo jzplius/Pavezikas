@@ -14,6 +14,6 @@ public class ConnectionChangeReceiver extends BroadcastReceiver {
     // Handle the network state change event by asynchronously executing checkIfDeviceIsConnected()
     @Override
     public void onReceive(Context context, Intent intent) {
-        NetworkState.checkIfDeviceIsConnected(context);
+        NetworkStateUtils.checkIfDeviceIsConnected(context);
     }
 }

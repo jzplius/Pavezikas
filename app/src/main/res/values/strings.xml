@@ -116,13 +116,17 @@
     <string name="url_get_posts">http://vezikas.bugs3.com/json_db_access/getPosts.php</string>
     <string name="url_get_facebook_information">http://vezikas.bugs3.com/json_db_access/getFacebookInformation.php</string>
     <string name="url_insert_to_post">http://vezikas.bugs3.com/json_db_access/insertToPost.php</string>
+    <string name="url_select_from_user_groups">http://vezikas.bugs3.com/json_db_access/selectFromUserGroups.php</string>
     <string name="url_select_from_address">http://vezikas.bugs3.com/json_db_access/selectFromAddress.php</string>
     <string name="url_select_from_phone">http://vezikas.bugs3.com/json_db_access/selectFromPhone.php</string>
     <string name="url_select_from_route">http://vezikas.bugs3.com/json_db_access/selectFromRoute.php</string>
     <string name="url_select_my_posts">http://vezikas.bugs3.com/json_db_access/selectMyPosts.php</string>
     <string name="url_select_post_details">http://vezikas.bugs3.com/json_db_access/selectPostDetails.php</string>
     <string name="url_select_user_rating">http://vezikas.bugs3.com/json_db_access/selectUserRating.php</string>
-    <string name="url_update_user">http://vezikas.bugs3.com/json_db_access/UpdateUser.php</string>
+    <string name="url_update_user">http://vezikas.bugs3.com/json_db_access/updateUser.php</string>
+    <string name="url_update_user_groups">http://vezikas.bugs3.com/json_db_access/updateUserGroups.php</string>
+    <string name="url_update_user_route_paired_groups">http://vezikas.bugs3.com/json_db_access/updateUserRoutePairedGroups.php</string>
+    <string name="url_select_user_route_paired_groups">http://vezikas.bugs3.com/json_db_access/selectUserRoutePairedGroups.php</string>
 
     <string-array name="cities_list">
         <item>Vilnius</item>
@@ -240,5 +244,7 @@
     <string name="price">Kaina: </string>
     <string name="time">Laikas: </string>
     <string name="currency">Lt</string>
+    <string name="set_selected_groups">Pasirinkite grupes, kuriose talpinti skelbimą</string>
+    <string name="revert">Atstatyti į pradinį</string>
 
 </resources>

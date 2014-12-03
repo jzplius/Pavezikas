@@ -7,8 +7,8 @@ import android.support.v4.app.FragmentManager;
 import lt.justplius.android.pavezikas.R;
 import lt.justplius.android.pavezikas.common.BaseVezikasTwoFragmentActivity;
 
-import static lt.justplius.android.pavezikas.common.NetworkState.handleNoNetworkAvailable;
-import static lt.justplius.android.pavezikas.common.NetworkState.sIsConnected;
+import static lt.justplius.android.pavezikas.common.NetworkStateUtils.handleNoNetworkAvailable;
+import static lt.justplius.android.pavezikas.common.NetworkStateUtils.sIsConnected;
 
 /**
  * An activity representing a list of Posts. This activity
@@ -107,7 +107,6 @@ implements AddPostStep1Fragment.AddPostStep1Callback,
 
     @Override
     public void onPostRouteSelected() {
-
     }
 
     @Override

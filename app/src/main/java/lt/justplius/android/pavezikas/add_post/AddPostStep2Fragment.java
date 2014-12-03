@@ -55,16 +55,15 @@ public class AddPostStep2Fragment extends Fragment  {
 	private TextView mTextViewTime;
     private SeekBar mLeavingTimeSeekBar;
 	private TextView mTextViewLeavingTimeFlexibleValue;
-	private EditText mEditTextPhone;
-	private EditText mEditTextMessage;
     private EditText mEditTextSeats;
     private EditText mEditTextPrice;
+    private EditText mEditTextPhone;
+    private EditText mEditTextMessage;
 
     private int mLeavingSeekBarHours = 0;
 	private int mLeavingSeekBarMinutes = 30;
     private FragmentManager mFragmentManager;
     private Post mPost;
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -74,11 +73,11 @@ public class AddPostStep2Fragment extends Fragment  {
         mPost = PostManager.getInstance(getActivity());
 
         // Date picker pop-up
-        mDialogFragmentDate = new DatePickerFragment();
+        mDialogFragmentDate = new DatePickerDialogFragment();
         mDialogFragmentDate.setTargetFragment(this, REQUEST_DIALOG_FRAGMENT_DATE);
 
         // Time picker pop-up
-        mDialogFragmentTime = new TimePickerFragment();
+        mDialogFragmentTime = new TimePickerDialogFragment();
         mDialogFragmentTime.setTargetFragment(this, REQUEST_DIALOG_FRAGMENT_TIME);
     }
 
@@ -272,9 +271,30 @@ public class AddPostStep2Fragment extends Fragment  {
         mEditTextPrice.setText(mPost.getPrice());
 
         mEditTextPhone = (EditText) view.findViewById(R.id.add_post_step2_editText_phone);
+        mEditTextPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    mPost.setPhone(mEditTextPhone.getText().toString());
+                }
+            }
+        });
+        if (!mPost.getPhoneId().equals("0")) {
+            mEditTextPhone.setText(mPost.getPhone());
+        }
 
         mEditTextMessage = (EditText) view.findViewById(R.id.add_post_step2_editText_message);
-
+        mEditTextMessage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    mPost.setMessage(mEditTextMessage.getText().toString());
+                }
+            }
+        });
+        if (!mPost.getMessage().equals("")) {
+            mEditTextMessage.setText(mPost.getMessage());
+        }
         updateDateAndTime();
 
         return view;

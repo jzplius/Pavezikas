@@ -4,10 +4,12 @@ import android.support.v4.app.Fragment;
 
 import lt.justplius.android.pavezikas.R;
 
-import static lt.justplius.android.pavezikas.common.NetworkState.handleNoNetworkAvailable;
-import static lt.justplius.android.pavezikas.common.NetworkState.sIsConnected;
+import static lt.justplius.android.pavezikas.common.NetworkStateUtils.handleNoNetworkAvailable;
+import static lt.justplius.android.pavezikas.common.NetworkStateUtils.sIsConnected;
 
 public abstract class BaseTwoFragmentsActivity extends BaseSingleFragmentActivity {
+
+    public static final String TAG_DETAILS_FRAGMENT = "DetailsFragment";
 
     protected abstract Fragment createDetailsFragment(int selectionId);
 
@@ -27,7 +29,7 @@ public abstract class BaseTwoFragmentsActivity extends BaseSingleFragmentActivit
             Fragment fragment = createDetailsFragment(selectionId);
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(setFragmentDetailsContainer(), fragment)
+                    .replace(setFragmentDetailsContainer(), fragment, TAG_DETAILS_FRAGMENT)
                     .commit();
         } else {
             handleNoNetworkAvailable(this);

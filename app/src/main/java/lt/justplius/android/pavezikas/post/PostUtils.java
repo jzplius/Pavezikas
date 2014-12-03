@@ -9,9 +9,6 @@ import java.util.Calendar;
 
 import lt.justplius.android.pavezikas.R;
 
-/**
- * Created by JUSTPLIUS on 2014.11.13.
- */
 public class PostUtils {
     public static String getFormattedDate(Context context, Long timeInMilliseconds) throws ParseException {
         Time time = new Time();
@@ -99,8 +96,5 @@ public class PostUtils {
                     + " "
                     + hoursString;
         }
-
-
-
     }
 }

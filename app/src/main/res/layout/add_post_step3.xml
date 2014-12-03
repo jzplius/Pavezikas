@@ -32,7 +32,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         android:gravity="center_horizontal"
 
@@ -280,7 +280,7 @@
         />
 
         <Button
-            android:id="@+id/add_post_step3_buttonCheckGroups"
+            android:id="@+id/add_post_step3_button_select_groups"
             style="@style/Button_1"
 
             android:layout_width="wrap_content"
@@ -299,35 +299,27 @@
             android:contentDescription="@string/unnamed"
         />
 
-        <LinearLayout
-            android:orientation="vertical"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/add_post_step3_textView_selected_groups"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+
+            android:layout_marginTop="5dp"
+
             android:layout_gravity="center_horizontal"
-        >
+            android:text="@string/post_windows_msg6"
+            android:textColor="@color/text_font_main"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+        />
 
-            <TextView
-                android:id="@+id/add_post_step3_textView_selected_groups"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+        <ListView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/add_post_step3_listView_groups"
+            android:layout_gravity="center_horizontal"
 
-                android:layout_marginTop="5dp"
-
-                android:layout_gravity="center_horizontal"
-                android:text="@string/post_windows_msg6"
-                android:textColor="@color/text_font_main"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-            />
-
-            <ListView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/listView"
-                android:layout_gravity="center_horizontal"
-
-            />
-
-        </LinearLayout>
+            android:choiceMode="none"
+            android:clickable="false"/>
 
         <ImageView style="@style/LineHorizontal"
                    android:id="@+id/add_post_step3_line_horizontal7"

@@ -58,8 +58,9 @@ public class Post {
     HttpPostStringResponse mResponse;
     String mResult;
     private Context mContext;
+    private String mPhone;
 
-	public Post(Context context){
+    public Post(Context context){
 		mContext = context;
 
         mCities = new ArrayList<>(2);
@@ -89,6 +90,7 @@ public class Post {
         mDbLeavingTimeTo = "";
         mDbRouteID = "0";
         mRoute = "";
+        mPhone = "";
 	}
 	
 	// Set post type: whether it is passenger or driver
@@ -202,6 +204,7 @@ public class Post {
 
 	public void setPhone(String phone) {
 		if (!phone.equals("86") && !phone.equals("+370") && !phone.equals("")) {
+            mPhone = phone;
 			new GetPhoneIdTask().execute(phone);
 		} else {
 			mDbPhoneId = "0";
@@ -210,6 +213,10 @@ public class Post {
 
     public String getPhoneId(){
         return mDbPhoneId;
+    }
+
+    public String getPhone() {
+        return mPhone;
     }
 
     //TODO move to background thread and to separate class
@@ -283,13 +290,24 @@ public class Post {
         }
 	}
 
+    public String getRouteID() {
+        return mDbRouteID;
+    }
+
     public String getCity(int position) {
         return mCities.get(position);
     }
 
     public void setRouteCity(int index, String string) {
+        // Same cities were set for leaving and dropping
+        // Do nothing
+        if (index == 0 && mCities.get(1).equals(string)
+                || index == 1 && mCities.get(0).equals(string)
+                )
+            return;
+
         String oldRoute = mRoute;
-		mCities.set(index, string);
+        mCities.set(index, string);
 		
 		// Check whether it is new route and retrieve its id
 		mRoute = mCities.get(0) + " - " + mCities.get(1);

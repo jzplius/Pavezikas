@@ -12,7 +12,7 @@ import android.widget.TextView;
 import com.facebook.widget.ProfilePictureView;
 
 import lt.justplius.android.pavezikas.R;
-import lt.justplius.android.pavezikas.facebook_login.FacebookLoginFragment;
+import lt.justplius.android.pavezikas.facebook.FacebookLoginFragment;
 
 /**
  * An activity representing a list of Posts. This activity

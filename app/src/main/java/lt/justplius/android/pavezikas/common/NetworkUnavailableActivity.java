@@ -8,7 +8,7 @@ import android.widget.Button;
 
 import lt.justplius.android.pavezikas.R;
 
-import static lt.justplius.android.pavezikas.common.NetworkState.*;
+import static lt.justplius.android.pavezikas.common.NetworkStateUtils.*;
 
 /**
  * This activity shows a view that reminds to turn on internet connection.

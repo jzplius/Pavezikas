@@ -15,7 +15,7 @@ import java.util.GregorianCalendar;
 
 import lt.justplius.android.pavezikas.post.PostManager;
 
-public class DatePickerFragment extends DialogFragment
+public class DatePickerDialogFragment extends DialogFragment
 implements DatePickerDialog.OnDateSetListener {
 	
 	@NonNull

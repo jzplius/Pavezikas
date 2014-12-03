@@ -7,10 +7,12 @@ import android.support.v4.app.FragmentManager;
 
 import lt.justplius.android.pavezikas.R;
 
-import static lt.justplius.android.pavezikas.common.NetworkState.handleNoNetworkAvailable;
-import static lt.justplius.android.pavezikas.common.NetworkState.sIsConnected;
+import static lt.justplius.android.pavezikas.common.NetworkStateUtils.handleNoNetworkAvailable;
+import static lt.justplius.android.pavezikas.common.NetworkStateUtils.sIsConnected;
 
 public abstract class BaseSingleFragmentActivity extends FragmentActivity {
+
+    public static final String TAG_FRAGMENT = "Fragment";
 
     protected abstract Fragment createFragment();
 
@@ -28,7 +30,7 @@ public abstract class BaseSingleFragmentActivity extends FragmentActivity {
         setContentView(getLayoutResourceId());
 
         // First time determine if device has any available network connection
-        NetworkState.isNetworkAvailable(this);
+        NetworkStateUtils.isNetworkAvailable(this);
         // Inflate prepared Fragment, if it has network available
         inflateFragment();
     }
@@ -52,7 +54,7 @@ public abstract class BaseSingleFragmentActivity extends FragmentActivity {
                 // Inflate newly prepared Fragment
                 fragment = createFragment();
                 fm.beginTransaction()
-                        .replace(getFragmentContainerId(), fragment)
+                        .replace(getFragmentContainerId(), fragment, TAG_FRAGMENT)
                         .commit();
             }
         } else {

@@ -1,4 +1,4 @@
-package lt.justplius.android.pavezikas.facebook_login;
+package lt.justplius.android.pavezikas.facebook;
 
 import android.support.v4.app.Fragment;
 
@@ -6,7 +6,6 @@ import lt.justplius.android.pavezikas.common.BackStackDoubleTapExit;
 import lt.justplius.android.pavezikas.common.BaseSingleFragmentActivity;
 
 public class FacebookLoginActivity extends BaseSingleFragmentActivity {
-
     @Override
     protected Fragment createFragment() {
         return new FacebookLoginFragment();
