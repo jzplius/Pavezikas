@@ -70,7 +70,7 @@ public class AddPostStep2Fragment extends Fragment  {
         super.onCreate(savedInstanceState);
 
         mFragmentManager = getActivity().getSupportFragmentManager();
-        mPost = PostManager.getInstance(getActivity());
+        mPost = PostManager.getPost(getActivity());
 
         // Date picker pop-up
         mDialogFragmentDate = new DatePickerDialogFragment();

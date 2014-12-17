@@ -27,7 +27,7 @@ public class DroppingAddressDialogFragment extends DialogFragment {
         // Prevent from recreation during device rotations
         if (mEditText == null) {
             mEditText= new EditText(getActivity());
-            final Post post = PostManager.getInstance(getActivity());
+            final Post post = PostManager.getPost(getActivity());
             if (post.isDroppingAddressSet()){
                 mEditText.setText(post.getDroppingAddress());
             } else {

@@ -21,7 +21,7 @@ implements TimePickerDialog.OnTimeSetListener {
     @Override
 	public Dialog onCreateDialog(Bundle savedInstanceState) {
 		// Use the current time
-		Calendar c = PostManager.getInstance(getActivity()).getCurrentCalendar();
+		Calendar c = PostManager.getPost(getActivity()).getCurrentCalendar();
 		int hour = c.get(Calendar.HOUR_OF_DAY);
 		int minute = c.get(Calendar.MINUTE);
 

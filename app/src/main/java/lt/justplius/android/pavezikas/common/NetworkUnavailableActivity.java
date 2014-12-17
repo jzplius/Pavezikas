@@ -1,10 +1,12 @@
 package lt.justplius.android.pavezikas.common;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
+
 
 import lt.justplius.android.pavezikas.R;
 
@@ -18,7 +20,12 @@ public class NetworkUnavailableActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.error_network_unavailable);
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            actionBar.hide();
+        }
 
         // Get instances of view objects
         Button buttonCheckConnection = (Button) findViewById(R.id.button_check_connection);

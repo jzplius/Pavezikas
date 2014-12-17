@@ -1,4 +1,4 @@
-package lt.justplius.android.pavezikas.add_post;
+package lt.justplius.android.pavezikas.add_post.loaders;
 
 import android.content.Context;
 import android.os.AsyncTask;
@@ -18,10 +18,10 @@ import lt.justplius.android.pavezikas.common.HttpPostStringResponse;
 import lt.justplius.android.pavezikas.facebook.FacebookLoginFragment;
 import lt.justplius.android.pavezikas.post.PostManager;
 
-public class UserGroupsLoader extends DataLoader<String> {
-    private static final String TAG = "UserGroupsLoader";
+public class UserRoutePairedGroupsLoader extends DataLoader<String> {
+    private static final String TAG = "UserRoutePairedGroupsLoader";
 
-    public UserGroupsLoader(Context context) {
+    public UserRoutePairedGroupsLoader(Context context) {
         super(context);
     }
 
@@ -31,29 +31,29 @@ public class UserGroupsLoader extends DataLoader<String> {
         String userId = PreferenceManager
                 .getDefaultSharedPreferences(getContext())
                 .getString(FacebookLoginFragment.PREF_FB_ID, "");
-        String routeId = PostManager.getInstance(getContext()).getRouteID();
+        String routeId = PostManager.getPost(getContext()).getRouteID();
         try {
-            return new GetUserGroupsTask().execute(
+            return new SelectUserRoutePairedGroupsTask().execute(
                     new BasicNameValuePair("user_id", userId),
                     new BasicNameValuePair("route_id", routeId)
             ).get();
         } catch (InterruptedException | ExecutionException e) {
-            Log.e(TAG, "selectFromUserGroups.php error: ", e);
+            Log.e(TAG, "selectUserRoutePairedGroups.php error in downloading: ", e);
         }
         return null;
     }
 
-    // Task to insert address to DB and retrieve it's id
-    private class GetUserGroupsTask extends AsyncTask<NameValuePair, Void, String> {
+    // Task to selected users' route and paired to it groups
+    private class SelectUserRoutePairedGroupsTask extends AsyncTask<NameValuePair, Void, String> {
         private String mUrl;
 
-        @Override
-        protected void onPreExecute() {
-            mUrl = getContext().getString(R.string.url_select_from_user_groups);
+        protected void onPreExecute () {
+            mUrl = getContext().getString(R.string.url_select_user_route_paired_groups);
         }
 
         @Override
         protected String doInBackground(NameValuePair... pair) {
+            // Add all passed pairs to ArrayList
             ArrayList<NameValuePair> pairs = new ArrayList<>();
             Collections.addAll(pairs, pair);
             return new HttpPostStringResponse(mUrl, pairs).returnJSON();

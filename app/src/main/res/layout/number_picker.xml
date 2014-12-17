@@ -8,12 +8,12 @@
     >
 
     <Button
-        android:id="@+id/button_number_picker_increase" style="@style/Button_1"
+        android:id="@+id/button_number_picker_decrease" style="@style/Button_1"
 
         android:layout_width="50dp"
         android:layout_height="wrap_content"
 
-        android:text="@string/plus"
+        android:text="@string/minus"
 
         android:layout_gravity="center_horizontal"
         android:background="@drawable/button_type_1"
@@ -31,13 +31,12 @@
         android:textSize="30sp"
         android:inputType="number"
         android:hint="@string/hint_number_picker"
-        android:textColorHint="@color/hint_text_light"
-    />
+        android:textColorHint="@color/hint_text_light"/>
 
     <Button
-        android:id="@+id/button_number_picker_decrease" style="@style/Button_1"
+        android:id="@+id/button_number_picker_increase" style="@style/Button_1"
 
-        android:text="@string/minus"
+        android:text="@string/plus"
 
         android:layout_width="50dp"
         android:layout_height="wrap_content"

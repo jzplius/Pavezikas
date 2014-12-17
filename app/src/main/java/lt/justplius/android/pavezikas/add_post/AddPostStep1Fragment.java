@@ -25,7 +25,7 @@ public class AddPostStep1Fragment extends Fragment  {
 
             @Override
             public void onClick(View arg0) {
-                PostManager.getInstance(getActivity()).setPostType("driver");
+                PostManager.getPost(getActivity()).setPostType("driver");
                 mCallbacks.onPostTypeSelected();
             }
 
@@ -35,7 +35,7 @@ public class AddPostStep1Fragment extends Fragment  {
 
             @Override
             public void onClick(View arg0) {
-                PostManager.getInstance(getActivity()).setPostType("passenger");
+                PostManager.getPost(getActivity()).setPostType("passenger");
                 mCallbacks.onPostTypeSelected();
             }
 

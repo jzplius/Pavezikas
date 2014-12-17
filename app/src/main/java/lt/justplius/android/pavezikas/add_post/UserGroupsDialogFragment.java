@@ -3,14 +3,14 @@ package lt.justplius.android.pavezikas.add_post;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.LoaderManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.Loader;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,11 +28,13 @@ import java.util.ArrayList;
 import lt.justplius.android.pavezikas.R;
 import lt.justplius.android.pavezikas.facebook.FacebookGroup;
 
+import static lt.justplius.android.pavezikas.post.PostLoaderManager.LOADER_USER_GROUPS;
+import static lt.justplius.android.pavezikas.post.PostManager.getLoader;
+
 public class UserGroupsDialogFragment
         extends DialogFragment
     implements LoaderManager.LoaderCallbacks<String>{
     private static final String TAG = "FacebookGroupsDialogFragment";
-    private static final int LOADER_USER_GROUPS = 0;
 
     private ListView mListView;
     private ArrayList<String> mSelectedGroups;
@@ -47,11 +49,10 @@ public class UserGroupsDialogFragment
         if (mListView == null) {
             // Prepare model
             mListView = new ListView(getActivity());
-            mSelectedGroups = new ArrayList<>();
 
             // Get model
             getActivity()
-                    .getSupportLoaderManager()
+                    .getLoaderManager()
                     .initLoader(LOADER_USER_GROUPS, null, this)
                     .forceLoad();
 
@@ -85,30 +86,29 @@ public class UserGroupsDialogFragment
     }
 
     private class FacebookGroupsAdapter extends ArrayAdapter<FacebookGroup> {
-        private final ArrayList<FacebookGroup> mGroups;
 
         public FacebookGroupsAdapter(Context context, ArrayList<FacebookGroup> groups) {
             super(context, 0, groups);
-            mGroups = groups;
+            mSelectedGroups = new ArrayList<>();
         }
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             CheckBox checkBox = new CheckBox(getContext());
-            checkBox.setText(mGroups.get(position).getGroupName());
-            checkBox.setChecked(mGroups.get(position).isChecked());
+            checkBox.setText(getItem(position).getGroupName());
+            checkBox.setChecked(getItem(position).isChecked());
             // Add selected group to selected list
-            if (mGroups.get(position).isChecked()) {
-                mSelectedGroups.add(mGroups.get(position).getGroupId());
+            if (getItem(position).isChecked() && !mSelectedGroups.contains(getItem(position).getGroupId())) {
+                mSelectedGroups.add(getItem(position).getGroupId());
             }
             // On change add or remove group from selected list
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     if (isChecked) {
-                        mSelectedGroups.add(mGroups.get(position).getGroupId());
+                        mSelectedGroups.add(getItem(position).getGroupId());
                     } else {
-                        mSelectedGroups.remove(mGroups.get(position).getGroupId());
+                        mSelectedGroups.remove(getItem(position).getGroupId());
                     }
                 }
             });
@@ -117,32 +117,35 @@ public class UserGroupsDialogFragment
     }
 
     @Override
-    public Loader<String> onCreateLoader(int id, Bundle args) {
-        return new UserGroupsLoader(getActivity());
+    public android.content.Loader<String> onCreateLoader(int id, Bundle args) {
+        return getLoader().createUserGroupsLoader(getActivity());
     }
 
     @Override
     public void onLoadFinished(Loader<String> loader, String result) {
-        try {
-            ArrayList<FacebookGroup> groups = new ArrayList<>();
-            JSONArray results = new JSONArray(result);
-            for (int i = 0; i < results.length(); i++) {
-                JSONObject group = results.getJSONObject(i);
-                String groupId = group.getString("group_id");
-                String groupName = group.getString("group_name");
-                boolean isSelected = group.getString("is_selected").equals("1");
-                groups.add(new FacebookGroup(groupId, isSelected, groupName));
+        if (loader.getId() == LOADER_USER_GROUPS) {
+            try {
+                ArrayList<FacebookGroup> groups = new ArrayList<>();
+                JSONArray results = new JSONArray(result);
+                for (int i = 0; i < results.length(); i++) {
+                    JSONObject group = results.getJSONObject(i);
+                    String groupId = group.getString("group_id");
+                    String groupName = group.getString("group_name");
+                    boolean isSelected = !group.getString("is_selected").equals("0");
+                    groups.add(new FacebookGroup(groupId, isSelected, groupName));
+                }
+                FacebookGroupsAdapter adapter = new FacebookGroupsAdapter(getActivity(), groups);
+                mListView.setAdapter(adapter);
+            } catch (JSONException e) {
+                Log.e(TAG, "selectFromUserGroups.php error: ", e);
             }
-            FacebookGroupsAdapter adapter = new FacebookGroupsAdapter(getActivity(), groups);
-            mListView.setAdapter(adapter);
-        } catch (JSONException e) {
-            Log.e(TAG, "selectFromUserGroups.php error: ", e);
         }
     }
 
     @Override
-    public void onLoaderReset(Loader<String> loader) {
+    public void onLoaderReset(android.content.Loader<String> loader) {
         mListView.setAdapter(null);
+        mSelectedGroups = new ArrayList<>();
     }
 
     // Handle of compatibility issue bug

@@ -377,8 +377,7 @@
                 android:text="@string/phone_first_digits"
                 android:textColor="@color/text_font_main"
 
-                android:inputType="phone"
-            />
+                android:inputType="phone"/>
 
         </LinearLayout>
 
@@ -403,10 +402,7 @@
             android:layout_height="wrap_content"
 
             android:ems="10"
-            android:inputType="textMultiLine"
-        >
-
-            <requestFocus />
+            android:inputType="textMultiLine">
         </EditText>
 
 

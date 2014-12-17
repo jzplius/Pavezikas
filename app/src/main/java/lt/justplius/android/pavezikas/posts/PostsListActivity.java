@@ -37,7 +37,7 @@ public class PostsListActivity extends BaseVezikasTwoFragmentActivity
 
     @Override
     protected int setActionBarLayoutResourceId() {
-        return R.layout.actionbar;
+        return R.layout.actionbar_posts;
     }
 
     /**

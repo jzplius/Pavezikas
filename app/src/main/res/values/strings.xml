@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
     <string name="from">Iš</string>
     <string name="to">Į</string>
     <string name="go_back">Grįžti</string>
@@ -79,7 +78,7 @@
     <string name="error_inserting_driver_post_route">Maršrutui parinkite bent 2 miestus. </string>
     <string name="error_inserting_driver_post_seats_number"> Nurodykite teisingą laisvų vietų skaičių (iki 9). </string>
     <string name="facebook_permissions_not_granted">Negalima atlikti šio veiksmo, nes neturite reikiamų Facebook leidimų.</string>
-    <string name="filter_all">Filtras: Visi</string>
+    <string name="filter_type">Filtras: %s</string>
     <string name="change">Keisti</string>
     <string name="home">Grįžti</string>
     <string name="login">Prisijungti</string>
@@ -113,7 +112,7 @@
     <string name="title_activity_details">DetailsActivity</string>
     <string name="title_activity_facbook_login">FacbookLoginActivity</string>
     <string name="unsuccessful_post_insert">Skelbimo nepavyko įterpti! Bandykite dar kartą.</string>
-    <string name="url_get_posts">http://vezikas.bugs3.com/json_db_access/getPosts.php</string>
+    <string name="url_select_posts">http://vezikas.bugs3.com/json_db_access/selectPosts.php</string>
     <string name="url_get_facebook_information">http://vezikas.bugs3.com/json_db_access/getFacebookInformation.php</string>
     <string name="url_insert_to_post">http://vezikas.bugs3.com/json_db_access/insertToPost.php</string>
     <string name="url_select_from_user_groups">http://vezikas.bugs3.com/json_db_access/selectFromUserGroups.php</string>

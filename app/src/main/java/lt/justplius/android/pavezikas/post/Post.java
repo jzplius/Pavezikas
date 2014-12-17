@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import lt.justplius.android.pavezikas.R;
+import lt.justplius.android.pavezikas.add_post.events.RouteIdRetrievedEvent;
+import lt.justplius.android.pavezikas.common.BusProvider;
 import lt.justplius.android.pavezikas.common.HttpPostStringResponse;
 
 import org.apache.http.NameValuePair;
@@ -12,15 +14,28 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import android.app.LoaderManager;
 import android.content.Context;
+import android.content.Loader;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
-public class Post {
+import static lt.justplius.android.pavezikas.post.PostLoaderManager.LOADER_LEAVING_ADDRESS_ID;
+import static lt.justplius.android.pavezikas.post.PostLoaderManager.LOADER_DROPPING_ADDRESS_ID;
+import static lt.justplius.android.pavezikas.post.PostLoaderManager.LOADER_ROUTE_ID;
+import static lt.justplius.android.pavezikas.post.PostLoaderManager.getLoaderManager;
+import static lt.justplius.android.pavezikas.post.PostManager.getLoader;
+
+public class Post
+        implements LoaderManager.LoaderCallbacks<String>{
     private static final String TAG = "Post";
+    private static final String ARG_ADDRESS = "address";
+    private static final String ARG_ADDRESS_TYPE = "address_type";
+    private static final String ARG_ROUTE = "route";
 
     // Data to be contained and verified
 	private ArrayList<String> mCities;
@@ -219,38 +234,13 @@ public class Post {
         return mPhone;
     }
 
-    //TODO move to background thread and to separate class
-    // Task to insert phone to DB and to retrieve it's id
-    private class GetPhoneIdTask extends AsyncTask<String, Void, String> {
-        private ArrayList<NameValuePair> mPairs;
-        private String mUrl;
-
-        protected void onPreExecute () {
-            mPairs = new ArrayList<>();
-            mUrl = mContext.getString(R.string.url_select_from_phone);
-        }
-
-        @Override
-        protected String doInBackground(String... params) {
-            // Check whether such phone exists, if it does not exist insert
-            //  new one into db and return its' ID
-            mPairs.add(new BasicNameValuePair("phone", params[0]));
-            return new HttpPostStringResponse(mUrl, mPairs).returnJSON();
-        }
-
-        protected void onPostExecute(String result) {
-            try{
-                mDbPhoneId = String.valueOf(new JSONObject(result).getInt("id"));
-            } catch(JSONException e){
-                Log.e(TAG, "selectFromPhone.php error: ", e);
-            }
-        }
-    }
-
 	public void setLeavingAddress(String address) {
 		mLeavingAddress = address;
         if (!address.equals("")) {
-            new GetAddressIdTask().execute(address, "leaving address");
+            Bundle args = new Bundle();
+            args.putString(ARG_ADDRESS, address);
+            getLoaderManager(mContext)
+                    .restartLoader(LOADER_LEAVING_ADDRESS_ID, args, this);
         } else {
             mDbLeavingAddressId = "0";
         }
@@ -259,7 +249,10 @@ public class Post {
     public void setDroppingAddress(String address) {
         mDroppingAddress = address;
         if (!address.equals("")) {
-            new GetAddressIdTask().execute(address, "dropping address");
+            Bundle args = new Bundle();
+            args.putString(ARG_ADDRESS, address);
+            getLoaderManager(mContext)
+                    .restartLoader(LOADER_DROPPING_ADDRESS_ID, args, this);
         } else {
             mDbDroppingAddressId = "0";
         }
@@ -299,12 +292,26 @@ public class Post {
     }
 
     public void setRouteCity(int index, String string) {
-        // Same cities were set for leaving and dropping
-        // Do nothing
+        // Same cities were set for leaving and dropping.
+        // Do nothing and disable selected Facebook groups
         if (index == 0 && mCities.get(1).equals(string)
                 || index == 1 && mCities.get(0).equals(string)
-                )
+                ) {
+            mDbRouteID = "0";
+            mRoute = "";
+
+            // Post an event, informing that route ID was loaded
+            BusProvider.getInstance().post(new RouteIdRetrievedEvent(0));
+
+            if (index == 0) {
+                setLeavingAddress("");
+                mCities.set(0, mCities.get(1));
+            } else {
+                setDroppingAddress("");
+                mCities.set(1, mCities.get(0));
+            }
             return;
+        }
 
         String oldRoute = mRoute;
         mCities.set(index, string);
@@ -312,7 +319,10 @@ public class Post {
 		// Check whether it is new route and retrieve its id
 		mRoute = mCities.get(0) + " - " + mCities.get(1);
         if (!oldRoute.equals(mRoute)) {
-            new GetRouteIdTask().execute(mRoute);
+            Bundle args = new Bundle();
+            args.putString(ARG_ROUTE, mRoute);
+            getLoaderManager(mContext)
+                    .restartLoader(LOADER_ROUTE_ID, args, this);
 
             if (index == 0) {
                 setLeavingAddress("");
@@ -322,8 +332,70 @@ public class Post {
         }
 	}
 
+    @Override
+    public Loader<String> onCreateLoader(int id, Bundle args) {
+        switch (id){
+            case LOADER_LEAVING_ADDRESS_ID:
+                return getLoader()
+                        .createAddressIdLoader(mContext, args.getString(ARG_ADDRESS));
+            case LOADER_DROPPING_ADDRESS_ID:
+                return getLoader()
+                        .createAddressIdLoader(mContext, args.getString(ARG_ADDRESS));
+            case LOADER_ROUTE_ID:
+                return getLoader()
+                        .createRouteIdLoader(mContext, args.getString(ARG_ROUTE));
+            default:
+                return null;
+        }
+    }
+
+    @Override
+    public void onLoadFinished(Loader loader, String data) {
+        switch (loader.getId()) {
+            case LOADER_LEAVING_ADDRESS_ID:
+                try{
+                    String addressId = new JSONObject(data).getString("id");
+                    if(!addressId.equals("0")){
+                        mDbLeavingAddressId = addressId;
+                    }
+                } catch(JSONException e){
+                    Log.e(TAG, "selectFromAddress.php error converting result: ", e);
+                }
+                break;
+            case LOADER_DROPPING_ADDRESS_ID:
+                try{
+                    String addressId = new JSONObject(data).getString("id");
+                    if(!addressId.equals("0")){
+                        mDbDroppingAddressId = addressId;
+                    }
+                } catch(JSONException e){
+                    Log.e(TAG, "selectFromAddress.php error converting result: ", e);
+                }
+                break;
+            case LOADER_ROUTE_ID:
+                try{
+                    String routeId = new JSONObject(data).getString("id");
+                    if(!routeId.equals("0")){
+                        mDbRouteID = routeId;
+                        // Post an event, informing that route ID was loaded
+                        BusProvider
+                                .getInstance()
+                                .post(new RouteIdRetrievedEvent(Integer.valueOf(mDbRouteID)));
+                    }
+                } catch(JSONException e){
+                    Log.e(TAG, "selectFromRoute.php error converting result: ", e);
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader loader) {
+
+    }
+
 	//TODO move to background thread and to separate class
-	// Task to insert address to DB and retrieve it's id
+	/*// Task to insert address to DB and retrieve it's id
 	private class GetAddressIdTask extends AsyncTask<String, Void, String> {
 		private String mType;
         private ArrayList<NameValuePair> mPairs;
@@ -355,39 +427,60 @@ public class Post {
 		    	Log.e(TAG, "selectFromAddress.php error: ", e);
 		    }    	    
 		}
-	}	
+	}	*/
 
 	//TODO move to background thread and to separate class
 	// Task to insert route to DB and retrieve it's id
-	private class GetRouteIdTask extends AsyncTask<String, Void, String> {
+	/*private class GetRouteIdTask extends AsyncTask<String, Void, String> {
 
         private ArrayList<NameValuePair> mPairs;
         private String mUrl;
 
         protected void onPreExecute () {
-		    mPairs = new ArrayList<>();
-		    mUrl = mContext.getString(R.string.url_select_from_route);
-		}
-		    	
-		@Override
-		protected String doInBackground(String... params) {
-			// Check whether such route exists, if it does not,
-			// insert new one into DB and retrieve its' ID
-			mPairs.add(new BasicNameValuePair("route", params[0]));
-		    return new HttpPostStringResponse(mUrl, mPairs).returnJSON();
-		}
-				
-		protected void onPostExecute(String result) {
-		    try{
-		    	String routeId = new JSONObject(result).getString("id");
-		    	if(!routeId.equals("0")){
-		    	    mDbRouteID = routeId;
-		    	}
-		    } catch(JSONException e){
-		    	Log.e(TAG, "selectFromRoute.php error: ", e);
-		    }    	    
-		}
-	}
+            mPairs = new ArrayList<>();
+            mUrl = mContext.getString(R.string.url_select_from_route);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            // Check whether such route exists, if it does not,
+            // insert new one into DB and retrieve its' ID
+            mPairs.add(new BasicNameValuePair("route", params[0]));
+            return new HttpPostStringResponse(mUrl, mPairs).returnJSON();
+        }
+
+        protected void onPostExecute(String result) {
+
+        }
+    }*/
+
+    //TODO move to background thread and to separate class
+    // Task to insert phone to DB and to retrieve it's id
+    private class GetPhoneIdTask extends AsyncTask<String, Void, String> {
+        private ArrayList<NameValuePair> mPairs;
+        private String mUrl;
+
+        protected void onPreExecute () {
+            mPairs = new ArrayList<>();
+            mUrl = mContext.getString(R.string.url_select_from_phone);
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            // Check whether such phone exists, if it does not exist insert
+            //  new one into db and return its' ID
+            mPairs.add(new BasicNameValuePair("phone", params[0]));
+            return new HttpPostStringResponse(mUrl, mPairs).returnJSON();
+        }
+
+        protected void onPostExecute(String result) {
+            try{
+                mDbPhoneId = String.valueOf(new JSONObject(result).getInt("id"));
+            } catch(JSONException e){
+                Log.e(TAG, "selectFromPhone.php error: ", e);
+            }
+        }
+    }
 /*
 	//check if leaving address is set
 	public void insetPost(){

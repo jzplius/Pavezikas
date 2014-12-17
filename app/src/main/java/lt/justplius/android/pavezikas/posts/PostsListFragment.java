@@ -1,5 +1,6 @@
 package lt.justplius.android.pavezikas.posts;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -12,16 +13,21 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageButton;
 import android.widget.ListView;
-import android.widget.Toast;
 
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import lt.justplius.android.pavezikas.R;
 import lt.justplius.android.pavezikas.add_post.AddPostActivity;
@@ -42,6 +48,7 @@ public class PostsListFragment extends ListFragment {
      * activated item position. Only used on tablets.
      */
     private static final String STATE_ACTIVATED_POSITION = "activated_position";
+    private static final String NVP_POSTS_FILTER = "posts_filter";
 
     /**
      * The fragment's current callback object, which is notified of list item
@@ -56,6 +63,8 @@ public class PostsListFragment extends ListFragment {
 
     private ArrayList<PostListItem> mItems;
     private PostsListViewAdapter mAdapter;
+    private String mFilter;
+    private MenuItem mMenuItemFilter;
 
     /**
      * A callback interface that all activities containing this fragment must
@@ -67,6 +76,22 @@ public class PostsListFragment extends ListFragment {
          * Callback for when an item has been selected.
          */
         public void onItemSelected(int id);
+    }
+
+    // Enum for choosing filter
+    private enum Filter {
+        FILTER_NONE("none"), FILTER_DRIVERS("drivers"), FILTER_PASSENGERS("passengers");
+
+        private final String mType;
+
+        Filter(String type) {
+            mType = type;
+        }
+
+        @Override
+        public String toString() {
+            return mType;
+        }
     }
 
     /**
@@ -84,9 +109,46 @@ public class PostsListFragment extends ListFragment {
 
         mItems = new ArrayList<>();
         mAdapter = new PostsListViewAdapter(getActivity(), mItems);
+        downloadPosts(Filter.FILTER_NONE);
 
-        GetPostsTask getPostsTask = new GetPostsTask();
-        getPostsTask.execute();
+        // Configure fragment-specific action bar
+        ActionBar actionBar = getActivity().getActionBar();
+        if (actionBar != null) {
+            View view = actionBar.getCustomView();
+
+            if (view != null) {
+                // OnClick show menu
+                ImageButton imageButtonMenu = (ImageButton) view.findViewById(R.id.action_bar_main_menu);
+                imageButtonMenu.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        ((PostsListActivity) getActivity()).getSlidingMenu().showMenu();
+                    }
+                });
+
+                // OnClick reload posts
+                final ImageButton imageButtonRefresh = (ImageButton) view.findViewById(R.id.action_bar_refresh);
+                imageButtonRefresh.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // TODO update view
+                        downloadPosts(Filter.FILTER_NONE);
+                        // Animate rotation for 1 second
+                        RotateAnimation rotateAnimation = new RotateAnimation(
+                                0,
+                                359,
+                                Animation.RELATIVE_TO_SELF,
+                                0.5f,
+                                Animation.RELATIVE_TO_SELF,
+                                0.5f);
+                        rotateAnimation.setRepeatMode(Animation.RESTART);
+                        rotateAnimation.setDuration(500);
+                        imageButtonRefresh.startAnimation(rotateAnimation);
+                    }
+                });
+            }
+        }
+
     }
 
     @Override
@@ -145,35 +207,45 @@ public class PostsListFragment extends ListFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.posts_list_menu, menu);
+
+        // Set selected filter type title
+        mMenuItemFilter = menu.getItem(1);
+        mMenuItemFilter.setTitle(
+                getString(
+                        R.string.filter_type,
+                        getString(R.string.all)));
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        String toastText = null;
+
         switch (item.getItemId()) {
             case R.id.add:
                 Intent intent = new Intent(getActivity(), AddPostActivity.class);
                 startActivity(intent);
                 break;
             case R.id.search:
-                toastText = "Paspaudei 'search'";
                 break;
             case R.id.drivers:
-                toastText = "Paspaudei 'drivers'";
+                downloadPosts(Filter.FILTER_DRIVERS);
+                mMenuItemFilter.setTitle(getString(
+                        R.string.filter_type,
+                        getString(R.string.drivers)));
                 break;
             case R.id.passengers:
-                toastText = "Paspaud�te 'Passengers'";
+                downloadPosts(Filter.FILTER_PASSENGERS);
+                mMenuItemFilter.setTitle(getString(
+                        R.string.filter_type,
+                        getString(R.string.passengers)));
                 break;
             case R.id.all:
-                toastText = "Paspaud�te 'All'";
+                downloadPosts(Filter.FILTER_NONE);
+                mMenuItemFilter.setTitle(getString(
+                        R.string.filter_type,
+                        getString(R.string.all)));
                 break;
         }
-        if (toastText != null) {
-            Toast.makeText(getActivity(), toastText, Toast.LENGTH_LONG).show();
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
+        return true;
     }
 
     @Override
@@ -185,17 +257,24 @@ public class PostsListFragment extends ListFragment {
         }
     }
 
-    private class GetPostsTask extends AsyncTask<Void, Void, String> {
+    private void downloadPosts(Filter filter) {
+        new GetPostsTask().execute(new BasicNameValuePair(NVP_POSTS_FILTER, filter.toString()));
+    }
+
+    private class GetPostsTask extends AsyncTask<NameValuePair, Void, String> {
         private static final String TAG = "GetPostsTask";
         private String mUrl;
+        private ArrayList<NameValuePair> mPairs;
 
         protected void onPreExecute () {
-            mUrl = getString(R.string.url_get_posts);
+            mUrl = getString(R.string.url_select_posts);
+            mPairs = new ArrayList<>();
         }
 
         @Override
-        protected String doInBackground(Void... params) {
-            return new HttpPostStringResponse(mUrl, null).returnJSON();
+        protected String doInBackground(NameValuePair... params) {
+            Collections.addAll(mPairs, params);
+            return new HttpPostStringResponse(mUrl, mPairs).returnJSON();
         }
 
         protected void onPostExecute(String result) {
@@ -203,6 +282,8 @@ public class PostsListFragment extends ListFragment {
                 JSONArray jsonArray = new JSONArray(result);
                 JSONObject jsonObject;
                 PostListItem post;
+                mItems.clear();
+
                 for(int i=0;i<jsonArray.length();i++){
                     jsonObject = jsonArray.getJSONObject(i);
                     post = new PostListItem();
@@ -223,24 +304,24 @@ public class PostsListFragment extends ListFragment {
                     }*/
                     mItems.add(post);
                 }
-                // Perform first posts list item click, so that it would be selected by default
-                if (getListAdapter() == null && ((PostsListActivity) getActivity()).isTwoPane()) {
+
+                if (getListAdapter() == null) {
                     setListAdapter(mAdapter);
+                }
+                mAdapter.notifyDataSetChanged();
+
+                // Perform first posts list item click, so that it would be selected by default
+                if (((PostsListActivity) getActivity()).isTwoPane()) {
+
                     ListView listView = getListView();
                     listView.performItemClick(
                             listView.getAdapter().getView(0, null, null),
                             0,
                             listView.getAdapter().getItemId(0));
-                } else {
-                    setListAdapter(mAdapter);
                 }
 
-                mAdapter.notifyDataSetChanged();
-
-            }catch(JSONException e){
+            } catch(JSONException | ParseException e){
                 Log.e(TAG, "Get posts async task error: ", e);
-            } catch (ParseException e) {
-                e.printStackTrace();
             }
         }
     }

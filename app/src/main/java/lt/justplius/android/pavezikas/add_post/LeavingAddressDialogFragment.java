@@ -26,7 +26,7 @@ public class LeavingAddressDialogFragment extends DialogFragment {
         // Prevent from recreation during device rotations
         if (mEditText == null) {
             mEditText = new EditText(getActivity());
-            Post post = PostManager.getInstance(getActivity());
+            Post post = PostManager.getPost(getActivity());
             if (post.isLeavingAddressSet()) {
                 mEditText.setText(post.getLeavingAddress());
             } else {

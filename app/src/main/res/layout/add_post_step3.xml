@@ -4,13 +4,12 @@
 >
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="fill_parent"
+              android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:layout_margin="5dp"
 
               android:background="@drawable/background_post"
-              android:orientation="vertical"
-    >
+              android:orientation="vertical">
 
     <TextView
         android:id="@+id/add_post_step2_step_name"
@@ -32,11 +31,11 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center_horizontal"
 
-        android:layout_marginBottom="5dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="5dp"
         android:layout_marginStart="5dp"
         android:layout_marginRight="10dp"
@@ -297,7 +296,7 @@
         <ImageView style="@style/LineHorizontal"
             android:id="@+id/add_post_step3_line_horizontal6"
             android:contentDescription="@string/unnamed"
-        />
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/add_post_step3_textView_selected_groups"
@@ -310,21 +309,19 @@
             android:text="@string/post_windows_msg6"
             android:textColor="@color/text_font_main"
             android:textAppearance="?android:attr/textAppearanceMedium"
+            android:visibility="gone"
         />
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/add_post_step3_listView_groups"
-            android:layout_gravity="center_horizontal"
-
-            android:choiceMode="none"
-            android:clickable="false"/>
+        <Spinner
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/add_post_step3_spinner_groups"
+            android:visibility="gone"/>
 
         <ImageView style="@style/LineHorizontal"
                    android:id="@+id/add_post_step3_line_horizontal7"
                    android:contentDescription="@string/unnamed"
-        />
+                   android:visibility="gone"/>
 
     </LinearLayout>
 
@@ -339,6 +336,7 @@
         android:gravity="center_vertical|center_horizontal"
         android:layout_margin="5dp"
         android:background="@drawable/button_type_1_bl"
+        android:visibility="gone"
         />
 
 </LinearLayout>

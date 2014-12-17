@@ -10,14 +10,22 @@ import lt.justplius.android.pavezikas.post.Post;
 public class PostManager {
 
     private static Post mPost;
+    private static PostLoaderManager mLoaderManager;
 
     private PostManager(){
     }
 
-    public static Post getInstance(Context context) {
+    public static Post getPost(Context context) {
         if (mPost == null) {
             mPost = new Post(context);
         }
         return mPost;
+    }
+
+    public static PostLoaderManager getLoader() {
+        if (mLoaderManager == null) {
+            mLoaderManager = new PostLoaderManager();
+        }
+        return mLoaderManager;
     }
 }

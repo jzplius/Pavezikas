@@ -29,7 +29,7 @@ implements DatePickerDialog.OnDateSetListener {
 		long maxDate = currentCalendar.getTimeInMillis();
 
 		// Get currently selected date
-		Calendar c = PostManager.getInstance(getActivity()).getCurrentCalendar();
+		Calendar c = PostManager.getPost(getActivity()).getCurrentCalendar();
 		int year = c.get(Calendar.YEAR);
 		int month = c.get(Calendar.MONTH);
 		int day = c.get(Calendar.DAY_OF_MONTH);

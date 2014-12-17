@@ -1,18 +1,13 @@
 package lt.justplius.android.pavezikas.common;
 
 import android.app.ActionBar;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Window;
-import android.widget.RatingBar;
-import android.widget.TextView;
 
-import com.facebook.widget.ProfilePictureView;
+import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 
 import lt.justplius.android.pavezikas.R;
-import lt.justplius.android.pavezikas.facebook.FacebookLoginFragment;
 
 /**
  * An activity representing a list of Posts. This activity
@@ -36,6 +31,7 @@ public abstract class BaseVezikasTwoFragmentActivity extends BaseTwoFragmentsAct
 
     // Whether or not the activity is in two-pane mode, i.e. running on a tablet device.
     private boolean mTwoPane;
+    private SlidingMenu mSlidingMenu;
 
     protected abstract int setActionBarLayoutResourceId();
 
@@ -54,21 +50,7 @@ public abstract class BaseVezikasTwoFragmentActivity extends BaseTwoFragmentsAct
         }
 
         // Configure the SlidingMenu
-        new SlidingMenuUtils(this).setSlidingMenu();
-
-        // Set content to SlidingMenu's views
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(this);
-
-        TextView textViewNameSurname = (TextView) findViewById(R.id.menu_list_name_surname);
-        textViewNameSurname.setText(
-                sp.getString(FacebookLoginFragment.PREF_FB_NAME_SURNAME, "Vardas Pavardė"));
-
-        ProfilePictureView profilePictureView = (ProfilePictureView)
-                findViewById(R.id.menu_list_profile_picture);
-        profilePictureView.setProfileId(sp.getString(FacebookLoginFragment.PREF_FB_ID, "0"));
-
-        RatingBar ratingBar = (RatingBar) findViewById(R.id.menu_list_rating_bar);
-        ratingBar.setRating(sp.getFloat(FacebookLoginFragment.PREF_FB_RATING, 0));
+        mSlidingMenu = new SlidingMenuUtils(this).configureSlidingMenu();
 
         if (findViewById(R.id.fragment_details_container) != null) {
             // The detail container view will be present only in the
@@ -89,5 +71,9 @@ public abstract class BaseVezikasTwoFragmentActivity extends BaseTwoFragmentsAct
 
     public boolean isTwoPane(){
         return mTwoPane;
+    }
+
+    public SlidingMenu getSlidingMenu(){
+        return mSlidingMenu;
     }
 }

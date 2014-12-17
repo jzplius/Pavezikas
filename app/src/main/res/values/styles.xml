@@ -1,7 +1,4 @@
 <resources>
-
-
-
     <style name="Header.Text.Big" parent="">
         <item name="android:textSize">22sp</item>
     </style>

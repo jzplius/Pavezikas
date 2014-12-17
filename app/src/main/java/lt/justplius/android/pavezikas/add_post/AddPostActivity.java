@@ -1,11 +1,17 @@
 package lt.justplius.android.pavezikas.add_post;
 
+import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageButton;
 
 import lt.justplius.android.pavezikas.R;
 import lt.justplius.android.pavezikas.common.BaseVezikasTwoFragmentActivity;
+import lt.justplius.android.pavezikas.posts.PostsListActivity;
 
 import static lt.justplius.android.pavezikas.common.NetworkStateUtils.handleNoNetworkAvailable;
 import static lt.justplius.android.pavezikas.common.NetworkStateUtils.sIsConnected;
@@ -35,13 +41,29 @@ implements AddPostStep1Fragment.AddPostStep1Callback,
 
     //TODO check if device is two pane
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState != null) {
             mCurrentStep = savedInstanceState.getInt(ARG_CURRENT_STEP);
+        }
+
+        // Configure fragment-specific action bar
+        ActionBar actionBar = getActionBar();
+        if (actionBar != null) {
+            View view = actionBar.getCustomView();
+
+            if (view != null) {
+                // OnClick show menu
+                ImageButton imageButtonMenu = (ImageButton) view.findViewById(R.id.action_bar_main_menu);
+                imageButtonMenu.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        getSlidingMenu().showMenu();
+                    }
+                });
+            }
         }
     }
 
@@ -100,13 +122,16 @@ implements AddPostStep1Fragment.AddPostStep1Callback,
 
     @Override
     public void onInformationSelected() {
-        mCurrentStep = 3;
-        inflateFragment();
-        inflateDetailsFragment(0);
+        if (mCurrentStep != 3) {
+            mCurrentStep = 3;
+            inflateFragment();
+            inflateDetailsFragment(0);
+        }
     }
 
     @Override
     public void onPostRouteSelected() {
+        // TODO insert post to DB
     }
 
     @Override

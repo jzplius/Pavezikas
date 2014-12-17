@@ -48,7 +48,7 @@ public class PostDetailActivity extends BaseSingleFragmentActivity
 
         if (getIntent().hasExtra(PostDetailFragment.ARG_POST_ID)) {
             // Configure the SlidingMenu
-            new SlidingMenuUtils(this).setSlidingMenu();
+            new SlidingMenuUtils(this).configureSlidingMenu();
 
             // Show the Up button in the action bar.
             // Set custom actionbar
