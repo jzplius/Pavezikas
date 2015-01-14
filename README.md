@@ -1,3 +1,5 @@
+Downaload .apk at http://goo.gl/NVr6Mi
+
 The aim of an app:
 =========
 
@@ -10,13 +12,13 @@ The aim of an app:
 NOTE THAT:
 =========
 
-* This is app is still being developed (close to be in a beta state), so it is not fully-functional (part of buttons are not-resposive to clicks and so on...)
-* I worked on the middleware & server-side of the project. Most of UI-side was sketched and implemented by other colleague.
+* This is app is still being developed, so it is not fully-functional (part of buttons are not-resposive to clicks and so on...)
+* I worked on the middleware & server-side of the project. Huge part of UI-side was sketched and implemented by other colleague.
 
 Functionalities based on screens:
 =========
 
-* Add a post (plus icon on actionbar). Provides a handled 3 step post add mechanism.
+* Add a post. Provides a handled 3 step post add mechanism.
 * Posts. Displays a list of all added posts.
 * Post information. When clicked on post in list, provides a detail information about post.
 
@@ -72,4 +74,4 @@ Libraries used:
 
 Fully tested on:
 =========
-* The app is tested to fully work on "add post" 3rd step 
+* The app is tested on "add post" activities and fragments.
