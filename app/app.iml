@@ -90,7 +90,6 @@
     <orderEntry type="library" exported="" name="otto-1.3.5" level="project" />
     <orderEntry type="library" exported="" name="bolts-android-1.1.2" level="project" />
     <orderEntry type="library" exported="" name="crittercism_v3_0_3_sdkonly" level="project" />
-    <orderEntry type="library" exported="" name="1_crittercism_v3_0_3_sdkonly" level="project" />
     <orderEntry type="module" module-name="actionbarsherlock" exported="" />
     <orderEntry type="module" module-name="library" exported="" />
   </component>

@@ -12,8 +12,9 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">60dp</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:background">@drawable/background_menu_item</item>
+        <item name="android:background">@drawable/menu_item_background</item>
         <item name="android:alpha">.75</item>
+        <item name="android:clickable">true</item>
     </style>
 
     <style name="MenuText">
@@ -41,6 +42,13 @@
         <item name="android:src">@drawable/line_horizontal</item>
     </style>
 
+    <style name="LineLightHorizontal">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:scaleType">center</item>
+        <item name="android:src">@drawable/line_horizontal</item>
+    </style>
+
     <style name="LineHorizontal2">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
@@ -52,6 +60,8 @@
         <item name="android:textColor">@color/button_color_type_1</item>
         <item name="android:paddingLeft">5dp</item>
         <item name="android:paddingRight">5dp</item>
+        <item name="android:layout_height">42dp</item>
+        <item name="android:layout_width">42dp</item>
     </style>
 
     <style name="Button_2">
@@ -59,7 +69,42 @@
         <item name="android:textColor">@color/button_color_type_2</item>
         <item name="android:paddingLeft">5dp</item>
         <item name="android:paddingRight">5dp</item>
+        <item name="android:background">@drawable/button_type_1_bl</item>
     </style>
 
+    <style name="EditText_1">
+        <item name="android:textColor">@color/text_font_main</item>
+        <item name="android:background">@drawable/number_input</item>
+    </style>
+
+    <style name="Spinner" parent="android:Widget.Holo.Spinner">
+        <item name="android:popupBackground">@drawable/spinner_background</item>
+    </style>
+
+    <style name="ListView" parent="android:Widget.Holo.ListView.DropDown">
+        <item name="android:background">@drawable/spinner_background</item>
+        <item name="android:textAppearance">@style/TextAppearance</item>
+    </style>
+
+    <style name="spinnerItemStyle" parent="android:Widget.TextView.SpinnerItem">
+        <item name="android:textAppearance">@style/TextAppearance</item>
+    </style>
+
+    <style name="spinnerDropDownItemStyle" parent="android:Widget.DropDownItem">
+        <item name="android:textAppearance">@style/TextAppearance</item>
+    </style>
+
+    <style name="TextAppearance" parent="android:TextAppearance.Holo.Widget.TextView">
+        <item name="android:textColor">@color/list_item</item>
+    </style>
+
+    <style name="LinearLayout">
+        <item name="android:paddingTop">2dp</item>
+        <item name="android:paddingBottom">2dp</item>
+    </style>
+
+    <style name="alertDialogStyle" parent="android:Theme.Holo.Dialog">
+        <item name="android:color">@color/post_shadow</item>
+    </style>
 
 </resources>

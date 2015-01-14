@@ -15,7 +15,7 @@ public abstract class BaseTwoFragmentsActivity extends BaseSingleFragmentActivit
 
     @Override
     protected int getLayoutResourceId() {
-        return R.layout.activity_post_list;
+        return R.layout.activity;
     }
 
     protected int setFragmentDetailsContainer() {
@@ -28,9 +28,10 @@ public abstract class BaseTwoFragmentsActivity extends BaseSingleFragmentActivit
             // Inflate newly prepared Fragment
             Fragment fragment = createDetailsFragment(selectionId);
             getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(setFragmentDetailsContainer(), fragment, TAG_DETAILS_FRAGMENT)
-                    .commit();
+                .beginTransaction()
+                .replace(setFragmentDetailsContainer(), fragment, TAG_DETAILS_FRAGMENT)
+                .commit();
+
         } else {
             handleNoNetworkAvailable(this);
         }

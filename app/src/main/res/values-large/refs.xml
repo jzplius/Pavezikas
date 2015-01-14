@@ -6,5 +6,6 @@
     For more on layout aliases, see:
     http://developer.android.com/training/multiscreen/screensizes.html#TaskUseAliasFilters
     -->
-    <item type="layout" name="activity_post_list">@layout/activity_post_twopane</item>
+    <item type="layout" name="activity">@layout/activity_twopane</item>
+    <item type="layout" name="activity_add_post">@layout/activity_add_post_twopane</item>
 </resources>

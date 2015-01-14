@@ -38,6 +38,7 @@ public class NetworkUnavailableActivity extends Activity {
                 // Return to previous activity if internet connection is present
                 if (sIsConnected) {
                     sIsConnectionBeingHandled = false;
+                    sShouldInflateFragment = true;
                     finish();
                 }
             }

@@ -40,7 +40,6 @@
             facebook:preset_size="normal"
 
             android:paddingLeft="5dp"
-            android:paddingStart="5dp"
             android:paddingRight="0dp"
             android:paddingEnd="0dp"
 
@@ -63,7 +62,6 @@
 
                 android:paddingLeft="5dp"
                 android:paddingRight="0dp"
-                android:paddingStart="5dp"
                 android:paddingEnd="0dp"
 
                 android:text=""
@@ -123,8 +121,7 @@
 
         <LinearLayout style="@style/MenuLinearLayout"
             android:id="@+id/menu_list_link_posts"
-            android:layout_marginBottom="5dp"
-        >
+            android:layout_marginBottom="5dp">
 
             <ImageView style="@style/MenuIcon"
                 android:id="@+id/menu_list_icon1"

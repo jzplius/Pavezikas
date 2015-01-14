@@ -13,10 +13,10 @@ import java.util.Collections;
 import java.util.concurrent.ExecutionException;
 
 import lt.justplius.android.pavezikas.R;
+import lt.justplius.android.pavezikas.add_post.Post;
 import lt.justplius.android.pavezikas.common.DataLoader;
 import lt.justplius.android.pavezikas.common.HttpPostStringResponse;
 import lt.justplius.android.pavezikas.facebook.FacebookLoginFragment;
-import lt.justplius.android.pavezikas.post.PostManager;
 
 public class UserGroupsLoader extends DataLoader<String> {
     private static final String TAG = "UserGroupsLoader";
@@ -31,7 +31,7 @@ public class UserGroupsLoader extends DataLoader<String> {
         String userId = PreferenceManager
                 .getDefaultSharedPreferences(getContext())
                 .getString(FacebookLoginFragment.PREF_FB_ID, "");
-        String routeId = PostManager.getPost(getContext()).getRouteID();
+        String routeId = Post.getInstance().getRouteID();
         try {
             return new GetUserGroupsTask().execute(
                     new BasicNameValuePair("user_id", userId),

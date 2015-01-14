@@ -1,11 +1,11 @@
 package lt.justplius.android.pavezikas.add_post;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -14,9 +14,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -24,20 +21,28 @@ import android.widget.TextView;
 import java.text.ParseException;
 
 import lt.justplius.android.pavezikas.R;
-import lt.justplius.android.pavezikas.post.Post;
-import lt.justplius.android.pavezikas.post.PostManager;
+import lt.justplius.android.pavezikas.add_post.dialog_fragments.DatePickerDialogFragment;
+import lt.justplius.android.pavezikas.add_post.dialog_fragments.TimePickerDialogFragment;
+import lt.justplius.android.pavezikas.common.SoftKeyboardHandledLinearLayout;
 
-import static lt.justplius.android.pavezikas.post.PostUtils.getFormattedDate;
-import static lt.justplius.android.pavezikas.post.PostUtils.getFormattedTime;
+import static lt.justplius.android.pavezikas.common.NetworkStateUtils.isConnected;
+import static lt.justplius.android.pavezikas.common.PostUtils.getFormattedDate;
+import static lt.justplius.android.pavezikas.common.PostUtils.getFormattedTime;
 
+/**
+ * Prepares post-related details information to insert to DB.
+ */
 public class AddPostStep2Fragment extends Fragment  {
 
     private static final String TAG = "AddPostStep2Fragment";
     public static final int REQUEST_DIALOG_FRAGMENT_DATE = 0;
     public static final int REQUEST_DIALOG_FRAGMENT_TIME = 1;
-    public static final String ARG_DIALOG_FRAGMENT_DATE = "lt.justplius.android.pavezikas.dialog_fragment_date";
-    public static final String ARG_DIALOG_FRAGMENT_HOURS = "lt.justplius.android.pavezikas.dialog_fragment_hours";
-    public static final String ARG_DIALOG_FRAGMENT_MINUTES = "lt.justplius.android.pavezikas.dialog_fragment_minutes";
+    public static final String ARG_DIALOG_FRAGMENT_DATE
+            = "lt.justplius.android.pavezikas.dialog_fragment_date";
+    public static final String ARG_DIALOG_FRAGMENT_HOURS
+            = "lt.justplius.android.pavezikas.dialog_fragment_hours";
+    public static final String ARG_DIALOG_FRAGMENT_MINUTES
+            = "lt.justplius.android.pavezikas.dialog_fragment_minutes";
 
     // Used to customize number pickers
     private static final int MAX_SEATS_NUMBER = 7;
@@ -45,16 +50,11 @@ public class AddPostStep2Fragment extends Fragment  {
     private static final int MAX_PRICE_NUMBER = 80;
     private static final int MIN_PRICE_NUMBER = 0;
 
-    private AddPostStep2Callback mCallbacks;
-
-    // Dialog fragments to be popped up on click
-	private DialogFragment mDialogFragmentDate;
-	private DialogFragment mDialogFragmentTime;
+    //private AddPostStep2Callback mCallbacks;
 
     private TextView mTextViewDate;
 	private TextView mTextViewTime;
-    private SeekBar mLeavingTimeSeekBar;
-	private TextView mTextViewLeavingTimeFlexibleValue;
+    private TextView mTextViewLeavingTimeFlexibleValue;
     private EditText mEditTextSeats;
     private EditText mEditTextPrice;
     private EditText mEditTextPhone;
@@ -62,49 +62,33 @@ public class AddPostStep2Fragment extends Fragment  {
 
     private int mLeavingSeekBarHours = 0;
 	private int mLeavingSeekBarMinutes = 30;
-    private FragmentManager mFragmentManager;
     private Post mPost;
+
+    public interface AddPostStep2Callback{
+        public void onInformationSelected();
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mFragmentManager = getActivity().getSupportFragmentManager();
-        mPost = PostManager.getPost(getActivity());
-
-        // Date picker pop-up
-        mDialogFragmentDate = new DatePickerDialogFragment();
-        mDialogFragmentDate.setTargetFragment(this, REQUEST_DIALOG_FRAGMENT_DATE);
-
-        // Time picker pop-up
-        mDialogFragmentTime = new TimePickerDialogFragment();
-        mDialogFragmentTime.setTargetFragment(this, REQUEST_DIALOG_FRAGMENT_TIME);
+        mPost = Post.getInstance();
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-		
+
     	View view = inflater.inflate(R.layout.add_post_step2, container, false);
-        Button buttonStep2Continue = (Button) view.findViewById(R.id.add_post_step2_button_continue);
-        if (((AddPostActivity) getActivity()).getCurrentStep() == 3) {
-            buttonStep2Continue.setVisibility(View.GONE);
-        } else {
-            buttonStep2Continue.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mCallbacks.onInformationSelected();
-                    mPost.setPhone(mEditTextPhone.getText().toString());
-                    mPost.setMessage(mEditTextMessage.getText().toString());
-                }
-            });
-        }
 
         Button buttonDate = (Button) view.findViewById(R.id.add_post_step2_button_date);
         buttonDate.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDialogFragmentDate.show(mFragmentManager, "DialogFragmentDate");
+                // Date picker pop-up
+                DatePickerDialogFragment dialogFragmentDate = new DatePickerDialogFragment();
+                dialogFragmentDate.setTargetFragment(AddPostStep2Fragment.this, REQUEST_DIALOG_FRAGMENT_DATE);
+                dialogFragmentDate.show(getActivity().getSupportFragmentManager(), "DialogFragmentDate");
             }
         });
 
@@ -112,44 +96,43 @@ public class AddPostStep2Fragment extends Fragment  {
         buttonTime.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                mDialogFragmentTime.show(mFragmentManager, "DialogFragmentTime");
+                // Time picker pop-up
+                TimePickerDialogFragment dialogFragmentTime = new TimePickerDialogFragment();
+                dialogFragmentTime.setTargetFragment(AddPostStep2Fragment.this, REQUEST_DIALOG_FRAGMENT_TIME);
+                dialogFragmentTime.show(getActivity().getSupportFragmentManager(), "DialogFragmentTime");
+
             }
         });
 
     	mTextViewDate = (TextView) view.findViewById(R.id.add_post_step2_textView_date);
     	mTextViewTime = (TextView) view.findViewById(R.id.add_post_step2_textView_time);
 
-        // Handle leaving time flexibility changes
-        CheckBox checkBoxIsFlexible = (CheckBox) view.findViewById(R.id.add_post_step2_checkBox_flexibility);
-        checkBoxIsFlexible.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView,
-                                         boolean isChecked) {
-                mPost.setIsFlexible(isChecked);
-                mLeavingTimeSeekBar.setEnabled(isChecked);
-                mTextViewLeavingTimeFlexibleValue.setEnabled(isChecked);
-                updateDateAndTime();
-            }
-        });
-        checkBoxIsFlexible.setChecked(mPost.getIsFlexible());
         mTextViewLeavingTimeFlexibleValue = (TextView)view.findViewById(R.id.add_post_step2_textView_leaving_time_flexible);
-    	mLeavingTimeSeekBar = (SeekBar) view.findViewById(R.id.add_post_step2_seekBar_leaving_time);
-        mLeavingTimeSeekBar.setMax(12);
-        mLeavingTimeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
+        SeekBar leavingTimeSeekBar = (SeekBar) view.findViewById(R.id.add_post_step2_seekBar_leaving_time);
+        leavingTimeSeekBar.setMax(11);
+        leavingTimeSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                // Count minutes and hours
-                progress = progress * 30;
+                // Prevent incrementation on screen rotations
+                if (fromUser) {
+                    // Count minutes and hours
+                    progress = progress * 30 + 30;
+                } else {
+                    progress = mPost.getLeavingSeekBarHours() * 60 + mPost.getLeavingSeekBarMinutes();
+                }
+
                 mLeavingSeekBarHours = (int) Math.ceil(progress / 60);
                 mLeavingSeekBarMinutes = progress - mLeavingSeekBarHours * 60;
                 mPost.setTimeInterval(mLeavingSeekBarHours, mLeavingSeekBarMinutes);
 
-                if (mLeavingSeekBarHours >= 1){
+                if (mLeavingSeekBarHours >= 1) {
                     mTextViewLeavingTimeFlexibleValue.setText(" +- "
                             + mLeavingSeekBarHours
+                            + " "
                             + getString(R.string.hours)
                             + " "
                             + mLeavingSeekBarMinutes
+                            + " "
                             + getString(R.string.minutes));
                 } else {
                     mTextViewLeavingTimeFlexibleValue.setText(" +- "
@@ -169,7 +152,7 @@ public class AddPostStep2Fragment extends Fragment  {
 
             }
         });
-        mLeavingTimeSeekBar.setProgress(mPost.getLeavingSeekBarHours() * 2
+        leavingTimeSeekBar.setProgress(mPost.getLeavingSeekBarHours() * 2
                 + mPost.getLeavingSeekBarMinutes() / 30);
 
         // Get references to included view elements
@@ -199,7 +182,7 @@ public class AddPostStep2Fragment extends Fragment  {
             }
         });
         mEditTextSeats = (EditText) ((ViewGroup) pickerSeats).getChildAt(1);
-        mEditTextSeats.addTextChangedListener( new TextWatcher() {
+        mEditTextSeats.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
@@ -212,11 +195,10 @@ public class AddPostStep2Fragment extends Fragment  {
             public void afterTextChanged(Editable s) {
                 int number = readCurrentNumber(mEditTextSeats, MIN_SEATS_NUMBER);
                 if (number < MIN_SEATS_NUMBER || number > MAX_SEATS_NUMBER) {
-                    mEditTextSeats.setText(String.valueOf(MIN_SEATS_NUMBER));
-                    mPost.setSeatsAvailable(String.valueOf(MIN_SEATS_NUMBER));
-                } else {
-                    mPost.setSeatsAvailable(String.valueOf(number));
+                    number = MIN_SEATS_NUMBER;
+                    mEditTextSeats.setText(String.valueOf(mPost.getSeatsAvailable()));
                 }
+                mPost.setSeatsAvailable(String.valueOf(number));
             }
         });
         mEditTextSeats.setText(mPost.getSeatsAvailable());
@@ -261,11 +243,10 @@ public class AddPostStep2Fragment extends Fragment  {
             public void afterTextChanged(Editable s) {
                 int number = readCurrentNumber(mEditTextPrice, MIN_PRICE_NUMBER);
                 if (number < MIN_PRICE_NUMBER || number > MAX_PRICE_NUMBER) {
-                    mEditTextPrice.setText(String.valueOf(MIN_PRICE_NUMBER));
-                    mPost.setPrice(String.valueOf(MIN_PRICE_NUMBER));
-                } else {
-                    mPost.setPrice(String.valueOf(number));
+                    number = MIN_PRICE_NUMBER;
+                    mEditTextPrice.setText(String.valueOf(mPost.getPrice()));
                 }
+                mPost.setPrice(String.valueOf(number));
             }
         });
         mEditTextPrice.setText(mPost.getPrice());
@@ -274,12 +255,12 @@ public class AddPostStep2Fragment extends Fragment  {
         mEditTextPhone.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    mPost.setPhone(mEditTextPhone.getText().toString());
+                if (hasFocus) {
+                    showOrHideSoftInputOnFocus();
                 }
             }
         });
-        if (!mPost.getPhoneId().equals("0")) {
+        if (!mPost.getPhone().equals("")) {
             mEditTextPhone.setText(mPost.getPhone());
         }
 
@@ -287,17 +268,55 @@ public class AddPostStep2Fragment extends Fragment  {
         mEditTextMessage.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    mPost.setMessage(mEditTextMessage.getText().toString());
+                if (hasFocus) {
+                    showOrHideSoftInputOnFocus();
                 }
             }
         });
         if (!mPost.getMessage().equals("")) {
             mEditTextMessage.setText(mPost.getMessage());
         }
+
+        SoftKeyboardHandledLinearLayout linearLayout
+                = (SoftKeyboardHandledLinearLayout) view.findViewById(R.id.add_post_step2_linearLayout);
+        linearLayout.setOnSoftKeyboardVisibilityChangeListener(
+                new SoftKeyboardHandledLinearLayout.SoftKeyboardVisibilityChangeListener() {
+            @Override
+            public void onSoftKeyboardShow() {
+                // Do nothing, as not all shows are caught
+            }
+
+            @Override
+            public void onSoftKeyboardHide() {
+                // Save EditText information, because edit is finished
+                mPost.setPhone(mEditTextPhone.getText().toString(), getActivity());
+                mPost.setMessage(mEditTextMessage.getText().toString(), getActivity());
+                // If fields are left empty supply values from model
+                if (mEditTextSeats.getText().toString().equals("")) {
+                    mEditTextSeats.setText(String.valueOf(mPost.getSeatsAvailable()));
+                }
+                if (mEditTextPrice.getText().toString().equals("")) {
+                    mEditTextPrice.setText(String.valueOf(mPost.getPrice()));
+                }
+            }
+        });
+
         updateDateAndTime();
 
         return view;
+    }
+
+    // Do not display keyboard, when internet connection is not present
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void showOrHideSoftInputOnFocus() {
+        //TODO test on pre-21 API devices
+        if (!isConnected(getActivity())/* && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP*/) {
+            mEditTextPhone.setShowSoftInputOnFocus(false);
+            mEditTextMessage.setShowSoftInputOnFocus(false);
+        } else {
+            mEditTextPhone.setShowSoftInputOnFocus(true);
+            mEditTextMessage.setShowSoftInputOnFocus(true);
+        }
     }
 
     private int readCurrentNumber(EditText editText, int defaultValue) {
@@ -310,6 +329,7 @@ public class AddPostStep2Fragment extends Fragment  {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Fragment is attached
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_DIALOG_FRAGMENT_DATE:
@@ -333,9 +353,6 @@ public class AddPostStep2Fragment extends Fragment  {
         }
     }
 
-    public interface AddPostStep2Callback{
-        public void onInformationSelected();
-    }
 
     private void updateDateAndTime(){
         try {
@@ -351,7 +368,7 @@ public class AddPostStep2Fragment extends Fragment  {
                 mPost.getLeavingCalendarTo().getTimeInMillis()));
     }
 
-    @Override
+    /*@Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
@@ -369,6 +386,5 @@ public class AddPostStep2Fragment extends Fragment  {
 
         // Reset the active callbacks interface.
         mCallbacks = null;
-    }
-    
+    }*/
 }

@@ -15,7 +15,5 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/viewStub_import"
-        android:inflatedId="@+id/post_details"
-        android:layout="@layout/post_details"
         />
 </FrameLayout>

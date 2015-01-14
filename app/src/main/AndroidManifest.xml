@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="lt.justplius.android.pavezikas" >
+          xmlns:tools="http://schemas.android.com/tools"
+          package="lt.justplius.android.pavezikas">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
-        android:icon="@drawable/mini_logo"
+        android:icon="@drawable/logo_pavezikas"
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
-        android:uiOptions="splitActionBarWhenNarrow" >
+        android:uiOptions="splitActionBarWhenNarrow">
         <activity
             android:name=".facebook.FacebookLoginActivity"
             android:label="@string/app_name"
@@ -32,22 +33,37 @@
             android:value="@string/app_id" />
 
         <activity
-            android:name=".posts.PostsListActivity"
+            android:name=".display_posts.PostsListActivity"
             android:label="@string/title_post_list"
             android:uiOptions="splitActionBarWhenNarrow">
         </activity>
         <activity
-            android:name=".add_post.AddPostActivity"
-            android:label="@string/title_post_list"
-            android:windowSoftInputMode="stateHidden">
-        </activity>
-        <activity
-            android:name=".posts.PostDetailActivity"
+            android:name=".display_posts.PostDetailActivity"
             android:label="@string/title_post_detail"
-            android:parentActivityName=".posts.PostsListActivity" >
+            android:parentActivityName=".display_posts.PostsListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="lt.justplius.android.pavezikas.PostListActivity" />
+                android:value=".display_posts.PostsListActivity" />
+        </activity>
+        <activity
+            android:name=".add_post.AddPostActivity"
+            android:label="@string/title_post_list"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+        </activity>
+        <activity
+            android:name=".add_post.AddPostActivityTwoPane"
+            android:label="@string/title_post_list"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+        </activity>
+        <activity
+            android:name=".add_post.AddPostStep2Activity"
+            android:label="@string/add_post_step_2_information_selection"
+            android:windowSoftInputMode="stateHidden|adjustResize">
+        </activity>
+        <activity
+            android:name=".add_post.AddPostStep3Activity"
+            android:label="@string/add_post_step_3_route_selection"
+            android:windowSoftInputMode="stateHidden">
         </activity>
         <activity android:name=".common.NetworkUnavailableActivity"/>
         <receiver
@@ -58,5 +74,4 @@
             </intent-filter>
         </receiver>
     </application>
-
 </manifest>

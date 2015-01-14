@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="match_parent"
-                  android:layout_height="match_parent"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
                   android:orientation="horizontal"
                   android:gravity="center_horizontal"
     >
 
     <Button
         android:id="@+id/button_number_picker_decrease" style="@style/Button_1"
-
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
 
         android:text="@string/minus"
 
@@ -20,26 +17,24 @@
     />
 
     <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="48dp"
-        android:layout_gravity="center_horizontal"
+        android:layout_width="50dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical"
 
         android:background="@drawable/number_input"
         android:gravity="center"
         android:singleLine="true"
         android:textColor="@color/text_font_main"
-        android:textSize="30sp"
         android:inputType="number"
         android:hint="@string/hint_number_picker"
-        android:textColorHint="@color/hint_text_light"/>
+        android:textColorHint="@color/hint_text_light"
+        android:layout_marginLeft="2dp"
+        android:layout_marginRight="2dp"/>
 
     <Button
         android:id="@+id/button_number_picker_increase" style="@style/Button_1"
 
         android:text="@string/plus"
-
-        android:layout_width="50dp"
-        android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
 
         android:background="@drawable/button_type_1"

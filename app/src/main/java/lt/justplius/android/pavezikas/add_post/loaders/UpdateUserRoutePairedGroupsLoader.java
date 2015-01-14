@@ -29,7 +29,7 @@ public class UpdateUserRoutePairedGroupsLoader extends DataLoader {
         return null;
     }
 
-    // Task to update users' route and groups in DB
+    // Task to update users' route-paired groups in DB
     private class UpdateUserRoutePairedGroupsTask extends AsyncTask<ArrayList<NameValuePair>, Void, Void> {
         private String mUrl;
 

@@ -9,6 +9,7 @@ import lt.justplius.android.pavezikas.R;
 
 import static lt.justplius.android.pavezikas.common.NetworkStateUtils.handleNoNetworkAvailable;
 import static lt.justplius.android.pavezikas.common.NetworkStateUtils.sIsConnected;
+import static lt.justplius.android.pavezikas.common.NetworkStateUtils.sShouldInflateFragment;
 
 public abstract class BaseSingleFragmentActivity extends FragmentActivity {
 
@@ -17,7 +18,7 @@ public abstract class BaseSingleFragmentActivity extends FragmentActivity {
     protected abstract Fragment createFragment();
 
     protected int getLayoutResourceId(){
-        return R.layout.activity_post_singlepane;
+        return R.layout.activity;
     }
 
     protected int getFragmentContainerId(){
@@ -31,8 +32,11 @@ public abstract class BaseSingleFragmentActivity extends FragmentActivity {
 
         // First time determine if device has any available network connection
         NetworkStateUtils.isNetworkAvailable(this);
-        // Inflate prepared Fragment, if it has network available
-        inflateFragment();
+
+        if (savedInstanceState == null) {
+            // Inflate prepared Fragment, if it has network available
+            inflateFragment();
+        }
     }
 
     @Override
@@ -41,7 +45,12 @@ public abstract class BaseSingleFragmentActivity extends FragmentActivity {
 
         // Inflate prepared Fragment, if it was not inflated in onCreate()
         // after no network situation handled
-        inflateFragment();
+        if (sShouldInflateFragment) {
+            sShouldInflateFragment = false;
+            inflateFragment();
+        } else if (!sIsConnected) {
+            handleNoNetworkAvailable(this);
+        }
     }
 
     // Inflate prepared to inflate Fragment
@@ -54,8 +63,8 @@ public abstract class BaseSingleFragmentActivity extends FragmentActivity {
                 // Inflate newly prepared Fragment
                 fragment = createFragment();
                 fm.beginTransaction()
-                        .replace(getFragmentContainerId(), fragment, TAG_FRAGMENT)
-                        .commit();
+                    .replace(getFragmentContainerId(), fragment, TAG_FRAGMENT)
+                    .commit();
             }
         } else {
             handleNoNetworkAvailable(this);

@@ -458,15 +458,14 @@
             android:layout_width="5dp"
             android:layout_height="wrap_content"
 
-            android:layout_alignLeft="@+id/post_details_linear_layout_4"
-            android:layout_alignStart="@id/post_details_linear_layout_4"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
 
             android:layout_below="@+id/post_details_linear_layout_4"
             android:scaleType="center"
             android:src="@drawable/line_horizontal"
-        />
+            android:layout_alignLeft="@+id/post_details_line_horizontal_4"
+            android:layout_alignStart="@+id/post_details_line_horizontal_4"/>
 
         <TextView
             android:id="@+id/post_details_comment"

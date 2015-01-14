@@ -1,13 +1,13 @@
 package lt.justplius.android.pavezikas.add_post;
 
+import android.animation.LayoutTransition;
 import android.app.Activity;
-import android.app.LoaderManager;
 import android.content.Intent;
-import android.content.Loader;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,9 +16,11 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -33,24 +35,36 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 
 import lt.justplius.android.pavezikas.R;
-import lt.justplius.android.pavezikas.add_post.events.RouteIdRetrievedEvent;
-import lt.justplius.android.pavezikas.common.BaseTwoFragmentsActivity;
-import lt.justplius.android.pavezikas.common.BusProvider;
+import lt.justplius.android.pavezikas.add_post.dialog_fragments.DroppingAddressDialogFragment;
+import lt.justplius.android.pavezikas.add_post.dialog_fragments.LeavingAddressDialogFragment;
+import lt.justplius.android.pavezikas.add_post.dialog_fragments.UserFacebookGroupsDialogFragment;
+import lt.justplius.android.pavezikas.add_post.events.DownloadFinishedEvent;
+import lt.justplius.android.pavezikas.add_post.events.DownloadStartedEvent;
+import lt.justplius.android.pavezikas.display_posts.PostsListActivity;
 import lt.justplius.android.pavezikas.facebook.FacebookLoginFragment;
-import lt.justplius.android.pavezikas.post.Post;
-import lt.justplius.android.pavezikas.post.PostManager;
+import lt.justplius.android.pavezikas.mangers.BusManager;
+import lt.justplius.android.pavezikas.mangers.DownloadsManager;
 
 import static lt.justplius.android.pavezikas.common.NetworkStateUtils.isConnected;
-import static lt.justplius.android.pavezikas.post.PostLoaderManager.*;
-import static lt.justplius.android.pavezikas.post.PostManager.getLoader;
+import static lt.justplius.android.pavezikas.mangers.PostLoadersManager.LOADER_DROPPING_ADDRESS_ID;
+import static lt.justplius.android.pavezikas.mangers.PostLoadersManager.LOADER_INSERT_POST;
+import static lt.justplius.android.pavezikas.mangers.PostLoadersManager.LOADER_LEAVING_ADDRESS_ID;
+import static lt.justplius.android.pavezikas.mangers.PostLoadersManager.LOADER_ROUTE_ID;
+import static lt.justplius.android.pavezikas.mangers.PostLoadersManager.LOADER_UPDATE_USER_ROUTE_PAIRED_GROUPS;
+import static lt.justplius.android.pavezikas.mangers.PostLoadersManager.LOADER_USER_ROUTE_PAIRED_GROUPS;
+import static lt.justplius.android.pavezikas.mangers.PostLoadersManager.getInstance;
 
+/**
+ * Prepares route and facebook groups related information to insert.
+ * Also checks if all data is correct before post insert to DB.
+ */
 public class AddPostStep3Fragment extends Fragment
         implements LoaderManager.LoaderCallbacks {
     private static final String TAG = "AddPostStep3Fragment";
 
     private static final int REQUEST_LEAVING_ADDRESS = 0;
     private static final int REQUEST_DROPPING_ADDRESS = 1;
-    private static final int REQUEST_USER_GROUPS = 2;
+    private static final int REQUEST_UPDATE_USER_ROUTE_PAIRED_GROUPS = 2;
     public static final String ARG_LEAVING_ADDRESS = "lt.justplius.android.pavezikas.leaving_address";
     public static final String ARG_DROPPING_ADDRESS = "lt.justplius.android.pavezikas.dropping_address";
     public static final String ARG_SELECTED_GROUPS = "lt.justplius.android.pavezikas.selected_groups";
@@ -58,19 +72,21 @@ public class AddPostStep3Fragment extends Fragment
     public static final String NVP_ROUTE_ID = "route_id";
     private static final String NVP_GROUPS_IDS = "groupIds[]";
 
-    private AddPostStep3Callback mCallbacks;
+    //private AddPostStep3Callback mCallbacks;
 
     private TextView mTextViewLeavingAddress;
     private TextView mTextViewDroppingAddress;
-    private Spinner mSpinnerRoutePairedGroups;
     private Post mPost;
 
-    private LeavingAddressDialogFragment mLeavingAddressPicker;
-    private DroppingAddressDialogFragment mDroppingAddressPicker;
     private TextView mTextViewSelectedGroups;
-    private ImageView mImageViewLineHorizontal6;
-    private ImageView mImageViewLineHorizontal7;
-
+    private ArrayAdapter<String> mAdapter;
+    private ArrayList<String> mGroups;
+    private Spinner mSpinnerLeavingCity;
+    private Spinner mSpinnerDroppingCity;
+    private ProgressBar mProgressBar;
+    private Button mButtonFacebookGroups;
+    private Button mButtonStep3Continue;
+    private Spinner mListViewRoutePairedGroups;
 
     public interface AddPostStep3Callback{
         public void onPostRouteSelected();
@@ -80,24 +96,21 @@ public class AddPostStep3Fragment extends Fragment
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        // TODO check if asynchronous tasks aren't executed simultaneously
-        // TODO implement upStop/onResume, onPause/OnResume handling and release of resources
-        // TODO implement screen rotation
-        // TODO implement back pressed action
-        // TODO implement single-dual pane view display
-        // TODO implement UNIT tests
-        // TODO implement integration tests
-
-        // Leaving address pick-up
-        mLeavingAddressPicker = new LeavingAddressDialogFragment();
-        mLeavingAddressPicker.setTargetFragment(this, REQUEST_LEAVING_ADDRESS);
-        mDroppingAddressPicker = new DroppingAddressDialogFragment();
-        mDroppingAddressPicker.setTargetFragment(this, REQUEST_DROPPING_ADDRESS);
-        mPost = PostManager.getPost(getActivity());
+        mPost = Post.getInstance();
 
         getActivity()
-                .getLoaderManager()
+                .getSupportLoaderManager()
                 .initLoader(LOADER_USER_ROUTE_PAIRED_GROUPS, null, this);
+
+        if (savedInstanceState != null) {
+            mGroups = savedInstanceState.getStringArrayList(ARG_SELECTED_GROUPS);
+        } else {
+            mGroups = new ArrayList<>();
+        }
+        mAdapter = new ArrayAdapter<>(
+                getActivity(),
+                R.layout.simple_list_item,
+                mGroups);
     }
 
     @Override
@@ -105,20 +118,23 @@ public class AddPostStep3Fragment extends Fragment
             Bundle savedInstanceState) {
     	View v = inflater.inflate(R.layout.add_post_step3, container, false);
 
-        /*Button buttonStep3Continue = (Button) v.findViewById(R.id.add_post_step3_button_post);
-        buttonStep3Continue.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mCallbacks.onPostRouteSelected();
-            }
-        });*/
+        /*
+        Allows to softly animate child views change: hide / display
+        route-paired groups, their title
+         */
+        LinearLayout layout = (LinearLayout) v.findViewById(R.id.add_post_step3_linearLayout);
+        LayoutTransition layoutTransition = layout.getLayoutTransition();
+        layoutTransition.enableTransitionType(LayoutTransition.CHANGING);
 
         Button buttonLeavingAddress = (Button) v.findViewById(R.id.add_post_step3_button_address_leaving);
         buttonLeavingAddress.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (isConnected(getActivity())) {
-                    mLeavingAddressPicker.show(getActivity().getSupportFragmentManager(), "LeavingPicker");
+                    // Leaving address pick-up
+                    LeavingAddressDialogFragment leavingAddressPicker = new LeavingAddressDialogFragment();
+                    leavingAddressPicker.setTargetFragment(AddPostStep3Fragment.this, REQUEST_LEAVING_ADDRESS);
+                    leavingAddressPicker.show(getActivity().getSupportFragmentManager(), "LeavingPicker");
                 }
             }
         });
@@ -127,130 +143,272 @@ public class AddPostStep3Fragment extends Fragment
             @Override
             public void onClick(View v) {
                 if (isConnected(getActivity())) {
-                    mDroppingAddressPicker.show(getActivity().getSupportFragmentManager(), "DroppingPicker");
+                    DroppingAddressDialogFragment droppingAddressPicker = new DroppingAddressDialogFragment();
+                    droppingAddressPicker.setTargetFragment(AddPostStep3Fragment.this, REQUEST_DROPPING_ADDRESS);
+                    droppingAddressPicker.show(getActivity().getSupportFragmentManager(), "DroppingPicker");
                 }
             }
         });
 
         mTextViewLeavingAddress = (TextView) v.findViewById(R.id.add_post_step3_textView_address_leaving);
-        mTextViewLeavingAddress.setText(mPost.getLeavingAddress());
+        if (mPost.isLeavingAddressSet()) {
+            mTextViewLeavingAddress.setText(mPost.getLeavingAddress());
+            mTextViewLeavingAddress.setVisibility(View.VISIBLE);
+        }
         mTextViewDroppingAddress = (TextView) v.findViewById(R.id.add_post_step3_textView_destination_address);
         mTextViewDroppingAddress.setText(mPost.getDroppingAddress());
+        if (mPost.isDroppingAddressSet()) {
+            mTextViewDroppingAddress.setText(mPost.getDroppingAddress());
+            mTextViewDroppingAddress.setVisibility(View.VISIBLE);
+        }
 
         // Populate leaving and dropping address spinner with string adapter
         final ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(
                 getActivity(), R.array.cities_list, android.R.layout.simple_spinner_item);
-        final Spinner spinnerLeavingCity = (Spinner) v.findViewById(R.id.add_post_step3_spinner_city_leaving);
-        spinnerLeavingCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        mSpinnerLeavingCity = (Spinner) v.findViewById(R.id.add_post_step3_spinner_city_leaving);
+        mSpinnerLeavingCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (isConnected(getActivity())) {
                     mPost.setRouteCity(
-                            0, spinnerLeavingCity.getItemAtPosition(position).toString());
+                            0, mSpinnerLeavingCity.getItemAtPosition(position).toString(), getActivity());
                     // Calls onRouteIdRetrieved() when Loader downloads data
                 } else {
                     // Revert selection
-                    spinnerLeavingCity.setSelection(adapter.getPosition(mPost.getCity(0)));
+                    mSpinnerLeavingCity.setSelection(adapter.getPosition(mPost.getCity(0)));
                 }
                 mTextViewLeavingAddress.setText(mPost.getLeavingAddress());
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> arg0)
-            {
+            public void onNothingSelected(AdapterView<?> arg0) {
             }
         });
-        final Spinner spinnerDroppingCity = (Spinner) v.findViewById(R.id.add_post_step3_spinner_city_destination);
-        spinnerDroppingCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        mSpinnerDroppingCity = (Spinner) v.findViewById(R.id.add_post_step3_spinner_city_destination);
+        mSpinnerDroppingCity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 if (isConnected(getActivity())) {
                     mPost.setRouteCity(
-                            1, spinnerDroppingCity.getItemAtPosition(position).toString());
-                    new Handler().postDelayed(new Runnable() {
-                                                  @Override
-                                                  public void run() {
-                                                      updateRoutePairedGroupsView();
-                                                  }
-                                              },
-                            1500);
+                            1, mSpinnerDroppingCity.getItemAtPosition(position).toString(), getActivity());
                     // Calls onRouteIdRetrieved() when Loader downloads data
                 } else {
                     // Revert selection
-                    spinnerDroppingCity.setSelection(adapter.getPosition(mPost.getCity(1)));
+                    mSpinnerDroppingCity.setSelection(adapter.getPosition(mPost.getCity(1)));
                 }
                 mTextViewDroppingAddress.setText(mPost.getDroppingAddress());
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> arg0)
-            {
+            public void onNothingSelected(AdapterView<?> arg0) {
             }
         });
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerLeavingCity.setAdapter(adapter);
-        spinnerLeavingCity.setSelection(adapter.getPosition(mPost.getCity(0)));
-        spinnerDroppingCity.setAdapter(adapter);
-        spinnerDroppingCity.setSelection(adapter.getPosition(mPost.getCity(1)));
+        mSpinnerLeavingCity.setAdapter(adapter);
+        mSpinnerLeavingCity.setSelection(adapter.getPosition(mPost.getCity(0)));
+        mSpinnerDroppingCity.setAdapter(adapter);
+        mSpinnerDroppingCity.setSelection(adapter.getPosition(mPost.getCity(1)));
 
-        Button buttonFacebookGroups = (Button) v.findViewById(R.id.add_post_step3_button_select_groups);
-        buttonFacebookGroups.setOnClickListener(new OnClickListener() {
+        mButtonFacebookGroups = (Button) v.findViewById(R.id.add_post_step3_button_select_groups);
+        mButtonFacebookGroups.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isConnected(getActivity())) {
-                    UserGroupsDialogFragment groupsDialogFragment = new UserGroupsDialogFragment();
+                if (isConnected(getActivity()) && isGroupsDataCorrect()) {
+                    UserFacebookGroupsDialogFragment groupsDialogFragment = new UserFacebookGroupsDialogFragment();
                     groupsDialogFragment.setTargetFragment(
-                            getFragmentManager().findFragmentByTag(BaseTwoFragmentsActivity.TAG_DETAILS_FRAGMENT),
-                            REQUEST_USER_GROUPS);
+                            AddPostStep3Fragment.this,
+                            REQUEST_UPDATE_USER_ROUTE_PAIRED_GROUPS);
                     groupsDialogFragment.show(getActivity().getSupportFragmentManager(), "GroupsDialogFragment");
                 }
+            }
+
+            private boolean isGroupsDataCorrect() {
+                if (DownloadsManager.isBeingDownloaded(LOADER_ROUTE_ID)
+                        || DownloadsManager.isBeingDownloaded(LOADER_UPDATE_USER_ROUTE_PAIRED_GROUPS)) {
+                    Toast.makeText(
+                            getActivity(),
+                            R.string.message_route_id_is_being_downloaded,
+                            Toast.LENGTH_LONG)
+                            .show();
+                    return false;
+                } else if (mPost.getRouteID().equals("0")) {
+                    Toast.makeText(
+                            getActivity(),
+                            R.string.message_wrong_route_id,
+                            Toast.LENGTH_LONG)
+                            .show();
+                    return false;
+                }
+                return true;
             }
         });
 
         mTextViewSelectedGroups = (TextView) v.findViewById(R.id.add_post_step3_textView_selected_groups);
 
-        mSpinnerRoutePairedGroups = (Spinner) v.findViewById(R.id.add_post_step3_spinner_groups);
+        mListViewRoutePairedGroups = (Spinner) v.findViewById(R.id.add_post_step3_listView_groups);
+        mListViewRoutePairedGroups.setAdapter(mAdapter);
+        if (mGroups.size() > 0) {
+            showRoutePairedGroups();
+        } else if (!mPost.getRouteID().equals("0")) {
+            updateRoutePairedGroupsView();
+        }
 
-        mImageViewLineHorizontal6 = (ImageView) v.findViewById(R.id.add_post_step3_line_horizontal6);
-        mImageViewLineHorizontal7 = (ImageView) v.findViewById(R.id.add_post_step3_line_horizontal7);
+        mProgressBar = (ProgressBar) getActivity().findViewById(R.id.post_insert_status_progressBar);
+        mProgressBar.getIndeterminateDrawable()
+                .setColorFilter(
+                        getResources().getColor(R.color.post_shadow),
+                        android.graphics.PorterDuff.Mode.MULTIPLY);
+
+        mButtonStep3Continue = (Button) getActivity().findViewById(R.id.post_insert_button);
+
         return v;
     }
 
-    @Override public void onResume() {
+    @Override
+    public void onResume() {
         super.onResume();
-        BusProvider.getInstance().register(this);
+        BusManager.getInstance().register(this);
     }
 
-    @Override public void onPause() {
+    @Override
+    public void onPause() {
         super.onPause();
-        BusProvider.getInstance().unregister(this);
+        BusManager.getInstance().unregister(this);
     }
 
     private void updateRoutePairedGroupsView() {
         // Get model
-        getActivity()
-                .getLoaderManager()
-                .getLoader(LOADER_USER_ROUTE_PAIRED_GROUPS)
-                .forceLoad();
-    }
+        if (!mPost.getRouteID().equals("0")) {
+            //mProgressBar.setVisibility(View.VISIBLE);
+            // Post an event, informing to start loading user Route-Paired groups
+            BusManager
+                    .getInstance()
+                    .post(new DownloadStartedEvent(LOADER_USER_ROUTE_PAIRED_GROUPS));
 
-    // Call this method via Otto Event Bus
-    @Subscribe
-    public void onRouteIdRetrieved(RouteIdRetrievedEvent event) {
-        if (RouteIdRetrievedEvent.sRouteId == 0) {
-            hideRoutePairedGroups();
-        } else {
-            updateRoutePairedGroupsView();
+            getActivity()
+                    .getSupportLoaderManager()
+                    .getLoader(LOADER_USER_ROUTE_PAIRED_GROUPS)
+                    .forceLoad();
         }
     }
 
+    /**
+     * Call this method via Otto Event Bus.
+     * Handles ProgressBar, Spinners, TextViews visibility.
+      */
+    @Subscribe
+    public void onDownloadStarted (DownloadStartedEvent event) {
+        switch (DownloadStartedEvent.sLoaderId) {
+            case LOADER_LEAVING_ADDRESS_ID:
+                mTextViewLeavingAddress.setVisibility(View.GONE);
+                break;
+            case LOADER_DROPPING_ADDRESS_ID:
+                mTextViewDroppingAddress.setVisibility(View.GONE);
+                break;
+            case LOADER_ROUTE_ID:
+                hideRoutePairedGroups();
+                disableViewItems();
+                break;
+            case LOADER_UPDATE_USER_ROUTE_PAIRED_GROUPS:
+                hideRoutePairedGroups();
+                disableViewItems();
+                break;
+            default:
+                break;
+        }
+        if (DownloadsManager.isDownloading()) {
+            mProgressBar.setVisibility(View.VISIBLE);
+        }
+    }
+
+    /**
+     * Call this method via Otto Event Bus.
+     * Handles ProgressBar, Spinners, TextViews visibility.
+     */
+    @Subscribe
+    public void onDownloadFinished(DownloadFinishedEvent event) {
+        switch (DownloadFinishedEvent.sLoaderId) {
+            case LOADER_LEAVING_ADDRESS_ID:
+                if (mPost.isLeavingAddressSet()) {
+                    mTextViewLeavingAddress.setText(mPost.getLeavingAddress());
+                    mTextViewLeavingAddress.setVisibility(View.VISIBLE);
+                } else {
+                    mTextViewLeavingAddress.setVisibility(View.GONE);
+                }
+                break;
+            case LOADER_DROPPING_ADDRESS_ID:
+                if (mPost.isDroppingAddressSet()) {
+                    mTextViewDroppingAddress.setText(mPost.getDroppingAddress());
+                    mTextViewDroppingAddress.setVisibility(View.VISIBLE);
+                } else {
+                    mTextViewDroppingAddress.setVisibility(View.GONE);
+                }
+                break;
+            case LOADER_ROUTE_ID:
+                if (!mPost.getRouteID().equals("0")) {
+                    updateRoutePairedGroupsView();
+                } else {
+                    hideRoutePairedGroups();
+                    enableViewItems();
+                }
+                break;
+            case LOADER_USER_ROUTE_PAIRED_GROUPS:
+                if (mGroups.size() > 0) {
+                    showRoutePairedGroups();
+                }
+                enableViewItems();
+                break;
+            case LOADER_UPDATE_USER_ROUTE_PAIRED_GROUPS:
+                updateRoutePairedGroupsView();
+                break;
+            case LOADER_INSERT_POST:
+                if (!mPost.getPostId().equals("0")) {
+                    Toast.makeText(
+                            getActivity(),
+                            getString(R.string.successful_post_insert),
+                            Toast.LENGTH_LONG)
+                            .show();
+                    Intent intent = new Intent(getActivity(), PostsListActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(
+                            getActivity(),
+                            getString(R.string.unsuccessful_post_insert),
+                            Toast.LENGTH_LONG)
+                            .show();
+                }
+                break;
+            default:
+                break;
+        }
+        if (!DownloadsManager.isDownloading()) {
+            mProgressBar.setVisibility(View.INVISIBLE);
+        }
+    }
+
+    private void enableViewItems() {
+        mSpinnerLeavingCity.setEnabled(true);
+        mSpinnerDroppingCity.setEnabled(true);
+        mButtonFacebookGroups.setEnabled(true);
+        mButtonStep3Continue.setEnabled(true);
+    }
+
+    private void disableViewItems() {
+        mSpinnerLeavingCity.setEnabled(false);
+        mSpinnerDroppingCity.setEnabled(false);
+        mButtonFacebookGroups.setEnabled(false);
+        mButtonStep3Continue.setEnabled(false);
+    }
+
     private void hideRoutePairedGroups(){
-        mSpinnerRoutePairedGroups.setAdapter(null);
-        mSpinnerRoutePairedGroups.setVisibility(View.GONE);
         mTextViewSelectedGroups.setVisibility(View.GONE);
-        mImageViewLineHorizontal6.setVisibility(View.GONE);
-        mImageViewLineHorizontal7.setVisibility(View.GONE);
+        mListViewRoutePairedGroups.setVisibility(View.GONE);
+    }
+
+    private void showRoutePairedGroups() {
+        mListViewRoutePairedGroups.setVisibility(View.VISIBLE);
+        mTextViewSelectedGroups.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -259,17 +417,13 @@ public class AddPostStep3Fragment extends Fragment
             switch (requestCode) {
                 case REQUEST_LEAVING_ADDRESS:
                     // Update model
-                    mPost.setLeavingAddress(data.getStringExtra(ARG_LEAVING_ADDRESS));
-                    // Update view
-                    mTextViewLeavingAddress.setText(mPost.getLeavingAddress());
+                    mPost.setLeavingAddress(data.getStringExtra(ARG_LEAVING_ADDRESS), getActivity());
                     break;
                 case REQUEST_DROPPING_ADDRESS:
                     // Update model
-                    mPost.setDroppingAddress(data.getStringExtra(ARG_DROPPING_ADDRESS));
-                    // Update view
-                    mTextViewDroppingAddress.setText(mPost.getDroppingAddress());
+                    mPost.setDroppingAddress(data.getStringExtra(ARG_DROPPING_ADDRESS), getActivity());
                     break;
-                case REQUEST_USER_GROUPS:
+                case REQUEST_UPDATE_USER_ROUTE_PAIRED_GROUPS:
                     // Update model
                     ArrayList<String> groups = data.getStringArrayListExtra(ARG_SELECTED_GROUPS);
                     ArrayList<NameValuePair> pairs = new ArrayList<>();
@@ -287,8 +441,13 @@ public class AddPostStep3Fragment extends Fragment
                     // Convert to String using Gson
                     args.putString(ARG_SELECTED_GROUPS, gson);
 
+                    // Post an event, informing to start user Route-Paired groups list
+                    BusManager
+                            .getInstance()
+                            .post(new DownloadStartedEvent(LOADER_UPDATE_USER_ROUTE_PAIRED_GROUPS));
+
                     getActivity()
-                            .getLoaderManager()
+                            .getSupportLoaderManager()
                             .restartLoader(LOADER_UPDATE_USER_ROUTE_PAIRED_GROUPS, args, this);
                     break;
             }
@@ -299,16 +458,18 @@ public class AddPostStep3Fragment extends Fragment
     public Loader onCreateLoader(int id, Bundle bundle) {
         switch (id) {
             case LOADER_USER_ROUTE_PAIRED_GROUPS:
-                return getLoader().createUserRoutePairedGroupsLoader(getActivity());
+                return
+                        getInstance(getActivity())
+                        .createUserRoutePairedGroupsLoader();
             case LOADER_UPDATE_USER_ROUTE_PAIRED_GROUPS:
                 // Revert object from String using Gson
                 Type type = new TypeToken<ArrayList<BasicNameValuePair>>(){}.getType();
                 String gson = bundle.getString(ARG_SELECTED_GROUPS);
                 ArrayList<NameValuePair> pairs =
                         new Gson().fromJson(gson, type);
-                return getLoader().createUpdateUserRoutePairedGroupsLoader(
-                        getActivity(),
-                        pairs);
+                return
+                        getInstance(getActivity())
+                        .createUpdateUserRoutePairedGroupsLoader(pairs);
             default:
                 return null;
         }
@@ -319,32 +480,32 @@ public class AddPostStep3Fragment extends Fragment
         if (isVisible()) {
             switch (loader.getId()) {
                 case LOADER_USER_ROUTE_PAIRED_GROUPS:
-                    ArrayList<String> groups = new ArrayList<>();
-                    try {
-                        JSONArray jsonArray = new JSONArray(data.toString());
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            groups.add(jsonArray.getString(i));
+                    mGroups.clear();
+                    mAdapter.notifyDataSetChanged();
+                    // Skip an un-appropriate request result ('0')
+                    if (!data.equals("   \"0\"\n")) {
+                        try {
+                            JSONArray jsonArray = new JSONArray(data.toString());
+                            for (int i = 0; i < jsonArray.length(); i++) {
+                                mGroups.add(jsonArray.getString(i));
+                            }
+                            mAdapter.notifyDataSetChanged();
+                        } catch (JSONException e) {
+                            Log.e(TAG, "Error converting route paired groups result:", e);
                         }
-                        if (groups.size() > 0) {
-                            mSpinnerRoutePairedGroups.setVisibility(View.VISIBLE);
-                            mTextViewSelectedGroups.setVisibility(View.VISIBLE);
-                            mImageViewLineHorizontal6.setVisibility(View.VISIBLE);
-                            mImageViewLineHorizontal7.setVisibility(View.VISIBLE);
-
-                            ArrayAdapter<String> adapter = new ArrayAdapter<>(
-                                    getActivity(),
-                                    android.R.layout.simple_list_item_1,
-                                    groups);
-                            mSpinnerRoutePairedGroups.setAdapter(adapter);
-                        } else {
-                            onLoaderReset(loader);
-                        }
-                    } catch (JSONException e) {
-                        Log.e(TAG, "Error converting route paired groups result:", e);
+                        // Post an event, informing that user Route-Paired groups
+                        // list finished loading
+                        BusManager
+                                .getInstance()
+                                .post(new DownloadFinishedEvent(LOADER_USER_ROUTE_PAIRED_GROUPS));
                     }
                     break;
                 case LOADER_UPDATE_USER_ROUTE_PAIRED_GROUPS:
-                    updateRoutePairedGroupsView();
+                    // Post an event, informing that user Route-Paired groups
+                    // list update has finished executing
+                    BusManager
+                            .getInstance()
+                            .post(new DownloadFinishedEvent(LOADER_UPDATE_USER_ROUTE_PAIRED_GROUPS));
                     break;
             }
         }
@@ -352,19 +513,15 @@ public class AddPostStep3Fragment extends Fragment
 
     @Override
     public void onLoaderReset(Loader loader) {
-        if (isVisible()) {
-            switch (loader.getId()) {
-                case LOADER_USER_ROUTE_PAIRED_GROUPS:
-                    hideRoutePairedGroups();
-                    break;
-                case LOADER_UPDATE_USER_ROUTE_PAIRED_GROUPS:
-                    hideRoutePairedGroups();
-                    break;
-            }
-        }
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putStringArrayList(ARG_SELECTED_GROUPS, mGroups);
+        super.onSaveInstanceState(outState);
+    }
+
+    /*@Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
 
@@ -374,13 +531,15 @@ public class AddPostStep3Fragment extends Fragment
         }
 
         mCallbacks = (AddPostStep3Callback) activity;
-    }
+    }*/
 
     @Override
     public void onDetach() {
         super.onDetach();
 
-        // Reset the active callbacks interface.
-        mCallbacks = null;
+        mProgressBar.setVisibility(View.INVISIBLE);
+
+        /*// Reset the active callbacks interface.
+        mCallbacks = null;*/
     }
 }

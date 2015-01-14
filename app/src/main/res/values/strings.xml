@@ -11,24 +11,25 @@
     <string name="hint_date_picker">Data: Pasirinkite datą</string>
     <string name="hint_time_picker">Laikas: Pasirinkite laiką</string>
     <string name="hint_city_address">Adresas, Miestas</string>
-    <string name="seat_picker">Vietos:</string>
-    <string name="price_picker">Kaina:</string>
+    <string name="seat_picker">Laisvų vietų</string>
+    <string name="price_picker">Kaina, €</string>
     <string name="driver">Vežėjas</string>
     <string name="passenger">Keleivis</string>
-    <string name="post_windows_msg1">Informacijos pildymas</string>
+    <string name="add_post_step_2_information_selection">Informacijos pildymas</string>
     <string name="comment">Komentaras</string>
-    <string name="post_windows_msg3">Maršruto pildymas</string>
-    <string name="post_windows_msg4">Išvykstama iš</string>
-    <string name="post_windows_msg5">Atvykstama į</string>
+    <string name="add_post_step_3_route_selection">Maršruto pildymas</string>
+    <string name="post_windows_msg4">Išvykstama iš:</string>
+    <string name="post_windows_msg5">Atvykstama į:</string>
     <string name="post_windows_msg6">Pasirinktos Facebook grupės</string>
     <string name="date">Data</string>
     <string name="edit">Keisti</string>
+    <string name="address">Adresas</string>
     <string name="details">Detaliau</string>
     <string name="unnamed">-</string>
-    <string name="flexible">Derinti? </string>
+    <string name="flexible">"Derinamas: "</string>
     <string name="phone_first_digits">+370</string>
     <string name="add_more">Pridėti daugiau taškų</string>
-    <string name="check_fb_groups">Pasirinkti grupes</string>
+    <string name="check_fb_groups">Parinkti grupes</string>
     <string name="default_name">Vardas Pavardė</string>
     <string name="menu_item_1">Skelbimai</string>
     <string name="menu_item_2">Sekami maršrutai</string>
@@ -65,9 +66,9 @@
 
 
 
-    <string name="app_name">Pavezikas</string>
+    <string name="app_name">Pavežikas</string>
     <string name="action_settings">Nustatymai</string>
-    <string name="add_post">Pridėti skelbimą</string>
+    <string name="add_post">Skelbti</string>
     <string name="all">Visi</string>
     <string name="app_id">356729764461219</string>
     <string name="check">Tikrinti</string>
@@ -108,7 +109,7 @@
     <string name="set_price">Nustatyti kainą litais</string>
     <string name="set_seats_number">Nustatyti vietų skaičių</string>
     <string name="successful_post_insert">Skelbimas sėkmingai įterptas!</string>
-    <string name="time_flexible_value"> +- 30 min</string>
+    <string name="time_flexible_value"> +- 1 val. 0 min.</string>
     <string name="title_activity_details">DetailsActivity</string>
     <string name="title_activity_facbook_login">FacbookLoginActivity</string>
     <string name="unsuccessful_post_insert">Skelbimo nepavyko įterpti! Bandykite dar kartą.</string>
@@ -126,6 +127,7 @@
     <string name="url_update_user_groups">http://vezikas.bugs3.com/json_db_access/updateUserGroups.php</string>
     <string name="url_update_user_route_paired_groups">http://vezikas.bugs3.com/json_db_access/updateUserRoutePairedGroups.php</string>
     <string name="url_select_user_route_paired_groups">http://vezikas.bugs3.com/json_db_access/selectUserRoutePairedGroups.php</string>
+    <string name="url_select_from_message">http://vezikas.bugs3.com/json_db_access/selectFromMessage.php</string>
 
     <string-array name="cities_list">
         <item>Vilnius</item>
@@ -241,9 +243,15 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="seats">Vietų: </string>
     <string name="price">Kaina: </string>
-    <string name="time">Laikas: </string>
+    <string name="time">Laikas</string>
     <string name="currency">Lt</string>
     <string name="set_selected_groups">Pasirinkite grupes, kuriose talpinti skelbimą</string>
     <string name="revert">Atstatyti į pradinį</string>
+    <string name="message_data_is_being_downloaded">Siunčiami duomenys… Bandykite vėliau!</string>
+    <string name="message_wrong_route_id">Nepavyko nustatyti maršruto! Parinkite jį iš naujo!</string>
+    <string name="message_route_id_is_being_downloaded">Maršruto duomenys siunčiami… Bandykite vėliau…</string>
+    <string name="name_surname">Vardas Pavardė</string>
+    <string name="phone_number">Telefonas</string>
+    <string name="chosen_groups">Pasirinktos grupės</string>
 
 </resources>

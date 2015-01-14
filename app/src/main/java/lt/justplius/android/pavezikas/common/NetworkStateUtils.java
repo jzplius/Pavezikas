@@ -33,6 +33,7 @@ public class NetworkStateUtils {
     // Static members for usage of connection state handling
     public static boolean sIsConnected = false;
     public static boolean sIsConnectionBeingHandled = false;
+    public static boolean sShouldInflateFragment = false;
 
     // Check if device has any available network connection
     public static boolean isNetworkAvailable(Context context) {
@@ -110,9 +111,9 @@ public class NetworkStateUtils {
         }
     }
 
-    // Method that returns isConnected value and if needed informs
-    // with toast about no connection being present, used in
-    // network-sensitive actions pre-check
+    /** Method that returns isConnected value and if needed informs
+     * with toast about no connection being present, used in
+     * network-sensitive actions pre-check */
     public static boolean isConnected(Context context) {
         if (!sIsConnected) {
             Toast.makeText(context, R.string.no_internet_connection, Toast.LENGTH_LONG).show();

@@ -8,7 +8,6 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.Session;
 import com.facebook.SessionState;
@@ -19,7 +18,7 @@ import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
 import lt.justplius.android.pavezikas.R;
 import lt.justplius.android.pavezikas.facebook.FacebookLoginActivity;
 import lt.justplius.android.pavezikas.facebook.FacebookLoginFragment;
-import lt.justplius.android.pavezikas.posts.PostsListActivity;
+import lt.justplius.android.pavezikas.display_posts.PostsListActivity;
 
 import static lt.justplius.android.pavezikas.facebook.FacebookLoginFragment.PREF_FB_NAME_SURNAME;
 
@@ -37,7 +36,6 @@ public class SlidingMenuUtils {
         SlidingMenu menu = new SlidingMenu(mActivity);
         menu.setMode(SlidingMenu.RIGHT);
         menu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
-        //menu.setShadowWidthRes(R.dimen.shadow_width);
         menu.setShadowDrawable(R.drawable.shadowright);
         menu.setBehindOffsetRes(R.dimen.slidingmenu_offset);
         menu.setBehindWidthRes(R.dimen.slidingmenu_behind_width);
@@ -58,7 +56,7 @@ public class SlidingMenuUtils {
 
         TextView textViewNameSurname = (TextView) mActivity.findViewById(R.id.menu_list_name_surname);
         textViewNameSurname.setText(
-                sp.getString(PREF_FB_NAME_SURNAME, "Vardas Pavardė"));
+                sp.getString(PREF_FB_NAME_SURNAME, mActivity.getString(R.string.name_surname)));
 
         ProfilePictureView profilePictureView = (ProfilePictureView)
                 mActivity.findViewById(R.id.menu_list_profile_picture);

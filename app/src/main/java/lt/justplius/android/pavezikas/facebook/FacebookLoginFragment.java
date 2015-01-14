@@ -35,7 +35,7 @@ import java.util.Arrays;
 
 import lt.justplius.android.pavezikas.R;
 import lt.justplius.android.pavezikas.common.HttpPostStringResponse;
-import lt.justplius.android.pavezikas.posts.PostsListActivity;
+import lt.justplius.android.pavezikas.display_posts.PostsListActivity;
 
 public class FacebookLoginFragment extends Fragment {
     private static final String TAG = "FacebookLogin";
@@ -60,12 +60,12 @@ public class FacebookLoginFragment extends Fragment {
     private FacebookDialog.Callback mDialogCallback = new FacebookDialog.Callback() {
         @Override
         public void onError(FacebookDialog.PendingCall pendingCall, Exception error, Bundle data) {
-            Log.d(TAG, String.format("Error in login: %s", error.toString())); // TODO rar
+            Log.d(TAG, String.format("Error in login: %s", error.toString()));
         }
 
         @Override
         public void onComplete(FacebookDialog.PendingCall pendingCall, Bundle data) {
-            Log.d(TAG, "Successful login!"); // TODO rar
+            Log.d(TAG, "Successful login!");
         }
     };
 
@@ -81,7 +81,7 @@ public class FacebookLoginFragment extends Fragment {
                     .show();
         }
         if (state.isOpened()) {
-            Log.i(TAG, "Logged in..."); // TODO rar
+            Log.i(TAG, "Logged in...");
             // Determine if task has been created
             if (mSelectUserRatingTask == null) {
                 mSelectUserRatingTask = new SelectUserRatingTask();
@@ -132,7 +132,7 @@ public class FacebookLoginFragment extends Fragment {
                 ).executeAsync();
             }
         } else if (state.isClosed()) {
-            Log.i(TAG, "Logged out..."); // TODO rar
+            Log.i(TAG, "Logged out...");
             mSelectUserRatingTask = null;
         }
     }

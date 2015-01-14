@@ -1,77 +1,63 @@
 package lt.justplius.android.pavezikas.add_post;
 
-import android.app.ActionBar;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.RotateAnimation;
-import android.widget.ImageButton;
+import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import lt.justplius.android.pavezikas.R;
+import lt.justplius.android.pavezikas.add_post.events.DownloadFinishedEvent;
+import lt.justplius.android.pavezikas.add_post.events.DownloadStartedEvent;
 import lt.justplius.android.pavezikas.common.BaseVezikasTwoFragmentActivity;
-import lt.justplius.android.pavezikas.posts.PostsListActivity;
+import lt.justplius.android.pavezikas.mangers.BusManager;
+import lt.justplius.android.pavezikas.mangers.DownloadsManager;
+import lt.justplius.android.pavezikas.mangers.PostLoadersManager;
 
 import static lt.justplius.android.pavezikas.common.NetworkStateUtils.handleNoNetworkAvailable;
+import static lt.justplius.android.pavezikas.common.NetworkStateUtils.isConnected;
 import static lt.justplius.android.pavezikas.common.NetworkStateUtils.sIsConnected;
+import static lt.justplius.android.pavezikas.mangers.PostLoadersManager.LOADER_INSERT_POST;
 
 /**
- * An activity representing a list of Posts. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a {@link lt.justplius.android.pavezikas.posts.PostDetailActivity} representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
- * <p>
- * The activity makes heavy use of fragments. The list of items is a
- * {@link lt.justplius.android.pavezikas.posts.PostsListFragment} and the item details
- * (if present) is a {@link lt.justplius.android.pavezikas.posts.PostDetailFragment}.
- * <p>
- * This activity also implements the required
- * {@link lt.justplius.android.pavezikas.posts.PostsListFragment.Callbacks} interface
- * to listen for item selections.
+ * Contains single pane fragments by implementing createFragment(),
+ * createDetailsFragment() fragments.
+ * Fragments are selected according to current step.
+ * This activity allows "back and fourth" navigation.
+ * Implements add post fragments callbacks and loader callbacks.
  */
 public class AddPostActivity extends BaseVezikasTwoFragmentActivity
 implements AddPostStep1Fragment.AddPostStep1Callback,
         AddPostStep2Fragment.AddPostStep2Callback,
-        AddPostStep3Fragment.AddPostStep3Callback{
+        AddPostStep3Fragment.AddPostStep3Callback,
+        LoaderManager.LoaderCallbacks{
     private static final String ARG_CURRENT_STEP = "current_step";
+    private static final String TAG = "AddPostActivity";
     private int mCurrentStep = 1;
-
-    //TODO check if device is two pane
+    private RadioButton mRadioButton2;
+    private RadioButton mRadioButton3;
+    private Button mButtonContinue;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        if (savedInstanceState != null) {
-            mCurrentStep = savedInstanceState.getInt(ARG_CURRENT_STEP);
-        }
-
-        // Configure fragment-specific action bar
-        ActionBar actionBar = getActionBar();
-        if (actionBar != null) {
-            View view = actionBar.getCustomView();
-
-            if (view != null) {
-                // OnClick show menu
-                ImageButton imageButtonMenu = (ImageButton) view.findViewById(R.id.action_bar_main_menu);
-                imageButtonMenu.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        getSlidingMenu().showMenu();
-                    }
-                });
-            }
-        }
+    protected int getLayoutResourceId() {
+        return R.layout.activity_add_post;
     }
 
     @Override
     protected Fragment createFragment() {
         switch (mCurrentStep) {
-            case 3:
+            case 2:
                 return new AddPostStep2Fragment();
+            case 3:
+                return new AddPostStep3Fragment();
             default:
                 return new AddPostStep1Fragment();
         }
@@ -79,17 +65,51 @@ implements AddPostStep1Fragment.AddPostStep1Callback,
 
     @Override
     protected Fragment createDetailsFragment(int selectionId) {
-        switch (mCurrentStep) {
-            case 3:
-                return new AddPostStep3Fragment();
-            default:
-                return new AddPostStep2Fragment();
+        return null;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            mCurrentStep = savedInstanceState.getInt(ARG_CURRENT_STEP);
+        }
+        super.onCreate(savedInstanceState);
+
+        mRadioButton2 = (RadioButton) findViewById(R.id.post_insert_status_radioButton_2);
+        if (mCurrentStep >= 2) {
+            mRadioButton2.setEnabled(true);
+        }
+        mRadioButton3 = (RadioButton) findViewById(R.id.post_insert_status_radioButton_3);
+        if (mCurrentStep >= 3) {
+            mRadioButton3.setEnabled(true);
+        }
+
+        mButtonContinue = (Button) findViewById(R.id.post_insert_button);
+        mButtonContinue.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (mCurrentStep) {
+                    case 1:
+                        onPostTypeSelected();
+                        break;
+                    case 2:
+                        onInformationSelected();
+                        break;
+                    case 3:
+                        onPostRouteSelected();
+                        break;
+                }
+            }
+        }
+        );
+        if (mCurrentStep >= 3) {
+            mButtonContinue.setText(R.string.add_post);
         }
     }
 
     @Override
     protected int setActionBarLayoutResourceId() {
-        return R.layout.actionbar;
+        return R.layout.actionbar_add_post;
     }
 
     // Inflate prepared to inflate Fragment
@@ -101,53 +121,124 @@ implements AddPostStep1Fragment.AddPostStep1Callback,
             // without checking if it has already been inflated
             Fragment fragment = createFragment();
             fm.beginTransaction()
-                .replace(getFragmentContainerId(), fragment)
+                .replace(getFragmentContainerId(), fragment, TAG_FRAGMENT)
                 .commit();
         } else {
             handleNoNetworkAvailable(this);
         }
     }
 
-    protected int getCurrentStep() {
+    @Override
+    public void onResume() {
+        super.onResume();
+        BusManager.getInstance().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusManager.getInstance().unregister(this);
+    }
+
+    private boolean isAllDataCorrect() {
+        if (DownloadsManager.isDownloading()) {
+            Toast.makeText(
+                    AddPostActivity.this,
+                    R.string.message_data_is_being_downloaded,
+                    Toast.LENGTH_LONG)
+                    .show();
+            return false;
+        } else if (Post.getInstance().getRouteID().equals("0")) {
+            Toast.makeText(
+                    AddPostActivity.this,
+                    R.string.message_wrong_route_id,
+                    Toast.LENGTH_LONG)
+                    .show();
+            return false;
+        }
+        return true;
+    }
+
+    public int getCurrentStep() {
         return mCurrentStep;
+    }
+
+    public void setCurrentStep(int currentStep) {
+        mCurrentStep = currentStep;
+    }
+
+    public RadioButton getRadioButton2() {
+        return mRadioButton2;
+    }
+
+    public RadioButton getRadioButton3() {
+        return mRadioButton3;
+    }
+
+    public Button getButtonContinue() {
+        return mButtonContinue;
+    }
+
+    @Override
+    public Loader onCreateLoader(int id, Bundle args) {
+        if (id == LOADER_INSERT_POST) {
+            return PostLoadersManager
+                    .getInstance(this)
+                    .createInsertPostLoader();
+        }
+        return null;
+    }
+
+    @Override
+    public void onLoadFinished(Loader loader, Object data) {
+        if (loader.getId() == LOADER_INSERT_POST) {
+            try {
+                JSONObject jsonObject = new JSONObject(data.toString());
+                Post.getInstance().setPostId(jsonObject.getString("id"));
+            } catch (JSONException e) {
+                Log.e(TAG, "Error converting post insert result:", e);
+                Post.getInstance().setPostId("0");
+            }
+            // Post an event, informing that user insert of post was completed
+            BusManager
+                    .getInstance()
+                    .post(new DownloadFinishedEvent(LOADER_INSERT_POST));
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader loader) {
     }
 
     @Override
     public void onPostTypeSelected() {
-        if (mCurrentStep != 2) {
+        if (isConnected(this)) {
             mCurrentStep = 2;
-            inflateDetailsFragment(0);
+            inflateFragment();
+            mRadioButton2.setEnabled(true);
         }
     }
 
     @Override
     public void onInformationSelected() {
-        if (mCurrentStep != 3) {
+        if (isConnected(this)){
             mCurrentStep = 3;
             inflateFragment();
-            inflateDetailsFragment(0);
+            mRadioButton3.setEnabled(true);
+            mButtonContinue.setText(R.string.add_post);
         }
     }
 
     @Override
     public void onPostRouteSelected() {
-        // TODO insert post to DB
-    }
+        if (isConnected(this) && isAllDataCorrect()) {
+            // Post an event, informing to start inserting post to DB
+            BusManager
+                    .getInstance()
+                    .post(new DownloadStartedEvent(LOADER_INSERT_POST));
 
-    @Override
-    public void onBackPressed() {
-        mCurrentStep--;
-        switch (mCurrentStep) {
-            case 0:
-                finish();
-                break;
-            case 1:
-                removeDetailsFragment();
-                break;
-            default:
-                inflateFragment();
-                inflateDetailsFragment(0);
-                break;
+            getSupportLoaderManager()
+                    .restartLoader(LOADER_INSERT_POST, null, this);
         }
     }
 
@@ -155,5 +246,32 @@ implements AddPostStep1Fragment.AddPostStep1Callback,
     protected void onSaveInstanceState(Bundle outState) {
         outState.putInt(ARG_CURRENT_STEP, mCurrentStep);
         super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (getSlidingMenu().isMenuShowing()) {
+            getSlidingMenu().showContent();
+        } else {
+            if (isConnected(this)) {
+                mCurrentStep--;
+                switch (mCurrentStep) {
+                    case 0:
+                        finish();
+                        break;
+                    case 1:
+                        inflateFragment();
+                        mRadioButton3.setEnabled(false);
+                        mRadioButton2.setEnabled(false);
+                        break;
+                    default:
+                        inflateFragment();
+                        mRadioButton3.setEnabled(false);
+                        mButtonContinue.setText(R.string.next);
+                        mButtonContinue.setEnabled(true);
+                        break;
+                }
+            }
+        }
     }
 }

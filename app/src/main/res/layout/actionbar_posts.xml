@@ -31,7 +31,6 @@
         android:layout_weight="1"
 
         android:paddingLeft="5dp"
-        android:paddingStart="5dp"
         android:paddingRight="0dp"
         android:paddingEnd="0dp"
 
