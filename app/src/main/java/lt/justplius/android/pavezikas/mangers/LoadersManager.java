@@ -15,6 +15,9 @@ import lt.justplius.android.pavezikas.add_post.loaders.RouteIdLoader;
 import lt.justplius.android.pavezikas.add_post.loaders.UpdateUserRoutePairedGroupsLoader;
 import lt.justplius.android.pavezikas.add_post.loaders.UserGroupsLoader;
 import lt.justplius.android.pavezikas.add_post.loaders.UserRoutePairedGroupsLoader;
+import lt.justplius.android.pavezikas.facebook.loaders.SelectUserRatingLoader;
+import lt.justplius.android.pavezikas.facebook.loaders.UpdateUserGroupsLoader;
+import lt.justplius.android.pavezikas.facebook.loaders.UpdateUserInformationLoader;
 
 /**
  * Convenience class containing:
@@ -22,7 +25,7 @@ import lt.justplius.android.pavezikas.add_post.loaders.UserRoutePairedGroupsLoad
  * - singleton instance,
  * - methods for Async Tasks creation.
  */
-public class PostLoadersManager {
+public class LoadersManager {
     public static final int LOADER_USER_GROUPS = 1;
     public static final int LOADER_USER_ROUTE_PAIRED_GROUPS = 2;
     public static final int LOADER_LEAVING_ADDRESS_ID = 3;
@@ -32,16 +35,15 @@ public class PostLoadersManager {
     public static final int LOADER_PHONE_ID = 7;
     public static final int LOADER_MESSAGE_ID = 8;
     public static final int LOADER_INSERT_POST = 9;
+    public static final int LOADER_UPDATE_USER_GROUPS = 10;
+    public static final int LOADER_UPDATE_USER_INFORMATION = 11;
+    public static final int LOADER_SELECT_USER_RATING = 12;
 
-    private static PostLoadersManager mLoaderManager;
+    private static LoadersManager mLoaderManager = new LoadersManager();
     private static Context mContext;
 
-    public static PostLoadersManager getInstance(Context context) {
+    public static LoadersManager getInstance(Context context) {
         mContext = context;
-
-        if (mLoaderManager == null) {
-            mLoaderManager = new PostLoadersManager();
-        }
         return mLoaderManager;
     }
 
@@ -73,7 +75,19 @@ public class PostLoadersManager {
         return new MessageIdLoader(mContext, phone);
     }
 
-    public Loader<String> createInsertPostLoader(){
+    public Loader createInsertPostLoader(){
         return new InsertPostLoader(mContext);
+    }
+
+    public Loader createUpdateUserGroupsLoader(ArrayList<NameValuePair> pairs){
+        return new UpdateUserGroupsLoader(mContext, pairs);
+    }
+
+    public Loader createUpdateUserInformationLoader(ArrayList<NameValuePair> pairs){
+        return new UpdateUserInformationLoader(mContext, pairs);
+    }
+
+    public Loader<String> createSelectUserRatingLoader(){
+        return new SelectUserRatingLoader(mContext);
     }
 }

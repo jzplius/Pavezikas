@@ -17,13 +17,13 @@ import lt.justplius.android.pavezikas.add_post.events.DownloadFinishedEvent;
 import lt.justplius.android.pavezikas.add_post.events.DownloadStartedEvent;
 import lt.justplius.android.pavezikas.mangers.DownloadsManager;
 import lt.justplius.android.pavezikas.mangers.BusManager;
-import lt.justplius.android.pavezikas.mangers.PostLoadersManager;
+import lt.justplius.android.pavezikas.mangers.LoadersManager;
 
-import static lt.justplius.android.pavezikas.mangers.PostLoadersManager.LOADER_DROPPING_ADDRESS_ID;
-import static lt.justplius.android.pavezikas.mangers.PostLoadersManager.LOADER_LEAVING_ADDRESS_ID;
-import static lt.justplius.android.pavezikas.mangers.PostLoadersManager.LOADER_MESSAGE_ID;
-import static lt.justplius.android.pavezikas.mangers.PostLoadersManager.LOADER_PHONE_ID;
-import static lt.justplius.android.pavezikas.mangers.PostLoadersManager.LOADER_ROUTE_ID;
+import static lt.justplius.android.pavezikas.mangers.LoadersManager.LOADER_DROPPING_ADDRESS_ID;
+import static lt.justplius.android.pavezikas.mangers.LoadersManager.LOADER_LEAVING_ADDRESS_ID;
+import static lt.justplius.android.pavezikas.mangers.LoadersManager.LOADER_MESSAGE_ID;
+import static lt.justplius.android.pavezikas.mangers.LoadersManager.LOADER_PHONE_ID;
+import static lt.justplius.android.pavezikas.mangers.LoadersManager.LOADER_ROUTE_ID;
 
 public class Post
         implements LoaderManager.LoaderCallbacks<String> {
@@ -497,23 +497,23 @@ public class Post
     public android.support.v4.content.Loader<String> onCreateLoader(int id, Bundle args) {
         switch (id){
             case LOADER_LEAVING_ADDRESS_ID:
-                return PostLoadersManager
+                return LoadersManager
                         .getInstance(mContext)
                         .createAddressIdLoader(args.getString(ARG_ADDRESS));
             case LOADER_DROPPING_ADDRESS_ID:
-                return PostLoadersManager
+                return LoadersManager
                         .getInstance(mContext)
                         .createAddressIdLoader(args.getString(ARG_ADDRESS));
             case LOADER_ROUTE_ID:
-                return PostLoadersManager
+                return LoadersManager
                         .getInstance(mContext)
                         .createRouteIdLoader();
             case LOADER_PHONE_ID:
-                return PostLoadersManager
+                return LoadersManager
                         .getInstance(mContext)
                         .createPhoneIdLoader(args.getString(ARG_PHONE));
             case LOADER_MESSAGE_ID:
-                return PostLoadersManager
+                return LoadersManager
                         .getInstance(mContext)
                         .createMessageIdLoader(args.getString(ARG_MESSAGE));
             default:

@@ -27,9 +27,9 @@ import java.util.ArrayList;
 import lt.justplius.android.pavezikas.R;
 import lt.justplius.android.pavezikas.add_post.AddPostStep3Fragment;
 import lt.justplius.android.pavezikas.facebook.FacebookGroup;
-import lt.justplius.android.pavezikas.mangers.PostLoadersManager;
+import lt.justplius.android.pavezikas.mangers.LoadersManager;
 
-import static lt.justplius.android.pavezikas.mangers.PostLoadersManager.LOADER_USER_GROUPS;
+import static lt.justplius.android.pavezikas.mangers.LoadersManager.LOADER_USER_GROUPS;
 
 public class UserFacebookGroupsDialogFragment
         extends DialogFragment
@@ -125,7 +125,7 @@ public class UserFacebookGroupsDialogFragment
     @Override
     public android.support.v4.content.Loader<String> onCreateLoader(int id, Bundle args) {
         if (id == LOADER_USER_GROUPS) {
-            return PostLoadersManager
+            return LoadersManager
                     .getInstance(getActivity())
                     .createUserGroupsLoader();
         } else {

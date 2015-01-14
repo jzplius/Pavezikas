@@ -46,13 +46,13 @@ import lt.justplius.android.pavezikas.mangers.BusManager;
 import lt.justplius.android.pavezikas.mangers.DownloadsManager;
 
 import static lt.justplius.android.pavezikas.common.NetworkStateUtils.isConnected;
-import static lt.justplius.android.pavezikas.mangers.PostLoadersManager.LOADER_DROPPING_ADDRESS_ID;
-import static lt.justplius.android.pavezikas.mangers.PostLoadersManager.LOADER_INSERT_POST;
-import static lt.justplius.android.pavezikas.mangers.PostLoadersManager.LOADER_LEAVING_ADDRESS_ID;
-import static lt.justplius.android.pavezikas.mangers.PostLoadersManager.LOADER_ROUTE_ID;
-import static lt.justplius.android.pavezikas.mangers.PostLoadersManager.LOADER_UPDATE_USER_ROUTE_PAIRED_GROUPS;
-import static lt.justplius.android.pavezikas.mangers.PostLoadersManager.LOADER_USER_ROUTE_PAIRED_GROUPS;
-import static lt.justplius.android.pavezikas.mangers.PostLoadersManager.getInstance;
+import static lt.justplius.android.pavezikas.mangers.LoadersManager.LOADER_DROPPING_ADDRESS_ID;
+import static lt.justplius.android.pavezikas.mangers.LoadersManager.LOADER_INSERT_POST;
+import static lt.justplius.android.pavezikas.mangers.LoadersManager.LOADER_LEAVING_ADDRESS_ID;
+import static lt.justplius.android.pavezikas.mangers.LoadersManager.LOADER_ROUTE_ID;
+import static lt.justplius.android.pavezikas.mangers.LoadersManager.LOADER_UPDATE_USER_ROUTE_PAIRED_GROUPS;
+import static lt.justplius.android.pavezikas.mangers.LoadersManager.LOADER_USER_ROUTE_PAIRED_GROUPS;
+import static lt.justplius.android.pavezikas.mangers.LoadersManager.getInstance;
 
 /**
  * Prepares route and facebook groups related information to insert.

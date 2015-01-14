@@ -67,12 +67,14 @@ public class SlidingMenuUtils {
         loginButton.setSessionStatusCallback(new Session.StatusCallback() {
             @Override
             public void call(Session session, SessionState sessionState, Exception e) {
-                if (session.isClosed()) {
+                if (session == null) {
+                    Intent intent = new Intent(mActivity, FacebookLoginActivity.class);
+                    mActivity.startActivity(intent);
+                } else if (session.isClosed()) {
                     session.closeAndClearTokenInformation();
 
                     Intent intent = new Intent(mActivity, FacebookLoginActivity.class);
                     mActivity.startActivity(intent);
-                    mActivity.finish();
                 }
             }
         });

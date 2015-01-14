@@ -21,12 +21,12 @@ import lt.justplius.android.pavezikas.add_post.events.DownloadStartedEvent;
 import lt.justplius.android.pavezikas.common.BaseVezikasTwoFragmentActivity;
 import lt.justplius.android.pavezikas.mangers.BusManager;
 import lt.justplius.android.pavezikas.mangers.DownloadsManager;
-import lt.justplius.android.pavezikas.mangers.PostLoadersManager;
+import lt.justplius.android.pavezikas.mangers.LoadersManager;
 
 import static lt.justplius.android.pavezikas.common.NetworkStateUtils.handleNoNetworkAvailable;
 import static lt.justplius.android.pavezikas.common.NetworkStateUtils.isConnected;
 import static lt.justplius.android.pavezikas.common.NetworkStateUtils.sIsConnected;
-import static lt.justplius.android.pavezikas.mangers.PostLoadersManager.LOADER_INSERT_POST;
+import static lt.justplius.android.pavezikas.mangers.LoadersManager.LOADER_INSERT_POST;
 
 /**
  * Contains single-two pane fragments by implementing createFragment(),
@@ -166,7 +166,7 @@ implements AddPostStep1Fragment.AddPostStep1Callback,
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
         if (id == LOADER_INSERT_POST) {
-            return PostLoadersManager
+            return LoadersManager
                     .getInstance(this)
                     .createInsertPostLoader();
         }
